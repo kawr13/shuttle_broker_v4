@@ -82,6 +82,11 @@ class ShuttleListener:
         # Сохраняем соединение
         self.connections[shuttle_id] = writer
         
+        # Регистрируем соединение в менеджере соединений
+        from .connection_manager import get_connection_manager
+        connection_manager = get_connection_manager()
+        connection_manager.register_connection(shuttle_id, reader, writer)
+        
         try:
             while self.running:
                 try:

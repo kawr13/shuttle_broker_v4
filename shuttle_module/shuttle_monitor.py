@@ -72,6 +72,13 @@ class ShuttleMonitor:
     async def _check_shuttle(self, shuttle_id: str):
         """Проверяет состояние шаттла и восстанавливает соединение при необходимости"""
         from .shuttle_manager import get_shuttle_manager
+        from .connection_manager import get_connection_manager
+        
+        # Проверяем, не подключен ли уже шаттл через менеджер соединений
+        connection_manager = get_connection_manager()
+        if connection_manager.is_connected(shuttle_id):
+            logger.debug(f"Шаттл {shuttle_id} уже подключен, пропускаем проверку")
+            return
         
         shuttle_manager = get_shuttle_manager()
         state = await shuttle_manager.get_shuttle_state(shuttle_id)
@@ -91,26 +98,15 @@ class ShuttleMonitor:
                 # Создаем клиент для шаттла
                 shuttle_client = ShuttleClient(shuttle_id)
                 
-                # Пытаемся подключиться
+                # Пытаемся подключиться через менеджер соединений
                 connected = await shuttle_client.connect()
                 if connected:
                     logger.info(f"Соединение с шаттлом {shuttle_id} восстановлено")
-                    
-                    # Отправляем команду STATUS для проверки
-                    status_command = ShuttleCommand(
-                        command_type=ShuttleCommandEnum.STATUS,
-                        shuttle_id=shuttle_id
-                    )
-                    
-                    await shuttle_client.send_command(status_command)
                     self.connected_shuttles.add(shuttle_id)
                 else:
                     logger.warning(f"Не удалось восстановить соединение с шаттлом {shuttle_id}")
                     if shuttle_id in self.connected_shuttles:
                         self.connected_shuttles.remove(shuttle_id)
-                
-                # Закрываем соединение (оно будет поддерживаться через ShuttleListener)
-                await shuttle_client.disconnect()
             except Exception as e:
                 logger.error(f"Ошибка при проверке шаттла {shuttle_id}: {e}")
                 if shuttle_id in self.connected_shuttles:

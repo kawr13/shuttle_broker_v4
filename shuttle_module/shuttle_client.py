@@ -33,12 +33,19 @@ class ShuttleClient:
         
         try:
             config = get_config()
-            self.reader, self.writer = await asyncio.wait_for(
-                asyncio.open_connection(self.config.host, self.config.command_port),
-                timeout=config.tcp_connect_timeout
+            
+            # Получаем соединение через менеджер
+            from .connection_manager import get_connection_manager
+            connection_manager = get_connection_manager()
+            
+            self.reader, self.writer = await connection_manager.get_connection(
+                self.shuttle_id,
+                self.config.host,
+                self.config.command_port,
+                config.tcp_connect_timeout
             )
+            
             self.connected = True
-            logger.info(f"Установлено соединение с шаттлом {self.shuttle_id} ({self.config.host}:{self.config.command_port})")
             
             # Регистрируем обработчик сообщений в ShuttleListener
             from .shuttle_listener import get_shuttle_listener
@@ -75,17 +82,14 @@ class ShuttleClient:
         shuttle_listener = get_shuttle_listener()
         shuttle_listener.unregister_message_handler(self.shuttle_id)
         
-        if self.writer:
-            self.writer.close()
-            try:
-                await self.writer.wait_closed()
-            except Exception:
-                pass
-            self.writer = None
+        # Закрываем соединение через менеджер
+        from .connection_manager import get_connection_manager
+        connection_manager = get_connection_manager()
+        await connection_manager.close_connection(self.shuttle_id)
         
+        self.writer = None
         self.reader = None
         self.connected = False
-        logger.info(f"Соединение с шаттлом {self.shuttle_id} закрыто")
     
     async def send_command(self, command: ShuttleCommand) -> bool:
         """Отправляет команду шаттлу"""
@@ -339,17 +343,8 @@ class ShuttleClient:
             await self.send_command(status_command)
             logger.info(f"Запрошен статус шаттла {self.shuttle_id}")
             
-            # Ждем немного, чтобы получить ответ
-            await asyncio.sleep(1)
-            
-            # Запрашиваем местоположение
-            location_command = ShuttleCommand(
-                command_type=ShuttleCommandEnum.MRCD,
-                shuttle_id=self.shuttle_id
-            )
-            
-            await self.send_command(location_command)
-            logger.info(f"Запрошено местоположение шаттла {self.shuttle_id}")
+            # Не отправляем дополнительную команду MRCD, чтобы избежать
+            # дублирования запросов и лишних сообщений в логах
         except Exception as e:
             logger.error(f"Ошибка при запросе статуса шаттла {self.shuttle_id}: {e}")
             # Не прерываем подключение из-за ошибки запроса статуса
