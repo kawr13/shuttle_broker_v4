@@ -1,0 +1,4 @@
+aiohttp==3.9.3
+redis==6.0.0
+pyyaml==6.0.1
+prometheus-client==0.21.1
