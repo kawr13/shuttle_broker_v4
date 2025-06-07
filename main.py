@@ -10,6 +10,7 @@ from core.logging import setup_logging, get_logger
 from shuttle_module.shuttle_manager import get_shuttle_manager
 from wms_module.wms_integration import get_wms_integration
 from storage_module.redis_storage import get_redis_storage
+from shuttle_module.shuttle_monitor import get_shuttle_monitor
 
 
 async def main(config_file: Optional[str] = None):
@@ -45,6 +46,10 @@ async def main(config_file: Optional[str] = None):
     except Exception as e:
         logger.error(f"Ошибка при загрузке состояний шаттлов из Redis: {e}")
     
+    # Инициализируем монитор шаттлов
+    shuttle_monitor = get_shuttle_monitor()
+    await shuttle_monitor.start()
+    logger.info(f"Монитор шаттлов запущен (интервал проверки: {config.shuttle_health_check_interval} сек)")
     # Инициализируем интеграцию с WMS, если она включена
     if config.wms:
         wms_integration = get_wms_integration()
@@ -75,6 +80,12 @@ async def shutdown():
         wms_integration = get_wms_integration()
         await wms_integration.stop()
         logger.info("Интеграция с WMS API остановлена")
+    
+    
+    from shuttle_module.shuttle_monitor import get_shuttle_monitor
+    shuttle_monitor = get_shuttle_monitor()
+    await shuttle_monitor.stop()
+    logger.info("Монитор шаттлов остановлен")
     
     # Останавливаем менеджер шаттлов
     shuttle_manager = get_shuttle_manager()

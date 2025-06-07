@@ -178,26 +178,35 @@ class ShuttleClient:
     
     async def _process_message(self, message: str):
         """Обрабатывает сообщение от шаттла"""
+        # Добавляем подробное логирование
+        logger.info(f"Обработка сообщения от шаттла {self.shuttle_id}: '{message}'")
+        
         # Обновляем состояние шаттла на основе сообщения
         if message.endswith("_STARTED"):
             self.state.status = ShuttleStatus.BUSY
+            logger.info(f"Шаттл {self.shuttle_id} начал выполнение операции: {message}")
             
             # Определяем тип операции
             if "PALLET_IN" in message:
                 self.state.status = ShuttleStatus.LOADING
+                logger.info(f"Шаттл {self.shuttle_id} начал загрузку паллеты")
             elif "PALLET_OUT" in message:
                 self.state.status = ShuttleStatus.UNLOADING
+                logger.info(f"Шаттл {self.shuttle_id} начал выгрузку паллеты")
             elif "HOME" in message:
                 self.state.status = ShuttleStatus.MOVING
+                logger.info(f"Шаттл {self.shuttle_id} начал движение в домашнюю позицию")
         
         elif message.endswith("_DONE"):
             self.state.status = ShuttleStatus.FREE
             self.state.current_command = None
+            logger.info(f"Шаттл {self.shuttle_id} завершил выполнение операции: {message}")
         
         elif message.endswith("_ABORT"):
             self.state.status = ShuttleStatus.ERROR
             self.state.error_code = message
             self.state.current_command = None
+            logger.warning(f"Шаттл {self.shuttle_id} прервал выполнение операции: {message}")
         
         elif message.startswith("LOCATION="):
             location_data = message.split("=", 1)[1]
@@ -233,7 +242,13 @@ class ShuttleClient:
                 "CHARGING": ShuttleStatus.CHARGING,
                 "LOW_BATTERY": ShuttleStatus.LOW_BATTERY
             }
+            old_status = self.state.status
             self.state.status = status_map.get(status_val, ShuttleStatus.UNKNOWN)
+            
+            logger.info(f"Шаттл {self.shuttle_id} сообщил статус: {status_val} (преобразовано в {self.state.status})")
+            
+            if old_status != self.state.status:
+                logger.info(f"Статус шаттла {self.shuttle_id} изменился: {old_status} -> {self.state.status}")
             
             if self.state.status in [ShuttleStatus.FREE, ShuttleStatus.NOT_READY, ShuttleStatus.UNKNOWN]:
                 self.state.current_command = None
@@ -241,31 +256,38 @@ class ShuttleClient:
         elif message.startswith("BATTERY="):
             level_str = message.split("=", 1)[1]
             self.state.battery_level = level_str
+            logger.info(f"Шаттл {self.shuttle_id} сообщил уровень заряда батареи: {level_str}")
             
             # Проверяем низкий заряд батареи
             try:
                 parsed_level = float(level_str.replace('%', '').lstrip('<'))
                 if parsed_level < 20:  # Порог низкого заряда
                     self.state.status = ShuttleStatus.LOW_BATTERY
+                    logger.warning(f"Низкий уровень заряда батареи шаттла {self.shuttle_id}: {parsed_level}%")
             except ValueError:
-                pass
+                logger.warning(f"Не удалось распарсить уровень заряда батареи: {level_str}")
         
         elif message.startswith("WDH="):
             try:
-                self.state.wdh_hours = int(message.split("=", 1)[1])
+                hours = int(message.split("=", 1)[1])
+                self.state.wdh_hours = hours
+                logger.info(f"Шаттл {self.shuttle_id} сообщил количество часов работы: {hours}")
             except ValueError:
-                pass
+                logger.warning(f"Не удалось распарсить количество часов работы: {message}")
         
         elif message.startswith("WLH="):
             try:
-                self.state.wlh_hours = int(message.split("=", 1)[1])
+                hours = int(message.split("=", 1)[1])
+                self.state.wlh_hours = hours
+                logger.info(f"Шаттл {self.shuttle_id} сообщил количество часов под нагрузкой: {hours}")
             except ValueError:
-                pass
+                logger.warning(f"Не удалось распарсить количество часов под нагрузкой: {message}")
         
         elif message.startswith("F_CODE="):
             self.state.error_code = message
             self.state.status = ShuttleStatus.ERROR
             self.state.current_command = None
+            logger.error(f"Шаттл {self.shuttle_id} сообщил об ошибке: {message}")
     
     def add_message_handler(self, handler: Callable[[str], Any]):
         """Добавляет обработчик сообщений от шаттла"""
@@ -285,6 +307,9 @@ class ShuttleClient:
         self.state.last_seen = time.time()
         self.state.last_message = message
         
+        # Добавляем подробное логирование
+        logger.info(f"Обработка сообщения от шаттла {shuttle_id}: '{message}'")
+        
         # Обрабатываем сообщение
         await self._process_message(message)
         
@@ -300,6 +325,7 @@ class ShuttleClient:
             from .shuttle_listener import get_shuttle_listener
             shuttle_listener = get_shuttle_listener()
             await shuttle_listener.send_message(self.shuttle_id, ShuttleCommandEnum.MRCD.value)
+            logger.info(f"Отправлен MRCD в ответ на сообщение от шаттла {shuttle_id}: '{message}'")
     async def _request_shuttle_status(self):
         """Запрашивает статус шаттла при подключении"""
         try:

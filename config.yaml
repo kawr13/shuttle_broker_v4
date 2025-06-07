@@ -3,10 +3,12 @@ shuttles:
     host: "127.0.0.1"
     command_port: 2000
     response_port: 5000
+    shuttle_health_check_interval: 10
   shuttle_2:
     host: "10.10.10.12"
     command_port: 2000
     response_port: 5000
+    shuttle_health_check_interval: 10
 
 stock_to_shuttle:
   Главный:
@@ -37,3 +39,4 @@ tcp_connect_timeout: 5.0
 tcp_read_timeout: 20.0
 tcp_write_timeout: 5.0
 shuttle_listener_port: 8181
+shuttle_health_check_interval: 30  # Интервал проверки состояния шаттлов в секундах

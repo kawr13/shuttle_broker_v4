@@ -10,6 +10,7 @@ class ShuttleConfig:
     host: str
     command_port: int = 2000  # Порт шаттла, на который шлюз отправляет команды
     response_port: int = 5000  # Порт шаттла, с которого шаттл отправляет сообщения
+    shuttle_health_check_interval: int = 10  # Интервал проверки состояния шаттла в секундах
     
     def to_dict(self):
         return asdict(self)
@@ -59,7 +60,8 @@ class GatewayConfig:
     tcp_connect_timeout: float = 5.0
     tcp_read_timeout: float = 20.0
     tcp_write_timeout: float = 5.0
-    shuttle_listener_port: int = 8181  # Порт шлюза, на котором он слушает сообщения от шаттлов
+    shuttle_listener_port: int = 8181
+    shuttle_health_check_interval: int = 30  # Интервал проверки состояния шаттлов в секундах  # Порт шлюза, на котором он слушает сообщения от шаттлов
     
     def to_dict(self):
         return {
@@ -73,7 +75,8 @@ class GatewayConfig:
             "tcp_connect_timeout": self.tcp_connect_timeout,
             "tcp_read_timeout": self.tcp_read_timeout,
             "tcp_write_timeout": self.tcp_write_timeout,
-            "shuttle_listener_port": self.shuttle_listener_port
+            "shuttle_listener_port": self.shuttle_listener_port,
+            "shuttle_health_check_interval": self.shuttle_health_check_interval
         }
     
     def save_to_file(self, file_path: str):
@@ -120,7 +123,8 @@ class GatewayConfig:
             tcp_connect_timeout=data.get('tcp_connect_timeout', 5.0),
             tcp_read_timeout=data.get('tcp_read_timeout', 20.0),
             tcp_write_timeout=data.get('tcp_write_timeout', 5.0),
-            shuttle_listener_port=data.get('shuttle_listener_port', 8181)
+            shuttle_listener_port=data.get('shuttle_listener_port', 8181),
+            shuttle_health_check_interval=data.get('shuttle_health_check_interval', 30)
         )
     
     @classmethod
@@ -160,7 +164,8 @@ class GatewayConfig:
             tcp_connect_timeout=float(os.getenv('TCP_CONNECT_TIMEOUT', '5.0')),
             tcp_read_timeout=float(os.getenv('TCP_READ_TIMEOUT', '20.0')),
             tcp_write_timeout=float(os.getenv('TCP_WRITE_TIMEOUT', '5.0')),
-            shuttle_listener_port=int(os.getenv('SHUTTLE_LISTENER_PORT', '8181'))
+            shuttle_listener_port=int(os.getenv('SHUTTLE_LISTENER_PORT', '8181')),
+            shuttle_health_check_interval=int(os.getenv('SHUTTLE_HEALTH_CHECK_INTERVAL', '30'))
         )
 
 
