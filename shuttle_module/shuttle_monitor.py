@@ -71,8 +71,8 @@ class ShuttleMonitor:
     
     async def _check_shuttle(self, shuttle_id: str):
         """Проверяет состояние шаттла и восстанавливает соединение при необходимости"""
-        from .shuttle_manager import get_shuttle_manager
-        from .connection_manager import get_connection_manager
+        from shuttle_module.shuttle_manager import get_shuttle_manager
+        from shuttle_module.connection_manager import get_connection_manager
         
         # Проверяем, не подключен ли уже шаттл через менеджер соединений
         connection_manager = get_connection_manager()

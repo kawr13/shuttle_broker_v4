@@ -35,7 +35,7 @@ class ShuttleClient:
             config = get_config()
             
             # Получаем соединение через менеджер
-            from .connection_manager import get_connection_manager
+            from shuttle_module.connection_manager import get_connection_manager
             connection_manager = get_connection_manager()
             
             self.reader, self.writer = await connection_manager.get_connection(
@@ -48,7 +48,7 @@ class ShuttleClient:
             self.connected = True
             
             # Регистрируем обработчик сообщений в ShuttleListener
-            from .shuttle_listener import get_shuttle_listener
+            from shuttle_module.shuttle_listener import get_shuttle_listener
             shuttle_listener = get_shuttle_listener()
             shuttle_listener.register_message_handler(self.shuttle_id, self._process_message_from_listener)
             
@@ -78,12 +78,12 @@ class ShuttleClient:
             return
         
         # Удаляем обработчик сообщений из ShuttleListener
-        from .shuttle_listener import get_shuttle_listener
+        from shuttle_module.shuttle_listener import get_shuttle_listener
         shuttle_listener = get_shuttle_listener()
         shuttle_listener.unregister_message_handler(self.shuttle_id)
         
         # Закрываем соединение через менеджер
-        from .connection_manager import get_connection_manager
+        from shuttle_module.connection_manager import get_connection_manager
         connection_manager = get_connection_manager()
         await connection_manager.close_connection(self.shuttle_id)
         
@@ -326,7 +326,7 @@ class ShuttleClient:
         
         # Отправляем MRCD в ответ на сообщение, если это не MRCD
         if message != ShuttleCommandEnum.MRCD.value:
-            from .shuttle_listener import get_shuttle_listener
+            from shuttle_module.shuttle_listener import get_shuttle_listener
             shuttle_listener = get_shuttle_listener()
             await shuttle_listener.send_message(self.shuttle_id, ShuttleCommandEnum.MRCD.value)
             logger.info(f"Отправлен MRCD в ответ на сообщение от шаттла {shuttle_id}: '{message}'")

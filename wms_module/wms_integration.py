@@ -189,7 +189,7 @@ class WmsIntegration:
     
     async def _update_command_statuses(self):
         """Обновляет статусы выполненных команд в WMS"""
-        from ..shuttle_module.shuttle_manager import get_shuttle_manager
+        from shuttle_module.shuttle_manager import get_shuttle_manager
         shuttle_manager = get_shuttle_manager()
         
         # Получаем состояния всех шаттлов

@@ -75,7 +75,7 @@ class ShuttleState:
         
         # Восстанавливаем last_command, если он есть
         if last_command_dict:
-            from .commands import ShuttleCommand
+            from shuttle_module.commands import ShuttleCommand
             state.last_command = ShuttleCommand.from_dict(last_command_dict)
         
         return state
