@@ -1,5 +1,6 @@
 import asyncio
 import time
+import traceback
 from datetime import datetime
 from typing import Dict, List, Optional, Any
 
@@ -8,6 +9,7 @@ from core.logging import get_logger
 from shuttle_module.commands import ShuttleCommand
 from shuttle_module.shuttle_manager import get_shuttle_manager
 from utils.retry import retry_async
+from utils.task_wrapper import wrap_async
 from wms_module.wms_client import WmsClient
 
 logger = get_logger()
@@ -27,7 +29,7 @@ class WmsIntegration:
             return
         
         self.running = True
-        self.task = asyncio.create_task(self._poll_loop())
+        self.task = asyncio.create_task(wrap_async(self._poll_loop)())
         logger.info("Интеграция с WMS запущена")
     
     async def stop(self):
@@ -70,6 +72,7 @@ class WmsIntegration:
                 break
             except Exception as e:
                 logger.error(f"Ошибка в цикле опроса WMS: {e}")
+                logger.error(f"Стек вызовов: {traceback.format_exc()}")
                 await asyncio.sleep(10)  # Короткая пауза перед повторной попыткой
     
     async def _fetch_and_process_commands(self):

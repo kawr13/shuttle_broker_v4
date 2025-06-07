@@ -15,7 +15,7 @@ from core.logging import setup_logging, get_logger
 CONFYG: str = 'config.yaml'
 
 async def send_command(shuttle_id: str, command: str, params: Optional[str] = None):
-    """Отправляет команду шаттлу"""
+    """Отправляет команду шаттлу и ждет ответа"""
     logger = get_logger()
     
     # Проверяем, существует ли такая команда
@@ -50,14 +50,39 @@ async def send_command(shuttle_id: str, command: str, params: Optional[str] = No
     # Отправляем команду
     success = await shuttle_client.send_command(shuttle_command)
     
-    # Закрываем соединение
-    await shuttle_client.disconnect()
-    
     if success:
         logger.info(f"Команда {command} успешно отправлена шаттлу {shuttle_id}")
+        
+        # Ждем ответа от шаттла
+        logger.info(f"Ожидание ответа от шаттла {shuttle_id}...")
+        
+        # Добавляем обработчик сообщений для вывода ответа
+        response_received = asyncio.Event()
+        response_message = None
+        
+        def message_handler(message):
+            nonlocal response_message
+            response_message = message
+            logger.info(f"Получен ответ от шаттла {shuttle_id}: '{message}'")
+            response_received.set()
+        
+        shuttle_client.add_message_handler(message_handler)
+        
+        # Ждем ответа максимум 10 секунд
+        try:
+            await asyncio.wait_for(response_received.wait(), timeout=10.0)
+        except asyncio.TimeoutError:
+            logger.warning(f"Таймаут ожидания ответа от шаттла {shuttle_id}")
+        
+        # Удаляем обработчик
+        shuttle_client.remove_message_handler(message_handler)
+        
+        # Закрываем соединение
+        await shuttle_client.disconnect()
         return True
     else:
         logger.error(f"Не удалось отправить команду {command} шаттлу {shuttle_id}")
+        await shuttle_client.disconnect()
         return False
 
 
@@ -80,8 +105,43 @@ async def get_shuttle_status(shuttle_id: str):
     # Получаем менеджер шаттлов
     shuttle_manager = get_shuttle_manager()
     
-    # Получаем состояние шаттла
-    state = await shuttle_manager.get_shuttle_state(shuttle_id)
+    # Инициализируем менеджер шаттлов, если он еще не инициализирован
+    if not hasattr(shuttle_manager, 'shuttles') or not shuttle_manager.shuttles:
+        logger.info("Инициализация менеджера шаттлов...")
+        await shuttle_manager.start()
+    
+    # Пытаемся получить состояние напрямую через ShuttleClient
+    try:
+        logger.info(f"Подключение к шаттлу {shuttle_id} для получения статуса...")
+        shuttle_client = ShuttleClient(shuttle_id)
+        connected = await shuttle_client.connect()
+        
+        if connected:
+            # Отправляем команду STATUS
+            from shuttle_module.commands import ShuttleCommand
+            status_command = ShuttleCommand(
+                command_type=ShuttleCommandEnum.STATUS,
+                shuttle_id=shuttle_id
+            )
+            
+            await shuttle_client.send_command(status_command)
+            
+            # Ждем немного, чтобы получить ответ
+            await asyncio.sleep(2)
+            
+            # Получаем состояние
+            state = shuttle_client.get_state()
+            
+            # Закрываем соединение
+            await shuttle_client.disconnect()
+        else:
+            logger.error(f"Не удалось подключиться к шаттлу {shuttle_id}")
+            return False
+    except Exception as e:
+        logger.error(f"Ошибка при подключении к шаттлу {shuttle_id}: {e}")
+        return False
+    
+    # Проверяем состояние
     if not state:
         logger.error(f"Шаттл {shuttle_id} не найден")
         return False
