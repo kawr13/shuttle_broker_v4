@@ -2,7 +2,7 @@ import time
 from typing import Optional, Dict, Any, List
 from dataclasses import dataclass, field
 
-from .commands import ShuttleStatus
+from shuttle_module.commands import ShuttleStatus
 
 
 @dataclass

@@ -4,7 +4,7 @@ import os
 import time
 from typing import Dict, Any, Optional, List
 
-from ..core.logging import get_logger
+from core.logging import get_logger
 
 logger = get_logger()
 
