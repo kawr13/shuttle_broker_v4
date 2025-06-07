@@ -22,6 +22,11 @@ async def main(config_file: Optional[str] = None):
     logger = setup_logging()
     logger.info("Запуск шлюза WMS-Шаттл (Версия 3.0)...")
     
+    # Запускаем сервер метрик Prometheus
+    from monitoring.metrics import start_metrics_server
+    start_metrics_server(port=9090)
+    logger.info("Сервер метрик Prometheus запущен на порту 9090")
+    
     # Инициализируем менеджер хранилища Redis
     from storage_module.redis_storage_manager import get_redis_storage_manager
     redis_storage_manager = get_redis_storage_manager()
