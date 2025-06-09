@@ -82,8 +82,37 @@ class ShuttleManager:
         # Генерируем ID команды
         command_id = f"{shuttle_id}_{command.command_type.value}_{int(time.time()*1000)}"
         
-        # Команды с высоким приоритетом обрабатываются немедленно
-        if command.priority <= 4:  # HOME, STATUS, BATTERY, MRCD
+        # Команда HOME всегда обрабатывается немедленно и прерывает текущие операции
+        if command.command_type.value == "HOME":
+            logger.info(f"Получена команда HOME для шаттла {shuttle_id}, обрабатываем немедленно")
+            async with self.command_locks[shuttle_id]:
+                # Отправляем команду напрямую
+                success = await self._process_command(command)
+                if success:
+                    logger.info(f"Команда HOME для шаттла {shuttle_id} обработана немедленно")
+                    
+                    # Регистрируем команду
+                    self.command_registry[command_id] = {
+                        "command": command,
+                        "status": "completed",
+                        "timestamp": time.time(),
+                        "completed_at": time.time()
+                    }
+                else:
+                    logger.error(f"Не удалось обработать команду HOME для шаттла {shuttle_id}")
+                    
+                    # Регистрируем команду
+                    self.command_registry[command_id] = {
+                        "command": command,
+                        "status": "failed",
+                        "timestamp": time.time(),
+                        "error": "Failed to process command"
+                    }
+                
+                return command_id
+        
+        # Другие команды с высоким приоритетом обрабатываются немедленно
+        if command.priority <= 4:  # STATUS, BATTERY, MRCD
             async with self.command_locks[shuttle_id]:
                 success = await self._process_command(command)
                 if success:
