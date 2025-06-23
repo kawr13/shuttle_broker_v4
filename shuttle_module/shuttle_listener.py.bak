@@ -72,7 +72,7 @@ class ShuttleListener:
         # Определяем ID шаттла по IP-адресу
         shuttle_id = self._get_shuttle_id_by_ip(shuttle_ip)
         if not shuttle_id:
-            # Для отладки принимаем любые подключения и назначаем им простое имя
+            # Для отладки принимаем любые подключения и назначаем им временный ID
             last_octet = shuttle_ip.split('.')[-1]
             shuttle_id = f"shuttle_{last_octet}"
             logger.warning(f"Неизвестный шаттл с IP {shuttle_ip}. Назначен ID: {shuttle_id}")
@@ -91,29 +91,32 @@ class ShuttleListener:
         try:
             while self.running:
                 try:
-                    # Читаем данные от шаттла (изменено с readuntil на read)
-                    data = await reader.read(1024)
-                    if not data:
-                        logger.warning(f"Соединение с шаттлом {shuttle_id} закрыто")
-                        break
+                    # Читаем данные от шаттла
+                    config = get_config()
+                    data = await asyncio.wait_for(
+                        reader.readuntil(b'\n'),
+                        timeout=config.tcp_read_timeout
+                    )
+                    message = data.decode('utf-8').strip()
+                    logger.info(f"Получено сообщение от шаттла {shuttle_id}: '{message}'")
                     
-                    # Декодируем сообщение
+                    # Вызываем обработчик сообщений для этого шаттла
+                    if shuttle_id in self.message_handlers:
+                        try:
+                            await self.message_handlers[shuttle_id](shuttle_id, message)
+                        except Exception as e:
+                            logger.error(f"Ошибка в обработчике сообщений для шаттла {shuttle_id}: {e}")
+                except asyncio.TimeoutError:
+                    # Проверяем, что соединение все еще активно
                     try:
-                        message = data.decode('utf-8').strip()
-                        logger.info(f"Получено сообщение от шаттла {shuttle_id}: '{message}'")
-                        
-                        # Вызываем обработчик сообщений для этого шаттла
-                        if shuttle_id in self.message_handlers:
-                            try:
-                                await self.message_handlers[shuttle_id](shuttle_id, message)
-                            except Exception as e:
-                                logger.error(f"Ошибка в обработчике сообщений для шаттла {shuttle_id}: {e}")
-                    except UnicodeDecodeError:
-                        # Если не UTF-8, выводим в сыром виде
-                        logger.info(f"Получено сырое сообщение от шаттла {shuttle_id}: {data.hex()}")
-                        
-                except asyncio.CancelledError:
-                    raise
+                        writer.write(b"PING\n")
+                        await writer.drain()
+                    except Exception:
+                        logger.warning(f"Соединение с шаттлом {shuttle_id} потеряно")
+                        break
+                except asyncio.IncompleteReadError:
+                    logger.warning(f"Соединение с шаттлом {shuttle_id} закрыто")
+                    break
                 except Exception as e:
                     logger.error(f"Ошибка при чтении данных от шаттла {shuttle_id}: {e}")
                     break

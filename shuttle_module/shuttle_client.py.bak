@@ -133,12 +133,10 @@ class ShuttleClient:
         
         while True:
             try:
-                # Изменено с readuntil на read
-                data = await self.reader.read(1024)
-                if not data:
-                    logger.warning(f"Соединение с шаттлом {self.shuttle_id} закрыто")
-                    break
-                
+                data = await asyncio.wait_for(
+                    self.reader.readuntil(b'\n'),
+                    timeout=config.tcp_read_timeout
+                )
                 message = data.decode('utf-8').strip()
                 logger.info(f"Получено сообщение от шаттла {self.shuttle_id}: '{message}'")
                 
@@ -162,6 +160,14 @@ class ShuttleClient:
                         shuttle_id=self.shuttle_id
                     )
                     await self.send_command(mrcd_command)
+            except asyncio.TimeoutError:
+                # Проверяем, не прошло ли слишком много времени с последнего сообщения
+                if time.time() - self.state.last_seen > 30:  # 30 секунд таймаут
+                    logger.warning(f"Шаттл {self.shuttle_id} не отвечает более 30 секунд")
+                    self.state.status = ShuttleStatus.ERROR
+                    self.state.error_code = "NO_RESPONSE_TIMEOUT"
+                    await self.disconnect()
+                    break
             except asyncio.IncompleteReadError:
                 logger.warning(f"Соединение с шаттлом {self.shuttle_id} закрыто")
                 await self.disconnect()
@@ -299,7 +305,6 @@ class ShuttleClient:
     def get_state(self) -> ShuttleState:
         """Возвращает текущее состояние шаттла"""
         return self.state
-    
     async def _process_message_from_listener(self, shuttle_id: str, message: str):
         """Обрабатывает сообщение от шаттла, полученное через ShuttleListener"""
         # Обновляем время последнего сообщения
@@ -325,7 +330,6 @@ class ShuttleClient:
             shuttle_listener = get_shuttle_listener()
             await shuttle_listener.send_message(self.shuttle_id, ShuttleCommandEnum.MRCD.value)
             logger.info(f"Отправлен MRCD в ответ на сообщение от шаттла {shuttle_id}: '{message}'")
-    
     async def _request_shuttle_status(self):
         """Запрашивает статус шаттла при подключении"""
         try:
