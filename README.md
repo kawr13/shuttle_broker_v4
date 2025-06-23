@@ -182,6 +182,7 @@ SHUTTLE_LISTENER_PORT=8181
 ```bash
 # Отправить команду шаттлу
 python cli.py send virtual_shuttle_1 STATUS
+python cli.py send shuttle_138 STATUS
 
 # Отправить команду с параметрами
 python cli.py send virtual_shuttle_1 FIFO --params 3
