@@ -170,8 +170,8 @@ class ShuttleDiscovery:
         """Обрабатывает потенциальный шаттл"""
         logger.info(f"Обнаружен потенциальный шаттл на IP {ip}, ответ: {response}")
         
-        # Генерируем имя для нового шаттла
-        shuttle_name = f"shuttle_{ip.replace('.', '_')}"
+        # Генерируем простое имя для нового шаттла
+        shuttle_name = self._generate_shuttle_name(ip)
         
         # Проверяем, не знаем ли мы уже об этом шаттле
         if shuttle_name in self.known_shuttles:
@@ -302,6 +302,22 @@ class ShuttleDiscovery:
     def get_shuttle_count(self) -> int:
         """Возвращает количество обнаруженных шаттлов"""
         return len(self.discovered_shuttles)
+        
+    def _generate_shuttle_name(self, ip: str) -> str:
+        """Генерирует простое имя для шаттла"""
+        # Используем последний октет IP адреса
+        last_octet = ip.split('.')[-1]
+        base_name = f"shuttle_{last_octet}"
+        
+        # Проверяем, не занято ли уже такое имя
+        if base_name not in self.known_shuttles and base_name not in self.discovered_shuttles:
+            return base_name
+            
+        # Если занято, добавляем номер
+        counter = 1
+        while f"{base_name}_{counter}" in self.known_shuttles or f"{base_name}_{counter}" in self.discovered_shuttles:
+            counter += 1
+        return f"{base_name}_{counter}"
 
 
 # Глобальный экземпляр модуля обнаружения

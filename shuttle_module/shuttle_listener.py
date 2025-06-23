@@ -73,8 +73,9 @@ class ShuttleListener:
         shuttle_id = self._get_shuttle_id_by_ip(shuttle_ip)
         if not shuttle_id:
             # Для отладки принимаем любые подключения и назначаем им временный ID
-            shuttle_id = f"temp_shuttle_{shuttle_ip.replace('.', '_')}"
-            logger.warning(f"Неизвестный шаттл с IP {shuttle_ip}. Назначен временный ID: {shuttle_id}")
+            last_octet = shuttle_ip.split('.')[-1]
+            shuttle_id = f"shuttle_{last_octet}"
+            logger.warning(f"Неизвестный шаттл с IP {shuttle_ip}. Назначен ID: {shuttle_id}")
             
             # Регистрируем временный обработчик сообщений
             self.register_message_handler(shuttle_id, self._handle_unknown_shuttle_message)
