@@ -185,6 +185,13 @@ async def main():
     move_parser.add_argument("to_cell", help="Целевая ячейка")
     move_parser.add_argument("--stock", help="Название склада", default="Главный")
     
+    # Команда для просмотра обнаруженных шаттлов
+    subparsers.add_parser("discovered", help="Показать обнаруженные шаттлы")
+    
+    # Команда для сканирования сети
+    scan_parser = subparsers.add_parser("scan", help="Сканировать сеть на предмет новых шаттлов")
+    scan_parser.add_argument("--ip-range", help="Диапазон IP для сканирования (192.168.1)")
+    
     # Общие аргументы
     parser.add_argument("--config", help="Путь к файлу конфигурации", default="config.yaml")
     
@@ -212,6 +219,10 @@ async def main():
         success = await get_shuttle_status(args.shuttle_id)
     elif args.command == "move":
         success = await move_shuttle(args.shuttle_id, args.from_cell, args.to_cell, args.stock)
+    elif args.command == "discovered":
+        success = await show_discovered_shuttles()
+    elif args.command == "scan":
+        success = await scan_network(args.ip_range)
     else:
         parser.print_help()
         success = False
@@ -290,5 +301,58 @@ async def move_shuttle(shuttle_id: str, from_cell: str, to_cell: str, stock_name
     
     # Закрываем соединение
     await shuttle_client.disconnect()
+    
+    return True
+
+
+async def show_discovered_shuttles():
+    """Показывает список обнаруженных шаттлов"""
+    logger = get_logger()
+    
+    from shuttle_module.shuttle_discovery import get_shuttle_discovery
+    shuttle_discovery = get_shuttle_discovery()
+    discovered = shuttle_discovery.get_discovered_shuttles()
+    
+    if not discovered:
+        logger.info("Обнаруженные шаттлы отсутствуют")
+        return True
+    
+    logger.info(f"Обнаружено {len(discovered)} шаттлов:")
+    
+    for shuttle_name, shuttle_info in discovered.items():
+        logger.info(f"  {shuttle_name}:")
+        logger.info(f"    IP: {shuttle_info.ip}")
+        logger.info(f"    Статус: {shuttle_info.status or 'Неизвестен'}")
+        logger.info(f"    Батарея: {shuttle_info.battery_level or 'Неизвестно'}")
+        logger.info(f"    Местоположение: {shuttle_info.location or 'Неизвестно'}")
+        
+        import time
+        discovered_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(shuttle_info.discovered_at))
+        logger.info(f"    Обнаружен: {discovered_time}")
+        logger.info("")
+    
+    return True
+
+
+async def scan_network(ip_range: Optional[str] = None):
+    """Сканирует сеть на предмет новых шаттлов"""
+    logger = get_logger()
+    
+    from shuttle_module.shuttle_discovery import get_shuttle_discovery
+    shuttle_discovery = get_shuttle_discovery()
+    
+    logger.info("Начинаем сканирование сети...")
+    
+    if ip_range:
+        logger.info(f"Сканируем диапазон: {ip_range}.1-254")
+        await shuttle_discovery._scan_ip_range(ip_range)
+    else:
+        logger.info("Сканируем все доступные диапазоны...")
+        await shuttle_discovery._scan_network()
+    
+    logger.info("Сканирование завершено")
+    
+    # Показываем результаты
+    await show_discovered_shuttles()
     
     return True

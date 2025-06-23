@@ -20,7 +20,7 @@ wms:
   api_url: "http://10.181.80.30:8080/"
   username: "1000"
   password: "1000"
-  poll_interval: 60
+  poll_interval: 5  # Изменено с 60 на 5 секунд согласно ТЗ
   webhook_url: "http://wms-server/webhook"
 
 redis:
