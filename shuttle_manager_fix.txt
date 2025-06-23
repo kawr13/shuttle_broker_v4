@@ -1,0 +1,23 @@
+# Добавить этот код в конец метода get_free_shuttle перед return None:
+
+# Если не нашли в конфигурации, ищем среди автоматически обнаруженных шаттлов
+for shuttle_id, shuttle in self.shuttles.items():
+    # Пропускаем шаттлы, которые уже проверили выше
+    if shuttle_id in shuttles:
+        continue
+        
+    # Проверяем только шаттлы с именами вида shuttle_XXX
+    if not shuttle_id.startswith("shuttle_"):
+        continue
+        
+    state = shuttle.get_state()
+    
+    # Для высокоприоритетных команд возвращаем любой шаттл
+    if high_priority:
+        logger.info(f"Выбран автоматически обнаруженный шаттл {shuttle_id} для высокоприоритетной команды")
+        return shuttle_id
+    
+    # Для обычных команд возвращаем только свободный шаттл
+    if state.status == ShuttleStatus.FREE:
+        logger.info(f"Выбран автоматически обнаруженный шаттл {shuttle_id} для команды")
+        return shuttle_id
