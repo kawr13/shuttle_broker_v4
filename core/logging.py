@@ -53,10 +53,12 @@ def setup_logging(log_level: Optional[str] = None, log_file: Optional[str] = Non
 # Глобальный логгер
 logger = None
 
-
 def get_logger():
     """Возвращает глобальный логгер"""
     global logger
     if logger is None:
         logger = setup_logging()
     return logger
+
+# Инициализируем логгер при импорте модуля
+logger = setup_logging()

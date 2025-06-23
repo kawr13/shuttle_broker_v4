@@ -133,6 +133,32 @@ class RedisStorageManager:
                 logger.error(f"Ошибка при получении реестра команд: {e}")
                 return {}
     
+    async def set_shuttle_location(self, shuttle_id: str, location_data: str) -> bool:
+        """Сохраняет местоположение шаттла в Redis"""
+        with redis_operation_timer("set_shuttle_location"):
+            try:
+                key = f"shuttle_location:{shuttle_id}"
+                result = await self.redis_pool.set(key, location_data)
+                record_redis_operation("set_shuttle_location", "success" if result else "failure")
+                return result
+            except Exception as e:
+                record_redis_operation("set_shuttle_location", "error")
+                logger.error(f"Ошибка при сохранении местоположения шаттла {shuttle_id}: {e}")
+                return False
+    
+    async def get_shuttle_location(self, shuttle_id: str) -> Optional[str]:
+        """Получает местоположение шаттла из Redis"""
+        with redis_operation_timer("get_shuttle_location"):
+            try:
+                key = f"shuttle_location:{shuttle_id}"
+                result = await self.redis_pool.get(key)
+                record_redis_operation("get_shuttle_location", "success")
+                return result.decode('utf-8') if result else None
+            except Exception as e:
+                record_redis_operation("get_shuttle_location", "error")
+                logger.error(f"Ошибка при получении местоположения шаттла {shuttle_id}: {e}")
+                return None
+    
     async def _save_states_loop(self):
         """Периодически сохраняет состояния шаттлов в Redis"""
         from shuttle_module.shuttle_manager import get_shuttle_manager

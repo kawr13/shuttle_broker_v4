@@ -2,10 +2,9 @@ import asyncio
 import random
 from typing import Callable, TypeVar, Any, Optional
 
-from core.logging import get_logger
+from core.logging import logger
 
 T = TypeVar('T')
-logger = get_logger()
 
 
 async def retry_async(

@@ -6,11 +6,12 @@ import sys
 from typing import Optional
 
 from core.config import load_config, get_config
-from core.logging import setup_logging, get_logger
+from core.logging import logger, get_logger
 from shuttle_module.shuttle_manager import get_shuttle_manager
 from wms_module.wms_integration import get_wms_integration
 from storage_module.redis_storage import get_redis_storage
 from shuttle_module.shuttle_monitor import get_shuttle_monitor
+
 
 
 async def main(config_file: Optional[str] = None):
@@ -18,8 +19,7 @@ async def main(config_file: Optional[str] = None):
     # Загружаем конфигурацию
     config = load_config(config_file)
     
-    # Настраиваем логирование
-    logger = setup_logging()
+    # Логгер уже инициализирован
     logger.info("Запуск шлюза WMS-Шаттл (Версия 3.0)...")
     
     # Запускаем сервер метрик Prometheus
@@ -81,7 +81,6 @@ async def main(config_file: Optional[str] = None):
 
 async def shutdown():
     """Корректно завершает работу шлюза"""
-    logger = get_logger()
     logger.info("Остановка шлюза WMS-Шаттл (Версия 3.0)...")
     
     # Останавливаем интеграцию с WMS, если она запущена
@@ -129,6 +128,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Шлюз WMS-Шаттл")
     parser.add_argument("--config", help="Путь к файлу конфигурации")
     args = parser.parse_args()
+    # Инициализируем систему автоматического обнаружения шаттлов
+    from shuttle_module.shuttle_discovery import get_shuttle_discovery
+    shuttle_discovery = get_shuttle_discovery()
     
-    # Запускаем основную функцию
+    logger.info("Включено автоматическое обнаружение и регистрация шаттлов")
+    logger.info("Новые шаттлы будут автоматически добавляться в конфигурацию при подключении")
+    
+    # Запускаем приложение
     asyncio.run(main(args.config))

@@ -45,3 +45,5 @@ async def stop_api_server(runner):
     """Останавливает API-сервер"""
     await runner.cleanup()
     logger.info("API-сервер остановлен")
+    
+    

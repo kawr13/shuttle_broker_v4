@@ -4,10 +4,10 @@ from typing import Dict, Optional, Any, List
 import redis.asyncio as redis
 
 from core.config import get_config
-from core.logging import get_logger
+from core.logging import logger
 from shuttle_module.shuttle_state import ShuttleState
 
-logger = get_logger()
+
 
 
 class RedisStorage:

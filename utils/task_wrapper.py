@@ -3,9 +3,8 @@ import functools
 import traceback
 from typing import Callable, Any, Coroutine
 
-from core.logging import get_logger
+from core.logging import logger
 
-logger = get_logger()
 
 
 async def task_wrapper(task_func: Callable[..., Coroutine], *args, **kwargs) -> Any:

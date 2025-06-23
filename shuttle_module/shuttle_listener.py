@@ -82,10 +82,11 @@ class ShuttleListener:
         # Сохраняем соединение
         self.connections[shuttle_id] = writer
         
-        # Регистрируем соединение в менеджере соединений
-        from shuttle_module.connection_manager import get_connection_manager
-        connection_manager = get_connection_manager()
-        connection_manager.register_connection(shuttle_id, reader, writer)
+        # Регистрируем соединение в менеджере шаттлов
+        from shuttle_module.shuttle_manager import get_shuttle_manager
+        shuttle_manager = get_shuttle_manager()
+        shuttle_manager.register_connection(shuttle_id, reader, writer)
+        logger.info(f"Соединение с шаттлом {shuttle_id} зарегистрировано в менеджере")
         
         try:
             while self.running:
@@ -175,10 +176,58 @@ class ShuttleListener:
             await self.send_message(shuttle_id, "MRCD")
             logger.info(f"Отправлен MRCD неизвестному шаттлу {shuttle_id}")
         
-        # Если шаттл отправляет статус, можно попытаться добавить его в конфигурацию
-        if message.startswith("STATUS="):
-            logger.info(f"Неизвестный шаттл {shuttle_id} сообщает статус: {message}")
-            # Здесь можно добавить логику для автоматического добавления шаттла в конфигурацию
+        # Если шаттл отправляет статус или местоположение, регистрируем его
+        if message.startswith("STATUS=") or message.startswith("LOCATION="):
+            logger.info(f"Неизвестный шаттл {shuttle_id} сообщает информацию: {message}")
+            
+            # Извлекаем IP-адрес из временного ID
+            if shuttle_id.startswith("temp_shuttle_"):
+                ip = shuttle_id.replace("temp_shuttle_", "").replace("_", ".")
+                
+                # Регистрируем новый шаттл
+                from shuttle_module.shuttle_discovery import get_shuttle_discovery
+                discovery = get_shuttle_discovery()
+                
+                # Определяем порты (по умолчанию 2000 для команд и 5000 для ответов)
+                command_port = 2000
+                response_port = 5000
+                
+                # Регистрируем шаттл
+                new_shuttle_id = await discovery.register_new_shuttle(ip, command_port, response_port)
+                
+                # Если это сообщение о местоположении, обновляем информацию о местоположении
+                if message.startswith("LOCATION="):
+                    location_data = message.split("=", 1)[1]
+                    await discovery.update_shuttle_location(new_shuttle_id, location_data)
+                
+                logger.info(f"Неизвестный шаттл {shuttle_id} зарегистрирован как {new_shuttle_id}")
+                
+                # Перезагружаем конфигурацию
+                from core.config import reload_config
+                reload_config()
+                
+                # Обновляем ID шаттла в соединениях и обработчиках
+                if shuttle_id in self.connections:
+                    writer = self.connections[shuttle_id]
+                    del self.connections[shuttle_id]
+                    self.connections[new_shuttle_id] = writer
+                
+                if shuttle_id in self.message_handlers:
+                    handler = self.message_handlers[shuttle_id]
+                    del self.message_handlers[shuttle_id]
+                    self.message_handlers[new_shuttle_id] = handler
+                
+                # Регистрируем обработчик для нового шаттла
+                from shuttle_module.shuttle_client import ShuttleClient
+                try:
+                    shuttle_client = ShuttleClient(new_shuttle_id)
+                    self.register_message_handler(new_shuttle_id, shuttle_client._process_message_from_listener)
+                except Exception as e:
+                    logger.error(f"Ошибка при создании клиента для нового шаттла {new_shuttle_id}: {e}")
+                
+                # Запрашиваем статус и местоположение
+                await self.send_message(new_shuttle_id, "STATUS")
+                await self.send_message(new_shuttle_id, "MRCD")
     
     def register_message_handler(self, shuttle_id: str, handler: Callable[[str, str], Any]):
         """Регистрирует обработчик сообщений для шаттла"""
