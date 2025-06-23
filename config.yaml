@@ -17,7 +17,7 @@ stock_to_shuttle:
     - shuttle_2
 
 wms:
-  api_url: "http://10.181.80.30:8080/"
+  api_url: "http://10.181.80.35:8080/"
   username: "1000"
   password: "1000"
   poll_interval: 5  # Изменено с 60 на 5 секунд согласно ТЗ
