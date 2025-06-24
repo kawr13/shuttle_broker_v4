@@ -24,14 +24,14 @@ async def handle_listener(reader, writer):
     """Обработчик входящих сообщений на порту 8181"""
     try:
         peer = writer.get_extra_info('peername')
-        logger.info(f"Новое соединение на порту 8181 от {peer}")
+        logger.debug(f"Новое подключение на порту 8181 от {peer}")
         while True:
             data = await reader.read(1024)
             if not data:
                 break
             response_hex = data.hex()
             try:
-                response_text = data.decode('ascii', errors='replace')
+                response_text = data.decode('ascii', errors='ignore')
                 logger.info(f"Получен ответ на 8181 (text): '{response_text}'")
             except:
                 response_text = "Не удалось декодировать как текст"
@@ -82,7 +82,7 @@ async def test_binary_command(ip, port, command, terminator_hex, fixed_length=No
             if data:
                 response_hex = data.hex()
                 try:
-                    response_text = data.decode('ascii', errors='replace')
+                    response_text = data.decode('ascii', errors='ignore')
                     logger.info(f"Получен ответ на порту {port} (text): '{response_text}'")
                 except:
                     response_text = "Не удалось декодировать как текст"
@@ -99,16 +99,18 @@ async def test_binary_command(ip, port, command, terminator_hex, fixed_length=No
         await writer.wait_closed()
         
         # Проверяем ответы на 8181
-        await asyncio.sleep(1)
+        await asyncio.sleep(3)  # Увеличиваем ожидание до 3 секунд
         related_responses = [
             (t, text, hex_data) for t, text, hex_data in responses
-            if (t - start_time).total_seconds() <= 2 and "STATUS=" in text
+            if (t - start_time).total_seconds() <= 3 and "STATUS=" in text
         ]
         if related_responses:
             logger.info(f"Найдены связанные ответы на 8181 для команды '{command}' с '{terminator_hex}':")
             for t, text, hex_data in related_responses:
                 logger.info(f"  Время: {t}, Текст: '{text}', Hex: {hex_data}")
             success = True
+        else:
+            logger.info(f"Не найдены связанные ответы на 8181 для команды '{command}' с '{terminator_hex}'")
         
         return success
     except Exception as e:
@@ -122,8 +124,6 @@ async def test_all_binary_terminators(ip, port, commands=["STATUS"]):
         "0a",           # LF
         "0d0a",         # CRLF
         "0d",           # CR
-        "00",           # NULL
-        "03", "04",     # ETX, EOT
         "fixed"         # Фиксированная длина (20 байт)
     ]
     
@@ -165,7 +165,7 @@ async def main():
     if args.terminator:
         await test_binary_command(args.ip, args.port, args.command, args.terminator, fixed_length=20)
     else:
-        commands = [args.command, "PALLET_IN", "LOC"]  # Тестируем несколько команд
+        commands = [args.command]  # Тестируем только указанную команду
         await test_all_binary_terminators(args.ip, args.port, commands)
     
     await asyncio.sleep(2)
