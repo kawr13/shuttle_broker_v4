@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Тестирование бинарных терминаторов команд для шаттла
+Тестирование бинарных терминаторов команд для шаттла с прослушиванием ответов на порту 8181
 """
 import asyncio
 import argparse
@@ -10,22 +10,54 @@ import binascii
 
 # Настройка логирования
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger("test_binary_terminators")
 
+async def handle_listener(reader, writer):
+    """Обработчик входящих сообщений на порту 8181"""
+    try:
+        peer = writer.get_extra_info('peername')
+        logger.info(f"Новое соединение на порту 8181 от {peer}")
+        while True:
+            data = await reader.read(1024)
+            if not data:
+                break
+            response_hex = data.hex()
+            try:
+                response_text = data.decode('ascii', errors='replace')
+                logger.info(f"Получен ответ на 8181 (text): '{response_text}'")
+            except:
+                response_text = "Не удалось декодировать как текст"
+            logger.info(f"Получен ответ на 8181 (hex): {response_hex}")
+    except Exception as e:
+        logger.error(f"Ошибка при обработке соединения на 8181: {e}")
+    finally:
+        writer.close()
+        await writer.wait_closed()
+
+async def start_listener():
+    """Запускает TCP-сервер на порту 8181"""
+    try:
+        server = await asyncio.start_server(handle_listener, '0.0.0.0', 8181)
+        logger.info("Слушатель запущен на порту 8181")
+        async with server:
+            await server.serve_forever()
+    except Exception as e:
+        logger.error(f"Ошибка запуска слушателя на 8181: {e}")
+
 async def test_binary_command(ip, port, command, terminator_hex):
     """Тестирует команду с бинарным терминатором"""
     try:
-        # Преобразуем hex-строку в байты
-        terminator = binascii.unhexlify(terminator_hex)
+        if terminator_hex == "binary":
+            full_command = b'\x02' + command.encode('ascii') + b'\x03'
+        else:
+            terminator = binascii.unhexlify(terminator_hex)
+            full_command = command.encode('ascii') + terminator
         
-        # Формируем полную команду
-        full_command = command.encode() + terminator
-        
-        logger.info(f"Тестирование команды '{command}' с терминатором '{terminator_hex}'")
-        logger.info(f"Полная команда (hex): {full_command.hex()}")
+        logger.debug(f"Тестирование команды '{command}' с терминатором '{terminator_hex}'")
+        logger.debug(f"Полная команда (hex): {full_command.hex()}")
         
         reader, writer = await asyncio.open_connection(ip, port)
         
@@ -33,23 +65,21 @@ async def test_binary_command(ip, port, command, terminator_hex):
         await writer.drain()
         
         try:
-            # Ждем ответа с таймаутом
-            data = await asyncio.wait_for(reader.read(1024), timeout=5.0)
+            data = await asyncio.wait_for(reader.read(1024), timeout=10.0)
             if data:
                 response_hex = data.hex()
                 try:
-                    response_text = data.decode('utf-8', errors='replace')
-                    logger.info(f"Получен ответ (text): '{response_text}'")
+                    response_text = data.decode('ascii', errors='replace')
+                    logger.info(f"Получен ответ на порту {port} (text): '{response_text}'")
                 except:
                     response_text = "Не удалось декодировать как текст"
-                
-                logger.info(f"Получен ответ (hex): {response_hex}")
+                logger.info(f"Получен ответ на порту {port} (hex): {response_hex}")
                 success = True
             else:
-                logger.warning("Получен пустой ответ")
+                logger.warning(f"Получен пустой ответ на порту {port}")
                 success = False
         except asyncio.TimeoutError:
-            logger.warning("Таймаут ожидания ответа")
+            logger.warning(f"Таймаут ожидания ответа на порту {port}")
             success = False
         
         writer.close()
@@ -63,57 +93,18 @@ async def test_binary_command(ip, port, command, terminator_hex):
 async def test_all_binary_terminators(ip, port, command="STATUS"):
     """Тестирует все возможные бинарные терминаторы команд"""
     terminators = [
-        # Стандартные терминаторы
-        "0a",           # LF (Unix)
-        "0d0a",         # CRLF (Windows)
-        "0d",           # CR (старые Mac)
-        
-        # Нулевые байты и комбинации
-        "00",           # NULL
-        "000a",         # NULL + LF
-        "000d0a",       # NULL + CRLF
-        "000d",         # NULL + CR
-        "0a00",         # LF + NULL
-        "0d0a00",       # CRLF + NULL
-        "0d00",         # CR + NULL
-        
-        # Другие специальные символы
-        "03",           # ETX (End of Text)
-        "04",           # EOT (End of Transmission)
-        "1a",           # SUB (Substitute, используется как EOF в некоторых системах)
-        "1c",           # FS (File Separator)
-        "1d",           # GS (Group Separator)
-        "1e",           # RS (Record Separator)
-        "1f",           # US (Unit Separator)
-        
-        # Комбинации с ETX/EOT
-        "030a",         # ETX + LF
-        "030d0a",       # ETX + CRLF
-        "040a",         # EOT + LF
-        "040d0a",       # EOT + CRLF
-        
-        # Двойные терминаторы
-        "0a0a",         # LF + LF
-        "0d0d",         # CR + CR
-        "0d0a0d0a",     # CRLF + CRLF
-        
-        # Другие возможные комбинации
-        "3b",           # ; (точка с запятой)
-        "3b0a",         # ; + LF
-        "3b0d0a",       # ; + CRLF
-        "2c",           # , (запятая)
-        "2c0a",         # , + LF
-        "2c0d0a",       # , + CRLF
+        "", "0a", "0d0a", "0d", "00", "000a", "000d0a", "000d", "0a00", "0d0a00", "0d00",
+        "03", "04", "1a", "1c", "1d", "1e", "1f", "030a", "030d0a", "040a", "040d0a",
+        "0a0a", "0d0d", "0d0a0d0a", "3b", "3b0a", "3b0d0a", "2c", "2c0a", "2c0d0a",
+        "binary"
     ]
     
     results = []
     for term_hex in terminators:
         success = await test_binary_command(ip, port, command, term_hex)
         results.append((term_hex, success))
-        # Пауза между запросами
         await asyncio.sleep(1)
     
-    # Выводим результаты
     logger.info("Результаты тестирования бинарных терминаторов:")
     successful_terminators = []
     for term_hex, success in results:
@@ -133,16 +124,28 @@ async def main():
     """Основная функция"""
     parser = argparse.ArgumentParser(description="Тестирование бинарных терминаторов команд для шаттла")
     parser.add_argument("ip", help="IP-адрес шаттла")
-    parser.add_argument("--port", type=int, default=2000, help="Порт шаттла (по умолчанию 2000)")
+    parser.add_argument("--port", type=int, default=2000, help="Порт для отправки команд (по умолчанию 2000)")
     parser.add_argument("--command", default="STATUS", help="Команда для тестирования (по умолчанию STATUS)")
     parser.add_argument("--terminator", help="Конкретный терминатор для тестирования (в формате hex, например 0d0a)")
     
     args = parser.parse_args()
     
+    # Запускаем слушатель на 8181 в отдельной задаче
+    listener_task = asyncio.create_task(start_listener())
+    
+    # Тестируем терминаторы
     if args.terminator:
         await test_binary_command(args.ip, args.port, args.command, args.terminator)
     else:
         await test_all_binary_terminators(args.ip, args.port, args.command)
+    
+    # Даём слушателю немного времени завершить работу
+    await asyncio.sleep(2)
+    listener_task.cancel()
+    try:
+        await listener_task
+    except asyncio.CancelledError:
+        pass
     
     return 0
 
