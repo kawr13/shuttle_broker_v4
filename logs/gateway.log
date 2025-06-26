@@ -165,3 +165,36 @@
 2025-06-26 15:50:41,387 - shuttle_gateway - INFO - Менеджер хранилища Redis остановлен
 2025-06-26 15:50:41,387 - shuttle_gateway - INFO - Менеджер хранилища Redis остановлен
 2025-06-26 15:50:41,387 - shuttle_gateway - ERROR - Ошибка при остановке API-сервера: name 'api_runner' is not defined
+2025-06-27 02:51:45,542 - asyncio - DEBUG - Using selector: EpollSelector
+2025-06-27 02:51:45,550 - shuttle_gateway - INFO - Запуск шлюза WMS-Шаттл (Версия 3.0)...
+2025-06-27 02:51:46,135 - shuttle_gateway - INFO - Сервер метрик Prometheus запущен на порту 9090
+2025-06-27 02:51:46,157 - shuttle_gateway - INFO - API маршруты настроены
+2025-06-27 02:51:46,157 - shuttle_gateway - INFO - API-сервер запущен на http://0.0.0.0:8000
+2025-06-27 02:51:46,157 - shuttle_gateway - INFO - API-сервер запущен на порту 8080
+2025-06-27 02:51:46,158 - shuttle_gateway - INFO - Создан пул подключений к Redis (5-10)
+2025-06-27 02:51:46,161 - shuttle_gateway - INFO - Соединение с Redis установлено
+2025-06-27 02:51:46,161 - shuttle_gateway - INFO - Менеджер хранилища Redis запущен
+2025-06-27 02:51:46,166 - shuttle_gateway - INFO - Шлюз слушает шаттлы на 0.0.0.0:8181
+2025-06-27 02:51:46,166 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_141 (10.181.80.141:2000)
+2025-06-27 02:51:46,168 - shuttle_gateway - INFO - Создана резервная копия состояний шаттлов: /mnt/storage/two_projects/strong_brokker_sh/shuttle_gateway_v2/backups/shuttle_states_20250627_025146.json
+2025-06-27 02:51:46,169 - shuttle_gateway - INFO - Удалена старая резервная копия: /mnt/storage/two_projects/strong_brokker_sh/shuttle_gateway_v2/backups/shuttle_states_20250607_175724.json
+2025-06-27 02:51:51,182 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_141: 
+2025-06-27 02:51:51,183 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_141 (10.181.80.141:2000)
+2025-06-27 02:51:51,183 - shuttle_gateway - ERROR - Не удалось отправить команду STATUS шаттлу shuttle_141
+2025-06-27 02:51:51,183 - shuttle_gateway - INFO - Запрошен статус шаттла shuttle_141
+2025-06-27 02:51:51,183 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_146 (10.181.80.146:2000)
+2025-06-27 02:51:56,196 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_146: 
+2025-06-27 02:51:56,196 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_146 (10.181.80.146:2000)
+2025-06-27 02:51:56,196 - shuttle_gateway - ERROR - Не удалось отправить команду STATUS шаттлу shuttle_146
+2025-06-27 02:51:56,196 - shuttle_gateway - INFO - Запрошен статус шаттла shuttle_146
+2025-06-27 02:51:56,196 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_150 (10.181.80.150:2000)
+2025-06-27 02:52:01,220 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_150: 
+2025-06-27 02:52:01,220 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_150 (10.181.80.150:2000)
+2025-06-27 02:52:01,220 - shuttle_gateway - ERROR - Не удалось отправить команду STATUS шаттлу shuttle_150
+2025-06-27 02:52:01,221 - shuttle_gateway - INFO - Запрошен статус шаттла shuttle_150
+2025-06-27 02:52:01,221 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_155 (10.181.80.155:2000)
+2025-06-27 02:52:06,222 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_155: 
+2025-06-27 02:52:06,223 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_155 (10.181.80.155:2000)
+2025-06-27 02:52:06,223 - shuttle_gateway - ERROR - Не удалось отправить команду STATUS шаттлу shuttle_155
+2025-06-27 02:52:06,223 - shuttle_gateway - INFO - Запрошен статус шаттла shuttle_155
+2025-06-27 02:52:06,223 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_2 (10.10.10.12:2000)
