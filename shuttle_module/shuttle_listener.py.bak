@@ -3,6 +3,7 @@ from typing import Dict, Callable, Any, Optional
 
 from core.config import get_config
 from core.logging import get_logger
+from core.config_utils import add_shuttle_to_config
 
 logger = get_logger()
 
@@ -72,7 +73,7 @@ class ShuttleListener:
         # Определяем ID шаттла по IP-адресу
         shuttle_id = self._get_shuttle_id_by_ip(shuttle_ip)
         if not shuttle_id:
-            # Для отладки принимаем любые подключения и назначаем им временный ID
+            # Для отладки принимаем любые подключения и назначаем им простое имя
             last_octet = shuttle_ip.split('.')[-1]
             shuttle_id = f"shuttle_{last_octet}"
             logger.warning(f"Неизвестный шаттл с IP {shuttle_ip}. Назначен ID: {shuttle_id}")
@@ -91,32 +92,29 @@ class ShuttleListener:
         try:
             while self.running:
                 try:
-                    # Читаем данные от шаттла
-                    config = get_config()
-                    data = await asyncio.wait_for(
-                        reader.readuntil(b'\n'),
-                        timeout=config.tcp_read_timeout
-                    )
-                    message = data.decode('utf-8').strip()
-                    logger.info(f"Получено сообщение от шаттла {shuttle_id}: '{message}'")
-                    
-                    # Вызываем обработчик сообщений для этого шаттла
-                    if shuttle_id in self.message_handlers:
-                        try:
-                            await self.message_handlers[shuttle_id](shuttle_id, message)
-                        except Exception as e:
-                            logger.error(f"Ошибка в обработчике сообщений для шаттла {shuttle_id}: {e}")
-                except asyncio.TimeoutError:
-                    # Проверяем, что соединение все еще активно
-                    try:
-                        writer.write(b"PING\n")
-                        await writer.drain()
-                    except Exception:
-                        logger.warning(f"Соединение с шаттлом {shuttle_id} потеряно")
+                    # Читаем данные от шаттла (изменено с readuntil на read)
+                    data = await reader.read(1024)
+                    if not data:
+                        logger.warning(f"Соединение с шаттлом {shuttle_id} закрыто")
                         break
-                except asyncio.IncompleteReadError:
-                    logger.warning(f"Соединение с шаттлом {shuttle_id} закрыто")
-                    break
+                    
+                    # Декодируем сообщение
+                    try:
+                        message = data.decode('utf-8').strip()
+                        logger.info(f"Получено сообщение от шаттла {shuttle_id}: '{message}'")
+                        
+                        # Вызываем обработчик сообщений для этого шаттла
+                        if shuttle_id in self.message_handlers:
+                            try:
+                                await self.message_handlers[shuttle_id](shuttle_id, message)
+                            except Exception as e:
+                                logger.error(f"Ошибка в обработчике сообщений для шаттла {shuttle_id}: {e}")
+                    except UnicodeDecodeError:
+                        # Если не UTF-8, выводим в сыром виде
+                        logger.info(f"Получено сырое сообщение от шаттла {shuttle_id}: {data.hex()}")
+                        
+                except asyncio.CancelledError:
+                    raise
                 except Exception as e:
                     logger.error(f"Ошибка при чтении данных от шаттла {shuttle_id}: {e}")
                     break
@@ -176,10 +174,46 @@ class ShuttleListener:
             await self.send_message(shuttle_id, "MRCD")
             logger.info(f"Отправлен MRCD неизвестному шаттлу {shuttle_id}")
         
-        # Если шаттл отправляет статус, можно попытаться добавить его в конфигурацию
+        # Если шаттл отправляет статус, добавляем его в конфигурацию
         if message.startswith("STATUS="):
             logger.info(f"Неизвестный шаттл {shuttle_id} сообщает статус: {message}")
-            # Здесь можно добавить логику для автоматического добавления шаттла в конфигурацию
+            
+            # Добавляем шаттл в конфигурацию и сохраняем в файл
+            try:
+                # Получаем IP шаттла
+                peer_name = self.connections[shuttle_id].get_extra_info('peername')
+                shuttle_ip = peer_name[0] if peer_name else "10.181.80.134"  # IP по умолчанию
+                
+                # Добавляем шаттл в конфигурацию и сохраняем в файл
+                config_saved = add_shuttle_to_config(shuttle_id, shuttle_ip, 'Главный')
+                
+                if config_saved:
+                    logger.info(f"Шаттл {shuttle_id} с IP {shuttle_ip} добавлен в конфигурацию и сохранен в файл config.yaml")
+                    
+                    # Добавляем шаттл в менеджер
+                    from shuttle_module.shuttle_manager import get_shuttle_manager
+                    shuttle_manager = get_shuttle_manager()
+                    
+                    # Получаем обновленную конфигурацию
+                    config = get_config()
+                    shuttle_config = config.shuttles[shuttle_id]
+                    
+                    # Добавляем шаттл в менеджер
+                    await shuttle_manager.add_shuttle(shuttle_id, shuttle_config)
+                    logger.info(f"Шаттл {shuttle_id} добавлен в менеджер шаттлов")
+                else:
+                    logger.warning(f"Не удалось сохранить шаттл {shuttle_id} в конфигурацию")
+                
+                # Запрашиваем статус шаттла
+                await self.send_message(shuttle_id, "STATUS")
+                logger.info(f"Запрошен статус шаттла {shuttle_id}")
+                
+            except Exception as e:
+                logger.error(f"Ошибка при добавлении шаттла {shuttle_id} в конфигурацию: {e}")
+        
+        # Запрашиваем местоположение шаттла
+        await self.send_message(shuttle_id, "LOC")
+        logger.info(f"Запрошено местоположение шаттла {shuttle_id}")
     
     def register_message_handler(self, shuttle_id: str, handler: Callable[[str, str], Any]):
         """Регистрирует обработчик сообщений для шаттла"""
@@ -199,9 +233,10 @@ class ShuttleListener:
         try:
             writer = self.connections[shuttle_id]
             
-            # Добавляем перевод строки, если его нет
-            if not message.endswith('\n'):
-                message += '\n'
+            # Добавляем терминатор CRLF (\r\n), если его нет
+            if not message.endswith('\r\n'):
+                message = message.rstrip('\n')  # Удаляем существующий LF, если есть
+                message += '\r\n'
             
             writer.write(message.encode('utf-8'))
             await writer.drain()

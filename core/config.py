@@ -203,3 +203,48 @@ def get_config() -> GatewayConfig:
     if config is None:
         config = load_config()
     return config
+
+
+def save_config_to_file(config_file: str = 'config.yaml'):
+    """Сохраняет текущую конфигурацию в файл"""
+    global config
+    if config is not None:
+        config.save_to_file(config_file)
+
+
+def add_shuttle_to_config(shuttle_id: str, shuttle_ip: str, stock_name: str = 'Главный'):
+    """Добавляет шаттл в конфигурацию и сохраняет её в файл"""
+    global config
+    if config is None:
+        config = load_config()
+    
+    # Проверяем, что шаттл еще не добавлен
+    if shuttle_id in config.shuttles:
+        return False
+    
+    # Добавляем шаттл в конфигурацию
+    config.shuttles[shuttle_id] = ShuttleConfig(
+        host=shuttle_ip,
+        command_port=2000,
+        response_port=5000,
+        shuttle_health_check_interval=10
+    )
+    
+    # Добавляем шаттл на склад
+    if stock_name in config.stock_to_shuttle:
+        if shuttle_id not in config.stock_to_shuttle[stock_name]:
+            config.stock_to_shuttle[stock_name].append(shuttle_id)
+    else:
+        config.stock_to_shuttle[stock_name] = [shuttle_id]
+    
+    # Сохраняем конфигурацию в файл
+    try:
+        save_config_to_file()
+        return True
+    except Exception as e:
+        # Если не удалось сохранить, откатываем изменения
+        if shuttle_id in config.shuttles:
+            del config.shuttles[shuttle_id]
+        if stock_name in config.stock_to_shuttle and shuttle_id in config.stock_to_shuttle[stock_name]:
+            config.stock_to_shuttle[stock_name].remove(shuttle_id)
+        raise e

@@ -61,3 +61,55 @@
 2025-06-26 14:06:12,728 - shuttle_gateway - INFO - Менеджер хранилища Redis остановлен
 2025-06-26 14:06:12,728 - shuttle_gateway - INFO - Менеджер хранилища Redis остановлен
 2025-06-26 14:06:12,728 - shuttle_gateway - ERROR - Ошибка при остановке API-сервера: name 'api_runner' is not defined
+2025-06-26 14:34:03,464 - asyncio - DEBUG - Using selector: EpollSelector
+2025-06-26 14:34:03,467 - shuttle_gateway - INFO - Запуск шлюза WMS-Шаттл (Версия 3.0)...
+2025-06-26 14:34:03,624 - shuttle_gateway - INFO - Сервер метрик Prometheus запущен на порту 9090
+2025-06-26 14:34:03,649 - shuttle_gateway - INFO - API маршруты настроены
+2025-06-26 14:34:03,649 - shuttle_gateway - INFO - API-сервер запущен на http://0.0.0.0:8000
+2025-06-26 14:34:03,649 - shuttle_gateway - INFO - API-сервер запущен на порту 8080
+2025-06-26 14:34:03,650 - shuttle_gateway - INFO - Создан пул подключений к Redis (5-10)
+2025-06-26 14:34:03,652 - shuttle_gateway - INFO - Соединение с Redis установлено
+2025-06-26 14:34:03,652 - shuttle_gateway - INFO - Менеджер хранилища Redis запущен
+2025-06-26 14:34:03,658 - shuttle_gateway - INFO - Шлюз слушает шаттлы на 0.0.0.0:8181
+2025-06-26 14:34:03,658 - shuttle_gateway - ERROR - Ошибка при запросе статуса шаттла virtual_shuttle_1: name 'ShuttleCommandEnum' is not defined
+2025-06-26 14:34:03,658 - shuttle_gateway - ERROR - Ошибка при запросе статуса шаттла shuttle_2: name 'ShuttleCommandEnum' is not defined
+2025-06-26 14:34:03,658 - shuttle_gateway - INFO - Менеджер шаттлов запущен (2 шаттлов, 2 воркеров)
+2025-06-26 14:34:03,659 - shuttle_gateway - INFO - Воркер обработки команд 1 запущен
+2025-06-26 14:34:03,659 - shuttle_gateway - INFO - Воркер обработки команд 2 запущен
+2025-06-26 14:34:03,660 - shuttle_gateway - INFO - Создана резервная копия состояний шаттлов: /mnt/storage/two_projects/strong_brokker_sh/shuttle_gateway_v2/backups/shuttle_states_20250626_143403.json
+2025-06-26 14:34:03,660 - shuttle_gateway - INFO - Удалена старая резервная копия: /mnt/storage/two_projects/strong_brokker_sh/shuttle_gateway_v2/backups/shuttle_states_20250607_162043.json
+2025-06-26 14:34:03,662 - shuttle_gateway - INFO - Загружено 2 состояний шаттлов из Redis
+2025-06-26 14:34:03,662 - shuttle_gateway - INFO - Загружено состояние шаттла virtual_shuttle_1: статус=ShuttleStatus.UNKNOWN, ячейка=None
+2025-06-26 14:34:03,662 - shuttle_gateway - INFO - Загружено состояние шаттла shuttle_2: статус=ShuttleStatus.UNKNOWN, ячейка=None
+2025-06-26 14:34:03,662 - shuttle_gateway - INFO - Монитор шаттлов запущен
+2025-06-26 14:34:03,662 - shuttle_gateway - INFO - Монитор шаттлов запущен (интервал проверки: 30 сек)
+2025-06-26 14:34:03,663 - shuttle_gateway - INFO - Модуль автоматического обнаружения шаттлов запущен
+2025-06-26 14:34:03,663 - shuttle_gateway - INFO - Модуль автоматического обнаружения шаттлов запущен
+2025-06-26 14:34:03,663 - shuttle_gateway - INFO - Интеграция с WMS запущена
+2025-06-26 14:34:03,663 - shuttle_gateway - INFO - Интеграция с WMS API запущена (интервал опроса: 5 сек, URL: http://10.181.80.28:8080/)
+2025-06-26 14:34:03,664 - shuttle_gateway - INFO - Шаттл virtual_shuttle_1 не отвечает, пытаемся восстановить соединение
+2025-06-26 14:34:03,665 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом virtual_shuttle_1 (10.181.80.134:2000)
+2025-06-26 14:34:03,665 - shuttle_gateway - DEBUG - Начинаем сканирование сети для поиска шаттлов
+2025-06-26 14:34:03,739 - shuttle_gateway - INFO - Запущен цикл опроса WMS API
+2025-06-26 14:34:03,739 - shuttle_gateway - INFO - Опрашиваем WMS API (http://10.181.80.28:8080)...
+2025-06-26 14:34:03,739 - shuttle_gateway - INFO - Получаем команды из отгрузок...
+2025-06-26 14:34:06,618 - shuttle_gateway - INFO - Остановка шлюза WMS-Шаттл (Версия 3.0)...
+2025-06-26 14:34:06,619 - shuttle_gateway - INFO - Цикл опроса WMS API отменен
+2025-06-26 14:34:06,619 - shuttle_gateway - INFO - Интеграция с WMS остановлена
+2025-06-26 14:34:06,619 - shuttle_gateway - INFO - Интеграция с WMS API остановлена
+2025-06-26 14:34:06,619 - shuttle_gateway - INFO - Цикл мониторинга шаттлов отменен
+2025-06-26 14:34:06,619 - shuttle_gateway - INFO - Монитор шаттлов остановлен
+2025-06-26 14:34:06,619 - shuttle_gateway - INFO - Монитор шаттлов остановлен
+2025-06-26 14:34:06,629 - shuttle_gateway - INFO - Модуль автоматического обнаружения шаттлов остановлен
+2025-06-26 14:34:06,629 - shuttle_gateway - INFO - Модуль автоматического обнаружения шаттлов остановлен
+2025-06-26 14:34:06,629 - shuttle_gateway - INFO - Воркер обработки команд 1 остановлен
+2025-06-26 14:34:06,629 - shuttle_gateway - INFO - Воркер обработки команд 2 остановлен
+2025-06-26 14:34:06,629 - shuttle_gateway - INFO - Менеджер шаттлов остановлен
+2025-06-26 14:34:06,629 - shuttle_gateway - INFO - Сервер для прослушивания шаттлов остановлен
+2025-06-26 14:34:06,629 - shuttle_gateway - INFO - Цикл сохранения состояний отменен
+2025-06-26 14:34:06,629 - shuttle_gateway - INFO - Цикл резервного копирования состояний отменен
+2025-06-26 14:34:06,630 - shuttle_gateway - INFO - Соединение с Redis закрыто
+2025-06-26 14:34:06,630 - shuttle_gateway - INFO - Пул подключений к Redis закрыт
+2025-06-26 14:34:06,630 - shuttle_gateway - INFO - Менеджер хранилища Redis остановлен
+2025-06-26 14:34:06,630 - shuttle_gateway - INFO - Менеджер хранилища Redis остановлен
+2025-06-26 14:34:06,630 - shuttle_gateway - ERROR - Ошибка при остановке API-сервера: name 'api_runner' is not defined
