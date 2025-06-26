@@ -22,7 +22,27 @@ class WmsClient:
         config = get_config()
         
         # Используем значения по умолчанию, если конфигурация WMS отсутствует
-        self.api_url = getattr(config.wms, 'api_url', 'http://localhost:8080').rstrip('/')
+        api_url = getattr(config.wms, 'api_url', 'http://localhost:8080/exec')
+        
+        # Убеждаемся, что URL содержит /exec
+        if '/exec' not in api_url:
+            if api_url.endswith('/'):
+                self.api_url = f"{api_url}exec"
+            else:
+                self.api_url = f"{api_url}/exec"
+        else:
+            self.api_url = api_url
+            
+        # Убираем двойной слеш, если есть
+        self.api_url = self.api_url.replace('//', '/')
+        # Восстанавливаем http:/ -> http://
+        if self.api_url.startswith('http:/') and not self.api_url.startswith('http://'):
+            self.api_url = self.api_url.replace('http:/', 'http://')
+        if self.api_url.startswith('https:/') and not self.api_url.startswith('https://'):
+            self.api_url = self.api_url.replace('https:/', 'https://')
+            
+        logger.info(f"Инициализация WMS клиента с URL: {self.api_url}")
+        
         self.username = getattr(config.wms, 'username', '1000')
         self.password = getattr(config.wms, 'password', '1000')
         self.poll_interval = getattr(config.wms, 'poll_interval', 5)
@@ -61,21 +81,40 @@ class WmsClient:
         start_time = self.last_poll_time.strftime("%Y-%m-%dT%H:%M:%S")
         end_time = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
         
-        url = f"{self.api_url}/exec?action=IncomeApi.getShipmentStatusesPeriod&p={start_time}&p={end_time}"
+        url = f"{self.api_url}?action=IncomeApi.getShipmentStatusesPeriod&p={start_time}&p={end_time}"
         
+        logger.debug(f"Запрос отгрузок: {url}")
         auth_header = self._get_auth_header()
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.get(url, headers=auth_header, timeout=10) as response:
+                    logger.debug(f"Ответ на запрос отгрузок: статус {response.status}, тип контента: {response.headers.get('Content-Type')}")
+                    
                     if response.status == 200:
+                        # Проверяем тип контента
+                        content_type = response.headers.get('Content-Type', '')
+                        if 'application/json' not in content_type.lower():
+                            error_text = await response.text()
+                            logger.error(f"Ошибка: WMS вернул не JSON ответ: {content_type}, первые 200 символов: {error_text[:200]}")
+                            return []
+                        
                         data = await response.json()
                         return data.get("shipment", [])
                     else:
                         error_text = await response.text()
-                        logger.error(f"Ошибка при получении отгрузок: {response.status}, {error_text}")
+                        logger.error(f"Ошибка при получении отгрузок: {response.status}, {error_text[:200]}")
                         return []
+        except aiohttp.ClientResponseError as e:
+            logger.error(f"Ошибка ответа при получении отгрузок: {e.status}, {e.message}, URL: {url}")
+            return []
+        except aiohttp.ClientConnectionError as e:
+            logger.error(f"Ошибка соединения при получении отгрузок: {e}, URL: {url}")
+            return []
+        except json.JSONDecodeError as e:
+            logger.error(f"Ошибка декодирования JSON при получении отгрузок: {e}, URL: {url}")
+            return []
         except Exception as e:
-            logger.error(f"Ошибка при получении отгрузок: {e}")
+            logger.error(f"Ошибка при получении отгрузок: {e}, URL: {url}")
             return []
     
     async def get_transfer_commands(self) -> List[Dict]:
@@ -83,21 +122,40 @@ class WmsClient:
         start_time = self.last_poll_time.strftime("%Y-%m-%dT%H:%M:%S")
         end_time = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
         
-        url = f"{self.api_url}/exec?action=IncomeApi.getTransferStatusesPeriod&p={start_time}&p={end_time}"
+        url = f"{self.api_url}?action=IncomeApi.getTransferStatusesPeriod&p={start_time}&p={end_time}"
         
+        logger.debug(f"Запрос перемещений: {url}")
         auth_header = self._get_auth_header()
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.get(url, headers=auth_header, timeout=10) as response:
+                    logger.debug(f"Ответ на запрос перемещений: статус {response.status}, тип контента: {response.headers.get('Content-Type')}")
+                    
                     if response.status == 200:
+                        # Проверяем тип контента
+                        content_type = response.headers.get('Content-Type', '')
+                        if 'application/json' not in content_type.lower():
+                            error_text = await response.text()
+                            logger.error(f"Ошибка: WMS вернул не JSON ответ: {content_type}, первые 200 символов: {error_text[:200]}")
+                            return []
+                        
                         data = await response.json()
                         return data.get("transfer", [])
                     else:
                         error_text = await response.text()
-                        logger.error(f"Ошибка при получении перемещений: {response.status}, {error_text}")
+                        logger.error(f"Ошибка при получении перемещений: {response.status}, {error_text[:200]}")
                         return []
+        except aiohttp.ClientResponseError as e:
+            logger.error(f"Ошибка ответа при получении перемещений: {e.status}, {e.message}, URL: {url}")
+            return []
+        except aiohttp.ClientConnectionError as e:
+            logger.error(f"Ошибка соединения при получении перемещений: {e}, URL: {url}")
+            return []
+        except json.JSONDecodeError as e:
+            logger.error(f"Ошибка декодирования JSON при получении перемещений: {e}, URL: {url}")
+            return []
         except Exception as e:
-            logger.error(f"Ошибка при получении перемещений: {e}")
+            logger.error(f"Ошибка при получении перемещений: {e}, URL: {url}")
             return []
     
     async def get_command_details(self, external_id: str, command_type: str) -> Optional[Dict]:
@@ -108,13 +166,23 @@ class WmsClient:
         elif command_type == "transfer":
             action = "IncomeApi.getObject&p=transfer"
         
-        url = f"{self.api_url}/exec?action={action}&p={external_id}"
+        url = f"{self.api_url}?action={action}&p={external_id}"
         
+        logger.debug(f"Запрос деталей команды {external_id} (тип: {command_type}): {url}")
         auth_header = self._get_auth_header()
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.get(url, headers=auth_header, timeout=10) as response:
+                    logger.debug(f"Ответ на запрос деталей команды {external_id}: статус {response.status}, тип контента: {response.headers.get('Content-Type')}")
+                    
                     if response.status == 200:
+                        # Проверяем тип контента
+                        content_type = response.headers.get('Content-Type', '')
+                        if 'application/json' not in content_type.lower():
+                            error_text = await response.text()
+                            logger.error(f"Ошибка: WMS вернул не JSON ответ для деталей команды {external_id}: {content_type}, первые 200 символов: {error_text[:200]}")
+                            return None
+                        
                         data = await response.json()
                         if command_type == "shipment":
                             return data.get("shipment", [{}])[0]
@@ -122,15 +190,24 @@ class WmsClient:
                             return data.get("transfer", [{}])[0]
                     else:
                         error_text = await response.text()
-                        logger.error(f"Ошибка при получении деталей команды {external_id}: {response.status}, {error_text}")
+                        logger.error(f"Ошибка при получении деталей команды {external_id}: {response.status}, {error_text[:200]}")
                         return None
+        except aiohttp.ClientResponseError as e:
+            logger.error(f"Ошибка ответа при получении деталей команды {external_id}: {e.status}, {e.message}, URL: {url}")
+            return None
+        except aiohttp.ClientConnectionError as e:
+            logger.error(f"Ошибка соединения при получении деталей команды {external_id}: {e}, URL: {url}")
+            return None
+        except json.JSONDecodeError as e:
+            logger.error(f"Ошибка декодирования JSON при получении деталей команды {external_id}: {e}, URL: {url}")
+            return None
         except Exception as e:
-            logger.error(f"Ошибка при получении деталей команды {external_id}: {e}")
+            logger.error(f"Ошибка при получении деталей команды {external_id}: {e}, URL: {url}")
             return None
     
     async def update_status(self, external_id: str, document_type: str, status: str) -> bool:
         """Обновляет статус команды в WMS"""
-        url = f"{self.api_url}/exec?action=IncomeApi.insertUpdate"
+        url = f"{self.api_url}?action=IncomeApi.insertUpdate"
         
         # Формируем тело запроса в зависимости от типа документа
         body = {}
@@ -165,18 +242,37 @@ class WmsClient:
                 ]
             }
         
+        logger.debug(f"Обновление статуса в WMS: {external_id} (тип: {document_type}) на {status}, URL: {url}")
         auth_header = self._get_auth_header()
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.post(url, headers=auth_header, json=body, timeout=10) as response:
+                    logger.debug(f"Ответ на обновление статуса {external_id}: статус {response.status}, тип контента: {response.headers.get('Content-Type')}")
+                    
                     if response.status == 200:
+                        # Проверяем тип контента
+                        content_type = response.headers.get('Content-Type', '')
+                        if 'application/json' not in content_type.lower():
+                            error_text = await response.text()
+                            logger.warning(f"WMS вернул не JSON ответ при обновлении статуса: {content_type}, но статус 200")
+                        
+                        logger.info(f"Статус команды {external_id} успешно обновлен на {status}")
                         return True
                     else:
                         error_text = await response.text()
-                        logger.error(f"Ошибка при обновлении статуса в WMS: {response.status}, {error_text}")
+                        logger.error(f"Ошибка при обновлении статуса в WMS: {response.status}, {error_text[:200]}, URL: {url}")
                         return False
+        except aiohttp.ClientResponseError as e:
+            logger.error(f"Ошибка ответа при обновлении статуса в WMS: {e.status}, {e.message}, URL: {url}")
+            return False
+        except aiohttp.ClientConnectionError as e:
+            logger.error(f"Ошибка соединения при обновлении статуса в WMS: {e}, URL: {url}")
+            return False
+        except json.JSONDecodeError as e:
+            logger.error(f"Ошибка декодирования JSON при обновлении статуса в WMS: {e}, URL: {url}")
+            return False
         except Exception as e:
-            logger.error(f"Ошибка при обновлении статуса в WMS: {e}")
+            logger.error(f"Ошибка при обновлении статуса в WMS: {e}, URL: {url}")
             return False
     
     async def send_webhook(self, shuttle_id: str, message: str, status: str, error_code: Optional[str] = None,

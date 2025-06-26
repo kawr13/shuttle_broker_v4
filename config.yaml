@@ -102,7 +102,7 @@ tcp_connect_timeout: 5.0
 tcp_read_timeout: 20.0
 tcp_write_timeout: 5.0
 wms:
-  api_url: http://10.181.80.28:8080/
+  api_url: http://10.181.80.28:8080/exec
   password: '1000'
   poll_interval: 5
   username: '1000'
