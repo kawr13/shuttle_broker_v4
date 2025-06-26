@@ -218,10 +218,14 @@ class ShuttleListener:
                 
             except Exception as e:
                 logger.error(f"Ошибка при добавлении шаттла {shuttle_id} в конфигурацию: {e}")
-        
-        # Запрашиваем местоположение шаттла
-        await self.send_message(shuttle_id, "LOC")
-        logger.info(f"Запрошено местоположение шаттла {shuttle_id}")
+            
+            # Запрашиваем местоположение шаттла
+            await self.send_message(shuttle_id, "LOC")
+            logger.info(f"Запрошено местоположение шаттла {shuttle_id}")
+        else:
+            # Если шаттл не отправляет статус, запрашиваем его
+            await self.send_message(shuttle_id, "STATUS")
+            logger.info(f"Запрошен статус шаттла {shuttle_id}")
     
     def register_message_handler(self, shuttle_id: str, handler: Callable[[str, str], Any]):
         """Регистрирует обработчик сообщений для шаттла"""
