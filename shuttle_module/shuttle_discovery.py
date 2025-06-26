@@ -138,7 +138,7 @@ class ShuttleDiscovery:
             )
             
             # Отправляем команду STATUS для идентификации
-            writer.write(b"STATUS\n")
+            writer.write("STATUS\r\n")
             await writer.drain()
             
             # Ждем ответ
@@ -202,7 +202,7 @@ class ShuttleDiscovery:
             )
             
             # Запрашиваем статус
-            writer.write(b"STATUS\r\n")
+            writer.write("STATUS\r\n")
             await writer.drain()
             
             try:
@@ -214,7 +214,7 @@ class ShuttleDiscovery:
                 pass
                 
             # Запрашиваем уровень батареи
-            writer.write(b"BATTERY\n")
+            writer.write("BATTERY\r\n")
             await writer.drain()
             
             try:
