@@ -1,42 +1,49 @@
-shuttles:
-  virtual_shuttle_1:
-    host: "10.181.80.134"
-    command_port: 2000
-    response_port: 5000
-    shuttle_health_check_interval: 10
-  shuttle_2:
-    host: "10.10.10.12"
-    command_port: 2000
-    response_port: 5000
-    shuttle_health_check_interval: 10
-
-stock_to_shuttle:
-  Главный:
-    - virtual_shuttle_1
-  Второй склад:
-    - shuttle_2
-
-wms:
-  api_url: "http://10.181.80.28:8080/"
-  username: "1000"
-  password: "1000"
-  poll_interval: 5  # Изменено с 60 на 5 секунд согласно ТЗ
-  webhook_url: "http://wms-server/webhook"
-
-redis:
-  host: "localhost"
-  port: 6379
-  db: 0
-  password: null
-
-logging:
-  level: "DEBUG"  # Изменено на DEBUG для более подробного логирования
-  file_path: "logs/gateway.log"
-
-command_queue_max_size: 1000
 command_processor_workers: 2
+command_queue_max_size: 1000
+logging:
+  file_path: logs/gateway.log
+  level: DEBUG
+redis:
+  db: 0
+  host: localhost
+  password: null
+  port: 6379
+shuttle_health_check_interval: 30
+shuttle_listener_port: 8181
+shuttles:
+  shuttle_2:
+    command_port: 2000
+    host: 10.10.10.12
+    response_port: 5000
+    shuttle_health_check_interval: 10
+  test_shuttle_1:
+    command_port: 2000
+    host: 10.181.80.100
+    response_port: 5000
+    shuttle_health_check_interval: 10
+  test_shuttle_2:
+    command_port: 2000
+    host: 10.181.80.101
+    response_port: 5000
+    shuttle_health_check_interval: 10
+  virtual_shuttle_1:
+    command_port: 2000
+    host: 10.181.80.134
+    response_port: 5000
+    shuttle_health_check_interval: 10
+stock_to_shuttle:
+  Второй склад:
+  - shuttle_2
+  Главный:
+  - virtual_shuttle_1
+  - test_shuttle_1
+  - test_shuttle_2
 tcp_connect_timeout: 5.0
 tcp_read_timeout: 20.0
 tcp_write_timeout: 5.0
-shuttle_listener_port: 8181
-shuttle_health_check_interval: 30  # Интервал проверки состояния шаттлов в секундах
+wms:
+  api_url: http://10.181.80.28:8080/
+  password: '1000'
+  poll_interval: 5
+  username: '1000'
+  webhook_url: http://wms-server/webhook

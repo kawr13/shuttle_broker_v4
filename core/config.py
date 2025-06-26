@@ -214,37 +214,63 @@ def save_config_to_file(config_file: str = 'config.yaml'):
 
 def add_shuttle_to_config(shuttle_id: str, shuttle_ip: str, stock_name: str = 'Главный'):
     """Добавляет шаттл в конфигурацию и сохраняет её в файл"""
-    global config
-    if config is None:
-        config = load_config()
-    
-    # Проверяем, что шаттл еще не добавлен
-    if shuttle_id in config.shuttles:
-        return False
-    
-    # Добавляем шаттл в конфигурацию
-    config.shuttles[shuttle_id] = ShuttleConfig(
-        host=shuttle_ip,
-        command_port=2000,
-        response_port=5000,
-        shuttle_health_check_interval=10
-    )
-    
-    # Добавляем шаттл на склад
-    if stock_name in config.stock_to_shuttle:
-        if shuttle_id not in config.stock_to_shuttle[stock_name]:
-            config.stock_to_shuttle[stock_name].append(shuttle_id)
-    else:
-        config.stock_to_shuttle[stock_name] = [shuttle_id]
-    
-    # Сохраняем конфигурацию в файл
     try:
-        save_config_to_file()
+        # Загружаем конфигурацию напрямую из файла
+        config_file = 'config.yaml'
+        if not os.path.exists(config_file):
+            return False
+        
+        with open(config_file, 'r', encoding='utf-8') as f:
+            config_data = yaml.safe_load(f)
+        
+        # Проверяем, что шаттл еще не добавлен
+        if 'shuttles' in config_data and shuttle_id in config_data['shuttles']:
+            return True  # Шаттл уже существует
+        
+        # Добавляем шаттл в конфигурацию
+        if 'shuttles' not in config_data:
+            config_data['shuttles'] = {}
+        
+        config_data['shuttles'][shuttle_id] = {
+            'host': shuttle_ip,
+            'command_port': 2000,
+            'response_port': 5000,
+            'shuttle_health_check_interval': 10
+        }
+        
+        # Добавляем шаттл на склад
+        if 'stock_to_shuttle' not in config_data:
+            config_data['stock_to_shuttle'] = {}
+        
+        if stock_name not in config_data['stock_to_shuttle']:
+            config_data['stock_to_shuttle'][stock_name] = []
+        
+        if shuttle_id not in config_data['stock_to_shuttle'][stock_name]:
+            config_data['stock_to_shuttle'][stock_name].append(shuttle_id)
+        
+        # Сохраняем конфигурацию в файл
+        with open(config_file, 'w', encoding='utf-8') as f:
+            yaml.dump(config_data, f, default_flow_style=False, allow_unicode=True)
+        
+        # Обновляем глобальную конфигурацию
+        global config
+        if config is not None:
+            config.shuttles[shuttle_id] = ShuttleConfig(
+                host=shuttle_ip,
+                command_port=2000,
+                response_port=5000,
+                shuttle_health_check_interval=10
+            )
+            
+            if stock_name in config.stock_to_shuttle:
+                if shuttle_id not in config.stock_to_shuttle[stock_name]:
+                    config.stock_to_shuttle[stock_name].append(shuttle_id)
+            else:
+                config.stock_to_shuttle[stock_name] = [shuttle_id]
+        
         return True
     except Exception as e:
-        # Если не удалось сохранить, откатываем изменения
-        if shuttle_id in config.shuttles:
-            del config.shuttles[shuttle_id]
-        if stock_name in config.stock_to_shuttle and shuttle_id in config.stock_to_shuttle[stock_name]:
-            config.stock_to_shuttle[stock_name].remove(shuttle_id)
+        import logging
+        logging.getLogger().error(f"Ошибка при добавлении шаттла {shuttle_id} в конфигурацию: {e}")
+        return False
         raise e

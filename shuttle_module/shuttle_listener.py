@@ -1,9 +1,8 @@
 import asyncio
 from typing import Dict, Callable, Any, Optional
 
-from core.config import get_config
+from core.config import get_config, add_shuttle_to_config
 from core.logging import get_logger
-from core.config_utils import add_shuttle_to_config
 
 logger = get_logger()
 
@@ -185,18 +184,27 @@ class ShuttleListener:
                 shuttle_ip = peer_name[0] if peer_name else "10.181.80.134"  # IP по умолчанию
                 
                 # Добавляем шаттл в конфигурацию и сохраняем в файл
+                from core.config import add_shuttle_to_config, load_config
                 config_saved = add_shuttle_to_config(shuttle_id, shuttle_ip, 'Главный')
                 
                 if config_saved:
                     logger.info(f"Шаттл {shuttle_id} с IP {shuttle_ip} добавлен в конфигурацию и сохранен в файл config.yaml")
                     
+                    # Перезагружаем конфигурацию из файла
+                    load_config('config.yaml')
+                    
                     # Добавляем шаттл в менеджер
                     from shuttle_module.shuttle_manager import get_shuttle_manager
                     shuttle_manager = get_shuttle_manager()
                     
-                    # Получаем обновленную конфигурацию
-                    config = get_config()
-                    shuttle_config = config.shuttles[shuttle_id]
+                    # Создаем конфигурацию шаттла
+                    from core.config import ShuttleConfig
+                    shuttle_config = ShuttleConfig(
+                        host=shuttle_ip,
+                        command_port=2000,
+                        response_port=5000,
+                        shuttle_health_check_interval=10
+                    )
                     
                     # Добавляем шаттл в менеджер
                     await shuttle_manager.add_shuttle(shuttle_id, shuttle_config)
