@@ -19,6 +19,8 @@ def main():
   shuttle.py direct shuttle_140 STATUS --ip 10.181.80.132  # Прямое подключение с указанием IP
   shuttle.py check                         # Проверить доступность шаттлов
   shuttle.py fix shuttle_140 10.181.80.132 # Исправить IP-адрес шаттла
+  shuttle.py register shuttle_135          # Зарегистрировать обработчик сообщений
+  shuttle.py restart                       # Перезапустить шлюз
         """
     )
     
@@ -58,6 +60,16 @@ def main():
     fix_parser = subparsers.add_parser('fix', help='Исправить конфигурацию шаттла')
     fix_parser.add_argument('shuttle_id', help='ID шаттла')
     fix_parser.add_argument('new_ip', help='Новый IP-адрес')
+    
+    # Команда register (регистрация обработчика сообщений)
+    register_parser = subparsers.add_parser('register', help='Зарегистрировать обработчик сообщений для шаттла')
+    register_parser.add_argument('shuttle_id', help='ID шаттла')
+    
+    # Команда restart (перезапуск шлюза)
+    restart_parser = subparsers.add_parser('restart', help='Перезапустить шлюз')
+    restart_parser.add_argument('--no-stop', action='store_true', help='Не останавливать шлюз перед запуском')
+    restart_parser.add_argument('--no-start', action='store_true', help='Не запускать шлюз после остановки')
+    restart_parser.add_argument('--register', action='store_true', help='Только зарегистрировать обработчики')
     
     args = parser.parse_args()
     
@@ -104,6 +116,19 @@ def main():
         
         elif args.action == 'fix':
             return subprocess.call(['python', 'fix_shuttle_config.py', 'fix', args.shuttle_id, args.new_ip])
+        
+        elif args.action == 'register':
+            return subprocess.call(['python', 'register_shuttle_handler.py', args.shuttle_id])
+        
+        elif args.action == 'restart':
+            cmd = ['python', 'restart_gateway.py']
+            if args.no_stop:
+                cmd.append('--no-stop')
+            if args.no_start:
+                cmd.append('--no-start')
+            if args.register:
+                cmd.append('--register')
+            return subprocess.call(cmd)
         
     except KeyboardInterrupt:
         print("\n🛑 Прервано пользователем")
