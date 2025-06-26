@@ -1,11 +1,11 @@
 {
-  "shuttle_2": {
-    "shuttle_id": "shuttle_2",
+  "virtual_shuttle_1": {
+    "shuttle_id": "virtual_shuttle_1",
     "status": "UNKNOWN",
     "current_command": null,
     "last_command_time": null,
     "last_message": null,
-    "last_seen": 1749295243.160972,
+    "last_seen": 1750930443.658795,
     "battery_level": null,
     "location_data": null,
     "pallet_count_data": null,
@@ -17,13 +17,13 @@
     "cell_id": null,
     "stock_name": null
   },
-  "virtual_shuttle_1": {
-    "shuttle_id": "virtual_shuttle_1",
+  "shuttle_2": {
+    "shuttle_id": "shuttle_2",
     "status": "UNKNOWN",
     "current_command": null,
     "last_command_time": null,
     "last_message": null,
-    "last_seen": 1749295243.1609426,
+    "last_seen": 1750930443.6588917,
     "battery_level": null,
     "location_data": null,
     "pallet_count_data": null,

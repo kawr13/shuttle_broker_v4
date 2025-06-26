@@ -1,20 +1,47 @@
 #!/bin/bash
-
-# Запуск шлюза WMS-Шаттл (Версия 3.0)
+# Скрипт для запуска шлюза с сохранением шаттлов в файл конфигурации
 
 # Переходим в директорию проекта
 cd "$(dirname "$0")"
 
 # Проверяем наличие виртуального окружения
-if [ ! -d ".venv" ]; then
-    echo "Создаем виртуальное окружение..."
-    python -m venv .venv
-    source .venv/bin/activate
-    pip install -r requirements.txt
-else
-    source .venv/bin/activate
+if [ -d "venv" ]; then
+    echo "Активация виртуального окружения..."
+    source venv/bin/activate
 fi
 
+# Проверяем наличие файла конфигурации
+if [ ! -f "config.yaml" ]; then
+    echo "ОШИБКА: Файл конфигурации config.yaml не найден"
+    exit 1
+fi
+
+# Проверяем права доступа к файлу конфигурации
+if [ ! -w "config.yaml" ]; then
+    echo "ОШИБКА: Нет прав на запись в файл config.yaml"
+    chmod u+w config.yaml
+    echo "Права на запись добавлены"
+fi
+
+# Выводим информацию о запуске
+echo "Запуск шлюза WMS-Шаттл..."
+echo "- Терминатор команд: CRLF (\\r\\n)"
+echo "- WMS API URL: $(grep -o 'api_url: "[^"]*"' config.yaml | cut -d'"' -f2)"
+echo "- Автоматическое добавление неизвестных шаттлов: включено (с сохранением в файл)"
+
 # Запускаем шлюз
-echo "Запуск шлюза WMS-Шаттл (Версия 3.0)..."
-python main.py --config config.yaml
+python main.py
+
+# Если шлюз завершился с ошибкой, выводим сообщение
+if [ $? -ne 0 ]; then
+    echo "Шлюз завершился с ошибкой!"
+    exit 1
+fi
+
+# Деактивируем виртуальное окружение
+if [ -d "venv" ]; then
+    deactivate
+fi
+
+echo "Шлюз остановлен"
+exit 0
