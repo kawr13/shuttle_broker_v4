@@ -28,10 +28,12 @@ async def main(config_file: Optional[str] = None):
     # logger.info("Сервер метрик Prometheus запущен на порту 9090")
     logger.info("Сервер метрик Prometheus отключен для тестирования")
     
-    # Запускаем API-сервер для эндпоинта /status
-    from api.status_endpoint import start_api_server
-    api_runner = await start_api_server(port=8000)
-    logger.info("API-сервер запущен на порту 8080")
+    # Запускаем API-сервер для эндпоинта /status (временно отключено)
+    # from api.status_endpoint import start_api_server
+    # api_runner = await start_api_server(port=8000)
+    # logger.info("API-сервер запущен на порту 8080")
+    logger.info("API-сервер отключен для тестирования")
+    api_runner = None
     
     # Инициализируем менеджер хранилища Redis
     from storage_module.redis_storage_manager import get_redis_storage_manager
@@ -122,13 +124,14 @@ async def shutdown():
     await redis_storage_manager.stop()
     logger.info("Менеджер хранилища Redis остановлен")
     
-    # Останавливаем API-сервер
-    from api.status_endpoint import stop_api_server
-    try:
-        await stop_api_server(api_runner)
-        logger.info("API-сервер остановлен")
-    except Exception as e:
-        logger.error(f"Ошибка при остановке API-сервера: {e}")
+    # Останавливаем API-сервер (если он был запущен)
+    # from api.status_endpoint import stop_api_server
+    # try:
+    #     await stop_api_server(api_runner)
+    #     logger.info("API-сервер остановлен")
+    # except Exception as e:
+    #     logger.error(f"Ошибка при остановке API-сервера: {e}")
+    logger.info("API-сервер не запускался (тестовый режим)")
     
     # Останавливаем цикл событий
     asyncio.get_event_loop().stop()
