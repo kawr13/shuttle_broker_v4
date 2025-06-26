@@ -99,9 +99,9 @@ class ShuttleCommand:
             command_str = self.command_type.value
         
         # Добавляем терминатор CRLF (\r\n), если его нет
-        if not command_str.endswith('\r\n'):
-            command_str = command_str.rstrip('\n')  # Удаляем существующий LF, если есть
-            command_str += '\r\n'
+        # Сначала удаляем все возможные терминаторы для обеспечения чистого формата
+        command_str = command_str.rstrip('\r\n')
+        command_str += '\r\n'
         
         return command_str
     

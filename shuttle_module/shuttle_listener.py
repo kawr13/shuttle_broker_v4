@@ -254,9 +254,12 @@ class ShuttleListener:
             writer = self.connections[shuttle_id]
             
             # Добавляем терминатор CRLF (\r\n), если его нет
-            if not message.endswith('\r\n'):
-                message = message.rstrip('\n')  # Удаляем существующий LF, если есть
-                message += '\r\n'
+            # Сначала удаляем все возможные терминаторы для обеспечения чистого формата
+            message = message.rstrip('\r\n')
+            message += '\r\n'
+            
+            # Добавляем подробное логирование для отладки
+            logger.debug(f"Отправляем сообщение шаттлу {shuttle_id} в байтах: {message.encode('utf-8')!r}")
             
             writer.write(message.encode('utf-8'))
             await writer.drain()

@@ -101,6 +101,9 @@ class ShuttleClient:
         command_str = command.to_string()
         try:
             config = get_config()
+            # Добавляем подробное логирование для отладки
+            logger.debug(f"Отправляем команду шаттлу {self.shuttle_id} в байтах: {command_str.encode('utf-8')!r}")
+            
             self.writer.write(command_str.encode('utf-8'))
             await asyncio.wait_for(self.writer.drain(), timeout=config.tcp_write_timeout)
             
