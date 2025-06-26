@@ -322,12 +322,8 @@ class ShuttleClient:
             except Exception as e:
                 logger.error(f"Ошибка в обработчике сообщений для шаттла {self.shuttle_id}: {e}")
         
-        # Отправляем MRCD в ответ на сообщение, если это не MRCD
-        if message != ShuttleCommandEnum.MRCD.value:
-            from shuttle_module.shuttle_listener import get_shuttle_listener
-            shuttle_listener = get_shuttle_listener()
-            await shuttle_listener.send_message(self.shuttle_id, ShuttleCommandEnum.MRCD.value)
-            logger.info(f"Отправлен MRCD в ответ на сообщение от шаттла {shuttle_id}: '{message}'")
+        # MRCD отправляется через ShuttleListener, чтобы избежать дублирования
+        # Отправка MRCD обрабатывается в shuttle_listener.py
     
     async def _request_shuttle_status(self):
         """Запрашивает статус шаттла при подключении"""

@@ -4,7 +4,7 @@ from typing import Dict, List, Optional, Any, Callable
 
 from core.config import get_config
 from core.logging import get_logger
-from shuttle_module.commands import ShuttleCommand, ShuttleStatus
+from shuttle_module.commands import ShuttleCommand, ShuttleCommandEnum, ShuttleStatus
 from shuttle_module.shuttle_client import ShuttleClient
 from shuttle_module.shuttle_state import ShuttleState
 
@@ -287,9 +287,9 @@ class ShuttleManager:
         
         # Проверяем, является ли команда высокоприоритетной
         high_priority = command in [
-            ShuttleCommand.HOME.value,
-            ShuttleCommand.STATUS.value,
-            ShuttleCommand.MRCD.value
+            ShuttleCommandEnum.HOME.value,
+            ShuttleCommandEnum.STATUS.value,
+            ShuttleCommandEnum.MRCD.value
         ]
         
         # Ищем свободный шаттл

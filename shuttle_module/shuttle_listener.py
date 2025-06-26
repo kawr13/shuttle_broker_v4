@@ -160,14 +160,19 @@ class ShuttleListener:
                                 logger.error(f"Ошибка в обработчике сообщений для шаттла {shuttle_id}: {e}")
                         else:
                             logger.warning(f"Нет обработчика сообщений для шаттла {shuttle_id}, сообщение: '{message}'")
+                            # Для неизвестных шаттлов все равно отправляем MRCD
+                            if message != "MRCD":
+                                await self.send_message(shuttle_id, "MRCD")
+                                logger.info(f"Отправлен MRCD неизвестному шаттлу {shuttle_id}")
                     except UnicodeDecodeError:
                         # Если не UTF-8, выводим в сыром виде
                         logger.info(f"Получено сырое сообщение от шаттла {shuttle_id}: {data.hex()}")
                         # Для сырых сообщений тоже отправляем MRCD
                         try:
                             await self.send_message(shuttle_id, "MRCD")
-                        except Exception:
-                            pass
+                            logger.info(f"Отправлен MRCD на сырое сообщение от {shuttle_id}")
+                        except Exception as e:
+                            logger.error(f"Ошибка отправки MRCD на сырое сообщение: {e}")
                         
                 except asyncio.CancelledError:
                     raise
@@ -226,14 +231,15 @@ class ShuttleListener:
         logger.info(f"Получено сообщение от шаттла {shuttle_id} через fallback обработчик: '{message}'")
         
         # Отправляем MRCD в ответ на любое сообщение
-        if message != "MRCD":
-            await self.send_message(shuttle_id, "MRCD")
-            logger.info(f"Отправлен MRCD шаттлу {shuttle_id}")
+        if message.strip() != "MRCD":
+            try:
+                await self.send_message(shuttle_id, "MRCD")
+                logger.info(f"Отправлен MRCD шаттлу {shuttle_id}")
+            except Exception as e:
+                logger.error(f"Ошибка отправки MRCD шаттлу {shuttle_id}: {e}")
         
-        # Запрашиваем статус если не получили его
-        if not message.startswith("STATUS="):
-            await self.send_message(shuttle_id, "STATUS")
-            logger.info(f"Запрошен статус шаттла {shuttle_id}")
+        # Не запрашиваем статус автоматически, чтобы не создавать лишний трафик
+        # Статус будет запрошен при необходимости
     
     def register_message_handler(self, shuttle_id: str, handler: Callable[[str, str], Any]):
         """Регистрирует обработчик сообщений для шаттла"""
