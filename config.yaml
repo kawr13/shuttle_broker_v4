@@ -11,6 +11,26 @@ redis:
 shuttle_health_check_interval: 30
 shuttle_listener_port: 8181
 shuttles:
+  shuttle_141:
+    command_port: 2000
+    host: 10.181.80.141
+    response_port: 5000
+    shuttle_health_check_interval: 10
+  shuttle_146:
+    command_port: 2000
+    host: 10.181.80.146
+    response_port: 5000
+    shuttle_health_check_interval: 10
+  shuttle_150:
+    command_port: 2000
+    host: 10.181.80.150
+    response_port: 5000
+    shuttle_health_check_interval: 10
+  shuttle_155:
+    command_port: 2000
+    host: 10.181.80.155
+    response_port: 5000
+    shuttle_health_check_interval: 10
   shuttle_2:
     command_port: 2000
     host: 10.10.10.12
@@ -74,6 +94,10 @@ stock_to_shuttle:
   - test_shuttle_102
   - test_shuttle_103
   - test_shuttle_104
+  - shuttle_141
+  - shuttle_146
+  - shuttle_150
+  - shuttle_155
 tcp_connect_timeout: 5.0
 tcp_read_timeout: 20.0
 tcp_write_timeout: 5.0
