@@ -1,11 +1,7 @@
 shuttles:
+  # Шаттлы будут автоматически добавляться при подключении
   virtual_shuttle_1:
     host: "10.181.80.134"
-    command_port: 2000
-    response_port: 5000
-    shuttle_health_check_interval: 10
-  shuttle_2:
-    host: "10.10.10.12"
     command_port: 2000
     response_port: 5000
     shuttle_health_check_interval: 10
@@ -13,8 +9,7 @@ shuttles:
 stock_to_shuttle:
   Главный:
     - virtual_shuttle_1
-  Второй склад:
-    - shuttle_2
+  # Новые шаттлы будут автоматически добавляться в склад "Главный"
 
 wms:
   api_url: "http://10.181.80.30:8080/"

@@ -3,11 +3,11 @@ import time
 from typing import Dict, Set
 
 from core.config import get_config
-from core.logging import get_logger
+from core.logging import logger
 from shuttle_module.shuttle_client import ShuttleClient
 from shuttle_module.commands import ShuttleCommandEnum, ShuttleCommand, ShuttleStatus
 
-logger = get_logger()
+
 
 class ShuttleMonitor:
     """Монитор состояния шаттлов"""

@@ -3,12 +3,11 @@ import time
 from typing import Dict, List, Optional, Any, Callable
 
 from core.config import get_config
-from core.logging import get_logger
+from core.logging import logger
 from shuttle_module.commands import ShuttleCommand, ShuttleStatus
 from shuttle_module.shuttle_client import ShuttleClient
 from shuttle_module.shuttle_state import ShuttleState
 
-logger = get_logger()
 
 
 class ShuttleManager:

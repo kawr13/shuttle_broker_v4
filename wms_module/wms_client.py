@@ -8,11 +8,10 @@ from typing import Dict, List, Optional, Any
 import aiohttp
 
 from core.config import get_config
-from core.logging import get_logger
+from core.logging import logger
 from shuttle_module.commands import ShuttleCommandEnum
 from utils.retry import retry_async
 
-logger = get_logger()
 
 
 class WmsClient:

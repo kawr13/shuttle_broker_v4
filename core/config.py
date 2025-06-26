@@ -191,3 +191,10 @@ def get_config() -> GatewayConfig:
     if config is None:
         config = load_config()
     return config
+
+
+def reload_config(config_file: Optional[str] = None) -> GatewayConfig:
+    """Перезагружает конфигурацию из файла"""
+    global config
+    config = load_config(config_file)
+    return config

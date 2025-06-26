@@ -5,14 +5,13 @@ from datetime import datetime
 from typing import Dict, List, Optional, Any
 
 from core.config import get_config
-from core.logging import get_logger
+from core.logging import logger
 from shuttle_module.commands import ShuttleCommand
 from shuttle_module.shuttle_manager import get_shuttle_manager
 from utils.retry import retry_async
 from utils.task_wrapper import wrap_async
 from wms_module.wms_client import WmsClient
 
-logger = get_logger()
 
 
 class WmsIntegration:
