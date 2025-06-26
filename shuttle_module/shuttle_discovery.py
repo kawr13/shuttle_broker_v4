@@ -202,11 +202,11 @@ class ShuttleDiscovery:
             )
             
             # Запрашиваем статус
-            writer.write(b"STATUS\n")
+            writer.write(b"STATUS\r\n")
             await writer.drain()
             
             try:
-                data = await asyncio.wait_for(reader.readuntil(b'\n'), timeout=2.0)
+                data = await asyncio.wait_for(reader.readuntil('\r\n'), timeout=2.0)
                 response = data.decode('utf-8').strip()
                 if response.startswith("STATUS="):
                     shuttle.status = response.split("=", 1)[1]
@@ -218,7 +218,7 @@ class ShuttleDiscovery:
             await writer.drain()
             
             try:
-                data = await asyncio.wait_for(reader.readuntil(b'\n'), timeout=2.0)
+                data = await asyncio.wait_for(reader.readuntil('\r\n'), timeout=2.0)
                 response = data.decode('utf-8').strip()
                 if response.startswith("BATTERY="):
                     shuttle.battery_level = response.split("=", 1)[1]
