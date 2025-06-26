@@ -32,8 +32,9 @@ class ShuttleManager:
         # Загружаем конфигурацию
         config = get_config()
         
-        # Инициализируем шаттлы
-        for shuttle_id, shuttle_config in config.shuttles.items():
+        # Инициализируем шаттлы (создаем копию словаря для безопасной итерации)
+        shuttles_copy = dict(config.shuttles.items())
+        for shuttle_id, shuttle_config in shuttles_copy.items():
             await self.add_shuttle(shuttle_id, shuttle_config)
         
         # Запускаем воркеры для обработки команд
@@ -292,8 +293,9 @@ class ShuttleManager:
             ShuttleCommandEnum.MRCD.value
         ]
         
-        # Ищем свободный шаттл
-        for shuttle_id in shuttles:
+        # Ищем свободный шаттл (создаем копию списка для безопасной итерации)
+        shuttles_copy = list(shuttles)
+        for shuttle_id in shuttles_copy:
             if shuttle_id not in self.shuttles:
                 continue
             
@@ -315,8 +317,9 @@ class ShuttleManager:
         
         while self.running:
             try:
-                # Проверяем все шаттлы
-                for shuttle_id in self.shuttles:
+                # Проверяем все шаттлы (создаем копию списка ключей)
+                shuttle_ids = list(self.shuttles.keys())
+                for shuttle_id in shuttle_ids:
                     # Пропускаем шаттлы с заблокированными очередями
                     if self.command_locks[shuttle_id].locked():
                         continue

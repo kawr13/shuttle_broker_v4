@@ -198,3 +198,609 @@
 2025-06-27 02:52:06,223 - shuttle_gateway - ERROR - Не удалось отправить команду STATUS шаттлу shuttle_155
 2025-06-27 02:52:06,223 - shuttle_gateway - INFO - Запрошен статус шаттла shuttle_155
 2025-06-27 02:52:06,223 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_2 (10.10.10.12:2000)
+2025-06-27 02:52:11,247 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_2: 
+2025-06-27 02:52:11,248 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_2 (10.10.10.12:2000)
+2025-06-27 02:52:11,248 - shuttle_gateway - ERROR - Не удалось отправить команду STATUS шаттлу shuttle_2
+2025-06-27 02:52:11,248 - shuttle_gateway - INFO - Запрошен статус шаттла shuttle_2
+2025-06-27 02:52:11,248 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_1 (10.181.80.100:2000)
+2025-06-27 02:52:16,249 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_1: 
+2025-06-27 02:52:16,250 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_1 (10.181.80.100:2000)
+2025-06-27 02:52:16,250 - shuttle_gateway - ERROR - Не удалось отправить команду STATUS шаттлу test_shuttle_1
+2025-06-27 02:52:16,250 - shuttle_gateway - INFO - Запрошен статус шаттла test_shuttle_1
+2025-06-27 02:52:16,250 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_100 (10.181.80.100:2000)
+2025-06-27 02:52:21,276 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_100: 
+2025-06-27 02:52:21,277 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_100 (10.181.80.100:2000)
+2025-06-27 02:52:21,277 - shuttle_gateway - ERROR - Не удалось отправить команду STATUS шаттлу test_shuttle_100
+2025-06-27 02:52:21,277 - shuttle_gateway - INFO - Запрошен статус шаттла test_shuttle_100
+2025-06-27 02:52:21,277 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_101 (10.181.80.101:2000)
+2025-06-27 02:52:26,278 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_101: 
+2025-06-27 02:52:26,279 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_101 (10.181.80.101:2000)
+2025-06-27 02:52:26,279 - shuttle_gateway - ERROR - Не удалось отправить команду STATUS шаттлу test_shuttle_101
+2025-06-27 02:52:26,279 - shuttle_gateway - INFO - Запрошен статус шаттла test_shuttle_101
+2025-06-27 02:52:26,279 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_102 (10.181.80.102:2000)
+2025-06-27 02:52:31,284 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_102: 
+2025-06-27 02:52:31,285 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_102 (10.181.80.102:2000)
+2025-06-27 02:52:31,285 - shuttle_gateway - ERROR - Не удалось отправить команду STATUS шаттлу test_shuttle_102
+2025-06-27 02:52:31,285 - shuttle_gateway - INFO - Запрошен статус шаттла test_shuttle_102
+2025-06-27 02:52:31,285 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_103 (10.181.80.103:2000)
+2025-06-27 02:52:36,288 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_103: 
+2025-06-27 02:52:36,288 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_103 (10.181.80.103:2000)
+2025-06-27 02:52:36,288 - shuttle_gateway - ERROR - Не удалось отправить команду STATUS шаттлу test_shuttle_103
+2025-06-27 02:52:36,288 - shuttle_gateway - INFO - Запрошен статус шаттла test_shuttle_103
+2025-06-27 02:52:36,288 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_104 (10.181.80.104:2000)
+2025-06-27 02:52:41,313 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_104: 
+2025-06-27 02:52:41,314 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_104 (10.181.80.104:2000)
+2025-06-27 02:52:41,314 - shuttle_gateway - ERROR - Не удалось отправить команду STATUS шаттлу test_shuttle_104
+2025-06-27 02:52:41,314 - shuttle_gateway - INFO - Запрошен статус шаттла test_shuttle_104
+2025-06-27 02:52:41,314 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_2 (10.181.80.101:2000)
+2025-06-27 02:52:46,315 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_2: 
+2025-06-27 02:52:46,315 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_2 (10.181.80.101:2000)
+2025-06-27 02:52:46,315 - shuttle_gateway - ERROR - Не удалось отправить команду STATUS шаттлу test_shuttle_2
+2025-06-27 02:52:46,315 - shuttle_gateway - INFO - Запрошен статус шаттла test_shuttle_2
+2025-06-27 02:52:46,315 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_3 (10.181.80.102:2000)
+2025-06-27 02:52:51,340 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_3: 
+2025-06-27 02:52:51,341 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_3 (10.181.80.102:2000)
+2025-06-27 02:52:51,341 - shuttle_gateway - ERROR - Не удалось отправить команду STATUS шаттлу test_shuttle_3
+2025-06-27 02:52:51,341 - shuttle_gateway - INFO - Запрошен статус шаттла test_shuttle_3
+2025-06-27 02:52:51,341 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом virtual_shuttle_1 (10.181.80.134:2000)
+2025-06-27 02:52:56,342 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу virtual_shuttle_1: 
+2025-06-27 02:52:56,342 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу virtual_shuttle_1 (10.181.80.134:2000)
+2025-06-27 02:52:56,342 - shuttle_gateway - ERROR - Не удалось отправить команду STATUS шаттлу virtual_shuttle_1
+2025-06-27 02:52:56,342 - shuttle_gateway - INFO - Запрошен статус шаттла virtual_shuttle_1
+2025-06-27 02:52:56,343 - shuttle_gateway - INFO - Менеджер шаттлов запущен (14 шаттлов, 2 воркеров)
+2025-06-27 02:52:56,343 - shuttle_gateway - INFO - Воркер обработки команд 1 запущен
+2025-06-27 02:52:56,343 - shuttle_gateway - INFO - Воркер обработки команд 2 запущен
+2025-06-27 02:52:56,344 - shuttle_gateway - INFO - Загружено 14 состояний шаттлов из Redis
+2025-06-27 02:52:56,344 - shuttle_gateway - INFO - Загружено состояние шаттла shuttle_146: статус=ShuttleStatus.ERROR, ячейка=None
+2025-06-27 02:52:56,344 - shuttle_gateway - INFO - Загружено состояние шаттла test_shuttle_1: статус=ShuttleStatus.ERROR, ячейка=None
+2025-06-27 02:52:56,344 - shuttle_gateway - INFO - Загружено состояние шаттла test_shuttle_104: статус=ShuttleStatus.ERROR, ячейка=None
+2025-06-27 02:52:56,344 - shuttle_gateway - INFO - Загружено состояние шаттла shuttle_155: статус=ShuttleStatus.ERROR, ячейка=None
+2025-06-27 02:52:56,344 - shuttle_gateway - INFO - Загружено состояние шаттла shuttle_141: статус=ShuttleStatus.ERROR, ячейка=None
+2025-06-27 02:52:56,344 - shuttle_gateway - INFO - Загружено состояние шаттла test_shuttle_101: статус=ShuttleStatus.ERROR, ячейка=None
+2025-06-27 02:52:56,344 - shuttle_gateway - INFO - Загружено состояние шаттла shuttle_150: статус=ShuttleStatus.ERROR, ячейка=None
+2025-06-27 02:52:56,344 - shuttle_gateway - INFO - Загружено состояние шаттла test_shuttle_2: статус=ShuttleStatus.ERROR, ячейка=None
+2025-06-27 02:52:56,344 - shuttle_gateway - INFO - Загружено состояние шаттла virtual_shuttle_1: статус=ShuttleStatus.UNKNOWN, ячейка=None
+2025-06-27 02:52:56,345 - shuttle_gateway - INFO - Загружено состояние шаттла test_shuttle_102: статус=ShuttleStatus.ERROR, ячейка=None
+2025-06-27 02:52:56,345 - shuttle_gateway - INFO - Загружено состояние шаттла test_shuttle_100: статус=ShuttleStatus.ERROR, ячейка=None
+2025-06-27 02:52:56,345 - shuttle_gateway - INFO - Загружено состояние шаттла test_shuttle_103: статус=ShuttleStatus.ERROR, ячейка=None
+2025-06-27 02:52:56,345 - shuttle_gateway - INFO - Загружено состояние шаттла test_shuttle_3: статус=ShuttleStatus.ERROR, ячейка=None
+2025-06-27 02:52:56,345 - shuttle_gateway - INFO - Загружено состояние шаттла shuttle_2: статус=ShuttleStatus.ERROR, ячейка=None
+2025-06-27 02:52:56,345 - shuttle_gateway - INFO - Монитор шаттлов запущен
+2025-06-27 02:52:56,345 - shuttle_gateway - INFO - Монитор шаттлов запущен (интервал проверки: 30 сек)
+2025-06-27 02:52:56,346 - shuttle_gateway - INFO - Модуль автоматического обнаружения шаттлов запущен
+2025-06-27 02:52:56,346 - shuttle_gateway - INFO - Модуль автоматического обнаружения шаттлов запущен
+2025-06-27 02:52:56,346 - shuttle_gateway - INFO - Инициализация WMS клиента с URL: http://10.181.80.28:8080/exec
+2025-06-27 02:52:56,346 - shuttle_gateway - INFO - Интеграция с WMS запущена
+2025-06-27 02:52:56,346 - shuttle_gateway - INFO - Интеграция с WMS API запущена (интервал опроса: 5 сек, URL: http://10.181.80.28:8080/exec)
+2025-06-27 02:52:56,347 - shuttle_gateway - INFO - Шаттл shuttle_141 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:52:56,347 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_141 (10.181.80.141:2000)
+2025-06-27 02:52:56,347 - shuttle_gateway - DEBUG - Начинаем сканирование сети для поиска шаттлов
+2025-06-27 02:52:56,417 - shuttle_gateway - INFO - Запущен цикл опроса WMS API
+2025-06-27 02:52:56,417 - shuttle_gateway - INFO - Опрашиваем WMS API (http://10.181.80.28:8080/exec)...
+2025-06-27 02:52:56,417 - shuttle_gateway - INFO - Получаем команды из отгрузок...
+2025-06-27 02:52:56,417 - shuttle_gateway - DEBUG - Запрос отгрузок: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:22:56&p=2025-06-27T02:52:56
+2025-06-27 02:53:01,349 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_141: 
+2025-06-27 02:53:01,349 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_141 (10.181.80.141:2000)
+2025-06-27 02:53:01,350 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_141
+2025-06-27 02:53:01,350 - shuttle_gateway - INFO - Шаттл shuttle_146 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:53:01,350 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_146 (10.181.80.146:2000)
+2025-06-27 02:53:06,351 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_146: 
+2025-06-27 02:53:06,352 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_146 (10.181.80.146:2000)
+2025-06-27 02:53:06,352 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_146
+2025-06-27 02:53:06,352 - shuttle_gateway - INFO - Шаттл shuttle_150 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:53:06,352 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_150 (10.181.80.150:2000)
+2025-06-27 02:53:06,581 - shuttle_gateway - ERROR - Ошибка при получении отгрузок: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:22:56&p=2025-06-27T02:52:56
+2025-06-27 02:53:06,581 - shuttle_gateway - INFO - Получено 0 команд из отгрузок
+2025-06-27 02:53:06,581 - shuttle_gateway - INFO - Получаем команды из перемещений...
+2025-06-27 02:53:06,582 - shuttle_gateway - DEBUG - Запрос перемещений: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:22:56&p=2025-06-27T02:53:06
+2025-06-27 02:53:11,355 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_150: 
+2025-06-27 02:53:11,355 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_150 (10.181.80.150:2000)
+2025-06-27 02:53:11,355 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_150
+2025-06-27 02:53:11,355 - shuttle_gateway - INFO - Шаттл shuttle_155 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:53:11,356 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_155 (10.181.80.155:2000)
+2025-06-27 02:53:16,356 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_155: 
+2025-06-27 02:53:16,356 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_155 (10.181.80.155:2000)
+2025-06-27 02:53:16,357 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_155
+2025-06-27 02:53:16,357 - shuttle_gateway - INFO - Шаттл shuttle_2 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:53:16,357 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_2 (10.10.10.12:2000)
+2025-06-27 02:53:17,581 - shuttle_gateway - ERROR - Ошибка при получении перемещений: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:22:56&p=2025-06-27T02:53:06
+2025-06-27 02:53:17,582 - shuttle_gateway - INFO - Получено 0 команд из перемещений
+2025-06-27 02:53:17,582 - shuttle_gateway - INFO - Опрос WMS API завершен, следующий опрос через 5 секунд
+2025-06-27 02:53:21,360 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_2: 
+2025-06-27 02:53:21,361 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_2 (10.10.10.12:2000)
+2025-06-27 02:53:21,361 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_2
+2025-06-27 02:53:21,361 - shuttle_gateway - INFO - Шаттл test_shuttle_1 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:53:21,361 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_1 (10.181.80.100:2000)
+2025-06-27 02:53:22,583 - shuttle_gateway - INFO - Опрашиваем WMS API (http://10.181.80.28:8080/exec)...
+2025-06-27 02:53:22,583 - shuttle_gateway - INFO - Получаем команды из отгрузок...
+2025-06-27 02:53:22,583 - shuttle_gateway - DEBUG - Запрос отгрузок: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:53:17&p=2025-06-27T02:53:22
+2025-06-27 02:53:26,361 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_1: 
+2025-06-27 02:53:26,361 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_1 (10.181.80.100:2000)
+2025-06-27 02:53:26,362 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_1
+2025-06-27 02:53:26,362 - shuttle_gateway - INFO - Шаттл test_shuttle_100 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:53:26,362 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_100 (10.181.80.100:2000)
+2025-06-27 02:53:31,364 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_100: 
+2025-06-27 02:53:31,365 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_100 (10.181.80.100:2000)
+2025-06-27 02:53:31,365 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_100
+2025-06-27 02:53:31,365 - shuttle_gateway - INFO - Шаттл test_shuttle_101 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:53:31,365 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_101 (10.181.80.101:2000)
+2025-06-27 02:53:32,491 - shuttle_gateway - DEBUG - Начинаем сканирование сети для поиска шаттлов
+2025-06-27 02:53:33,581 - shuttle_gateway - ERROR - Ошибка при получении отгрузок: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:53:17&p=2025-06-27T02:53:22
+2025-06-27 02:53:33,581 - shuttle_gateway - INFO - Получено 0 команд из отгрузок
+2025-06-27 02:53:33,581 - shuttle_gateway - INFO - Получаем команды из перемещений...
+2025-06-27 02:53:33,581 - shuttle_gateway - DEBUG - Запрос перемещений: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:53:17&p=2025-06-27T02:53:33
+2025-06-27 02:53:36,367 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_101: 
+2025-06-27 02:53:36,367 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_101 (10.181.80.101:2000)
+2025-06-27 02:53:36,367 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_101
+2025-06-27 02:53:36,367 - shuttle_gateway - INFO - Шаттл test_shuttle_102 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:53:36,367 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_102 (10.181.80.102:2000)
+2025-06-27 02:53:41,370 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_102: 
+2025-06-27 02:53:41,370 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_102 (10.181.80.102:2000)
+2025-06-27 02:53:41,370 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_102
+2025-06-27 02:53:41,370 - shuttle_gateway - INFO - Шаттл test_shuttle_103 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:53:41,370 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_103 (10.181.80.103:2000)
+2025-06-27 02:53:44,582 - shuttle_gateway - ERROR - Ошибка при получении перемещений: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:53:17&p=2025-06-27T02:53:33
+2025-06-27 02:53:44,583 - shuttle_gateway - INFO - Получено 0 команд из перемещений
+2025-06-27 02:53:44,583 - shuttle_gateway - INFO - Опрос WMS API завершен, следующий опрос через 5 секунд
+2025-06-27 02:53:46,372 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_103: 
+2025-06-27 02:53:46,372 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_103 (10.181.80.103:2000)
+2025-06-27 02:53:46,373 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_103
+2025-06-27 02:53:46,373 - shuttle_gateway - INFO - Шаттл test_shuttle_104 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:53:46,373 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_104 (10.181.80.104:2000)
+2025-06-27 02:53:49,585 - shuttle_gateway - INFO - Опрашиваем WMS API (http://10.181.80.28:8080/exec)...
+2025-06-27 02:53:49,585 - shuttle_gateway - INFO - Получаем команды из отгрузок...
+2025-06-27 02:53:49,585 - shuttle_gateway - DEBUG - Запрос отгрузок: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:53:44&p=2025-06-27T02:53:49
+2025-06-27 02:53:51,375 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_104: 
+2025-06-27 02:53:51,375 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_104 (10.181.80.104:2000)
+2025-06-27 02:53:51,375 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_104
+2025-06-27 02:53:51,375 - shuttle_gateway - INFO - Шаттл test_shuttle_2 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:53:51,376 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_2 (10.181.80.101:2000)
+2025-06-27 02:53:56,377 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_2: 
+2025-06-27 02:53:56,377 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_2 (10.181.80.101:2000)
+2025-06-27 02:53:56,377 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_2
+2025-06-27 02:53:56,377 - shuttle_gateway - INFO - Шаттл test_shuttle_3 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:53:56,377 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_3 (10.181.80.102:2000)
+2025-06-27 02:54:00,582 - shuttle_gateway - ERROR - Ошибка при получении отгрузок: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:53:44&p=2025-06-27T02:53:49
+2025-06-27 02:54:00,583 - shuttle_gateway - INFO - Получено 0 команд из отгрузок
+2025-06-27 02:54:00,583 - shuttle_gateway - INFO - Получаем команды из перемещений...
+2025-06-27 02:54:00,583 - shuttle_gateway - DEBUG - Запрос перемещений: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:53:44&p=2025-06-27T02:54:00
+2025-06-27 02:54:01,379 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_3: 
+2025-06-27 02:54:01,379 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_3 (10.181.80.102:2000)
+2025-06-27 02:54:01,379 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_3
+2025-06-27 02:54:01,379 - shuttle_gateway - INFO - Шаттл virtual_shuttle_1 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:54:01,379 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом virtual_shuttle_1 (10.181.80.134:2000)
+2025-06-27 02:54:06,380 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу virtual_shuttle_1: 
+2025-06-27 02:54:06,381 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу virtual_shuttle_1 (10.181.80.134:2000)
+2025-06-27 02:54:06,381 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом virtual_shuttle_1
+2025-06-27 02:54:08,615 - shuttle_gateway - DEBUG - Начинаем сканирование сети для поиска шаттлов
+2025-06-27 02:54:11,382 - shuttle_gateway - INFO - Шаттл shuttle_141 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:54:11,382 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_141 (10.181.80.141:2000)
+2025-06-27 02:54:11,582 - shuttle_gateway - ERROR - Ошибка при получении перемещений: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:53:44&p=2025-06-27T02:54:00
+2025-06-27 02:54:11,582 - shuttle_gateway - INFO - Получено 0 команд из перемещений
+2025-06-27 02:54:11,582 - shuttle_gateway - INFO - Опрос WMS API завершен, следующий опрос через 5 секунд
+2025-06-27 02:54:16,384 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_141: 
+2025-06-27 02:54:16,384 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_141 (10.181.80.141:2000)
+2025-06-27 02:54:16,384 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_141
+2025-06-27 02:54:16,384 - shuttle_gateway - INFO - Шаттл shuttle_146 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:54:16,384 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_146 (10.181.80.146:2000)
+2025-06-27 02:54:16,583 - shuttle_gateway - INFO - Опрашиваем WMS API (http://10.181.80.28:8080/exec)...
+2025-06-27 02:54:16,583 - shuttle_gateway - INFO - Получаем команды из отгрузок...
+2025-06-27 02:54:16,583 - shuttle_gateway - DEBUG - Запрос отгрузок: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:54:11&p=2025-06-27T02:54:16
+2025-06-27 02:54:21,386 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_146: 
+2025-06-27 02:54:21,386 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_146 (10.181.80.146:2000)
+2025-06-27 02:54:21,386 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_146
+2025-06-27 02:54:21,386 - shuttle_gateway - INFO - Шаттл shuttle_150 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:54:21,387 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_150 (10.181.80.150:2000)
+2025-06-27 02:54:26,388 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_150: 
+2025-06-27 02:54:26,388 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_150 (10.181.80.150:2000)
+2025-06-27 02:54:26,388 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_150
+2025-06-27 02:54:26,388 - shuttle_gateway - INFO - Шаттл shuttle_155 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:54:26,388 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_155 (10.181.80.155:2000)
+2025-06-27 02:54:27,581 - shuttle_gateway - ERROR - Ошибка при получении отгрузок: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:54:11&p=2025-06-27T02:54:16
+2025-06-27 02:54:27,582 - shuttle_gateway - INFO - Получено 0 команд из отгрузок
+2025-06-27 02:54:27,582 - shuttle_gateway - INFO - Получаем команды из перемещений...
+2025-06-27 02:54:27,582 - shuttle_gateway - DEBUG - Запрос перемещений: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:54:11&p=2025-06-27T02:54:27
+2025-06-27 02:54:31,390 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_155: 
+2025-06-27 02:54:31,390 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_155 (10.181.80.155:2000)
+2025-06-27 02:54:31,390 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_155
+2025-06-27 02:54:31,390 - shuttle_gateway - INFO - Шаттл shuttle_2 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:54:31,390 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_2 (10.10.10.12:2000)
+2025-06-27 02:54:36,392 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_2: 
+2025-06-27 02:54:36,393 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_2 (10.10.10.12:2000)
+2025-06-27 02:54:36,393 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_2
+2025-06-27 02:54:36,393 - shuttle_gateway - INFO - Шаттл test_shuttle_1 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:54:36,393 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_1 (10.181.80.100:2000)
+2025-06-27 02:54:38,581 - shuttle_gateway - ERROR - Ошибка при получении перемещений: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:54:11&p=2025-06-27T02:54:27
+2025-06-27 02:54:38,581 - shuttle_gateway - INFO - Получено 0 команд из перемещений
+2025-06-27 02:54:38,581 - shuttle_gateway - INFO - Опрос WMS API завершен, следующий опрос через 5 секунд
+2025-06-27 02:54:41,394 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_1: 
+2025-06-27 02:54:41,394 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_1 (10.181.80.100:2000)
+2025-06-27 02:54:41,394 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_1
+2025-06-27 02:54:41,394 - shuttle_gateway - INFO - Шаттл test_shuttle_100 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:54:41,394 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_100 (10.181.80.100:2000)
+2025-06-27 02:54:43,582 - shuttle_gateway - INFO - Опрашиваем WMS API (http://10.181.80.28:8080/exec)...
+2025-06-27 02:54:43,582 - shuttle_gateway - INFO - Получаем команды из отгрузок...
+2025-06-27 02:54:43,582 - shuttle_gateway - DEBUG - Запрос отгрузок: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:54:38&p=2025-06-27T02:54:43
+2025-06-27 02:54:44,760 - shuttle_gateway - DEBUG - Начинаем сканирование сети для поиска шаттлов
+2025-06-27 02:54:46,395 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_100: 
+2025-06-27 02:54:46,395 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_100 (10.181.80.100:2000)
+2025-06-27 02:54:46,395 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_100
+2025-06-27 02:54:46,395 - shuttle_gateway - INFO - Шаттл test_shuttle_101 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:54:46,395 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_101 (10.181.80.101:2000)
+2025-06-27 02:54:51,399 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_101: 
+2025-06-27 02:54:51,399 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_101 (10.181.80.101:2000)
+2025-06-27 02:54:51,399 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_101
+2025-06-27 02:54:51,399 - shuttle_gateway - INFO - Шаттл test_shuttle_102 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:54:51,400 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_102 (10.181.80.102:2000)
+2025-06-27 02:54:54,582 - shuttle_gateway - ERROR - Ошибка при получении отгрузок: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:54:38&p=2025-06-27T02:54:43
+2025-06-27 02:54:54,582 - shuttle_gateway - INFO - Получено 0 команд из отгрузок
+2025-06-27 02:54:54,582 - shuttle_gateway - INFO - Получаем команды из перемещений...
+2025-06-27 02:54:54,582 - shuttle_gateway - DEBUG - Запрос перемещений: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:54:38&p=2025-06-27T02:54:54
+2025-06-27 02:54:56,400 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_102: 
+2025-06-27 02:54:56,401 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_102 (10.181.80.102:2000)
+2025-06-27 02:54:56,401 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_102
+2025-06-27 02:54:56,401 - shuttle_gateway - INFO - Шаттл test_shuttle_103 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:54:56,401 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_103 (10.181.80.103:2000)
+2025-06-27 02:55:01,403 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_103: 
+2025-06-27 02:55:01,403 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_103 (10.181.80.103:2000)
+2025-06-27 02:55:01,403 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_103
+2025-06-27 02:55:01,404 - shuttle_gateway - INFO - Шаттл test_shuttle_104 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:55:01,404 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_104 (10.181.80.104:2000)
+2025-06-27 02:55:05,581 - shuttle_gateway - ERROR - Ошибка при получении перемещений: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:54:38&p=2025-06-27T02:54:54
+2025-06-27 02:55:05,581 - shuttle_gateway - INFO - Получено 0 команд из перемещений
+2025-06-27 02:55:05,581 - shuttle_gateway - INFO - Опрос WMS API завершен, следующий опрос через 5 секунд
+2025-06-27 02:55:06,405 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_104: 
+2025-06-27 02:55:06,405 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_104 (10.181.80.104:2000)
+2025-06-27 02:55:06,405 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_104
+2025-06-27 02:55:06,405 - shuttle_gateway - INFO - Шаттл test_shuttle_2 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:55:06,405 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_2 (10.181.80.101:2000)
+2025-06-27 02:55:10,582 - shuttle_gateway - INFO - Опрашиваем WMS API (http://10.181.80.28:8080/exec)...
+2025-06-27 02:55:10,582 - shuttle_gateway - INFO - Получаем команды из отгрузок...
+2025-06-27 02:55:10,582 - shuttle_gateway - DEBUG - Запрос отгрузок: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:55:05&p=2025-06-27T02:55:10
+2025-06-27 02:55:11,406 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_2: 
+2025-06-27 02:55:11,406 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_2 (10.181.80.101:2000)
+2025-06-27 02:55:11,406 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_2
+2025-06-27 02:55:11,406 - shuttle_gateway - INFO - Шаттл test_shuttle_3 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:55:11,407 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_3 (10.181.80.102:2000)
+2025-06-27 02:55:16,407 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_3: 
+2025-06-27 02:55:16,407 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_3 (10.181.80.102:2000)
+2025-06-27 02:55:16,408 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_3
+2025-06-27 02:55:16,408 - shuttle_gateway - INFO - Шаттл virtual_shuttle_1 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:55:16,408 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом virtual_shuttle_1 (10.181.80.134:2000)
+2025-06-27 02:55:20,973 - shuttle_gateway - DEBUG - Начинаем сканирование сети для поиска шаттлов
+2025-06-27 02:55:21,411 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу virtual_shuttle_1: 
+2025-06-27 02:55:21,411 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу virtual_shuttle_1 (10.181.80.134:2000)
+2025-06-27 02:55:21,411 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом virtual_shuttle_1
+2025-06-27 02:55:21,581 - shuttle_gateway - ERROR - Ошибка при получении отгрузок: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:55:05&p=2025-06-27T02:55:10
+2025-06-27 02:55:21,582 - shuttle_gateway - INFO - Получено 0 команд из отгрузок
+2025-06-27 02:55:21,582 - shuttle_gateway - INFO - Получаем команды из перемещений...
+2025-06-27 02:55:21,582 - shuttle_gateway - DEBUG - Запрос перемещений: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:55:05&p=2025-06-27T02:55:21
+2025-06-27 02:55:26,412 - shuttle_gateway - INFO - Шаттл shuttle_141 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:55:26,413 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_141 (10.181.80.141:2000)
+2025-06-27 02:55:31,416 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_141: 
+2025-06-27 02:55:31,416 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_141 (10.181.80.141:2000)
+2025-06-27 02:55:31,416 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_141
+2025-06-27 02:55:31,416 - shuttle_gateway - INFO - Шаттл shuttle_146 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:55:31,416 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_146 (10.181.80.146:2000)
+2025-06-27 02:55:32,583 - shuttle_gateway - ERROR - Ошибка при получении перемещений: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:55:05&p=2025-06-27T02:55:21
+2025-06-27 02:55:32,584 - shuttle_gateway - INFO - Получено 0 команд из перемещений
+2025-06-27 02:55:32,584 - shuttle_gateway - INFO - Опрос WMS API завершен, следующий опрос через 5 секунд
+2025-06-27 02:55:36,417 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_146: 
+2025-06-27 02:55:36,418 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_146 (10.181.80.146:2000)
+2025-06-27 02:55:36,418 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_146
+2025-06-27 02:55:36,418 - shuttle_gateway - INFO - Шаттл shuttle_150 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:55:36,418 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_150 (10.181.80.150:2000)
+2025-06-27 02:55:37,587 - shuttle_gateway - INFO - Опрашиваем WMS API (http://10.181.80.28:8080/exec)...
+2025-06-27 02:55:37,587 - shuttle_gateway - INFO - Получаем команды из отгрузок...
+2025-06-27 02:55:37,587 - shuttle_gateway - DEBUG - Запрос отгрузок: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:55:32&p=2025-06-27T02:55:37
+2025-06-27 02:55:41,419 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_150: 
+2025-06-27 02:55:41,419 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_150 (10.181.80.150:2000)
+2025-06-27 02:55:41,420 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_150
+2025-06-27 02:55:41,420 - shuttle_gateway - INFO - Шаттл shuttle_155 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:55:41,420 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_155 (10.181.80.155:2000)
+2025-06-27 02:55:46,421 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_155: 
+2025-06-27 02:55:46,421 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_155 (10.181.80.155:2000)
+2025-06-27 02:55:46,421 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_155
+2025-06-27 02:55:46,421 - shuttle_gateway - INFO - Шаттл shuttle_2 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:55:46,421 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_2 (10.10.10.12:2000)
+2025-06-27 02:55:48,582 - shuttle_gateway - ERROR - Ошибка при получении отгрузок: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:55:32&p=2025-06-27T02:55:37
+2025-06-27 02:55:48,583 - shuttle_gateway - INFO - Получено 0 команд из отгрузок
+2025-06-27 02:55:48,583 - shuttle_gateway - INFO - Получаем команды из перемещений...
+2025-06-27 02:55:48,583 - shuttle_gateway - DEBUG - Запрос перемещений: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:55:32&p=2025-06-27T02:55:48
+2025-06-27 02:55:51,423 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_2: 
+2025-06-27 02:55:51,423 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_2 (10.10.10.12:2000)
+2025-06-27 02:55:51,424 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_2
+2025-06-27 02:55:51,424 - shuttle_gateway - INFO - Шаттл test_shuttle_1 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:55:51,424 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_1 (10.181.80.100:2000)
+2025-06-27 02:55:56,425 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_1: 
+2025-06-27 02:55:56,425 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_1 (10.181.80.100:2000)
+2025-06-27 02:55:56,426 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_1
+2025-06-27 02:55:56,426 - shuttle_gateway - INFO - Шаттл test_shuttle_100 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:55:56,426 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_100 (10.181.80.100:2000)
+2025-06-27 02:55:57,096 - shuttle_gateway - DEBUG - Начинаем сканирование сети для поиска шаттлов
+2025-06-27 02:55:59,583 - shuttle_gateway - ERROR - Ошибка при получении перемещений: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:55:32&p=2025-06-27T02:55:48
+2025-06-27 02:55:59,583 - shuttle_gateway - INFO - Получено 0 команд из перемещений
+2025-06-27 02:55:59,583 - shuttle_gateway - INFO - Опрос WMS API завершен, следующий опрос через 5 секунд
+2025-06-27 02:56:01,427 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_100: 
+2025-06-27 02:56:01,427 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_100 (10.181.80.100:2000)
+2025-06-27 02:56:01,428 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_100
+2025-06-27 02:56:01,428 - shuttle_gateway - INFO - Шаттл test_shuttle_101 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:56:01,428 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_101 (10.181.80.101:2000)
+2025-06-27 02:56:04,585 - shuttle_gateway - INFO - Опрашиваем WMS API (http://10.181.80.28:8080/exec)...
+2025-06-27 02:56:04,585 - shuttle_gateway - INFO - Получаем команды из отгрузок...
+2025-06-27 02:56:04,585 - shuttle_gateway - DEBUG - Запрос отгрузок: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:55:59&p=2025-06-27T02:56:04
+2025-06-27 02:56:06,428 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_101: 
+2025-06-27 02:56:06,428 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_101 (10.181.80.101:2000)
+2025-06-27 02:56:06,428 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_101
+2025-06-27 02:56:06,429 - shuttle_gateway - INFO - Шаттл test_shuttle_102 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:56:06,429 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_102 (10.181.80.102:2000)
+2025-06-27 02:56:11,430 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_102: 
+2025-06-27 02:56:11,430 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_102 (10.181.80.102:2000)
+2025-06-27 02:56:11,430 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_102
+2025-06-27 02:56:11,430 - shuttle_gateway - INFO - Шаттл test_shuttle_103 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:56:11,430 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_103 (10.181.80.103:2000)
+2025-06-27 02:56:15,581 - shuttle_gateway - ERROR - Ошибка при получении отгрузок: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:55:59&p=2025-06-27T02:56:04
+2025-06-27 02:56:15,581 - shuttle_gateway - INFO - Получено 0 команд из отгрузок
+2025-06-27 02:56:15,581 - shuttle_gateway - INFO - Получаем команды из перемещений...
+2025-06-27 02:56:15,582 - shuttle_gateway - DEBUG - Запрос перемещений: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:55:59&p=2025-06-27T02:56:15
+2025-06-27 02:56:16,431 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_103: 
+2025-06-27 02:56:16,432 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_103 (10.181.80.103:2000)
+2025-06-27 02:56:16,432 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_103
+2025-06-27 02:56:16,432 - shuttle_gateway - INFO - Шаттл test_shuttle_104 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:56:16,432 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_104 (10.181.80.104:2000)
+2025-06-27 02:56:21,434 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_104: 
+2025-06-27 02:56:21,434 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_104 (10.181.80.104:2000)
+2025-06-27 02:56:21,434 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_104
+2025-06-27 02:56:21,434 - shuttle_gateway - INFO - Шаттл test_shuttle_2 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:56:21,434 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_2 (10.181.80.101:2000)
+2025-06-27 02:56:26,435 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_2: 
+2025-06-27 02:56:26,435 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_2 (10.181.80.101:2000)
+2025-06-27 02:56:26,435 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_2
+2025-06-27 02:56:26,435 - shuttle_gateway - INFO - Шаттл test_shuttle_3 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:56:26,435 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_3 (10.181.80.102:2000)
+2025-06-27 02:56:26,581 - shuttle_gateway - ERROR - Ошибка при получении перемещений: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:55:59&p=2025-06-27T02:56:15
+2025-06-27 02:56:26,581 - shuttle_gateway - INFO - Получено 0 команд из перемещений
+2025-06-27 02:56:26,581 - shuttle_gateway - INFO - Опрос WMS API завершен, следующий опрос через 5 секунд
+2025-06-27 02:56:31,437 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_3: 
+2025-06-27 02:56:31,437 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_3 (10.181.80.102:2000)
+2025-06-27 02:56:31,437 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_3
+2025-06-27 02:56:31,437 - shuttle_gateway - INFO - Шаттл virtual_shuttle_1 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:56:31,437 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом virtual_shuttle_1 (10.181.80.134:2000)
+2025-06-27 02:56:31,583 - shuttle_gateway - INFO - Опрашиваем WMS API (http://10.181.80.28:8080/exec)...
+2025-06-27 02:56:31,583 - shuttle_gateway - INFO - Получаем команды из отгрузок...
+2025-06-27 02:56:31,583 - shuttle_gateway - DEBUG - Запрос отгрузок: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:56:26&p=2025-06-27T02:56:31
+2025-06-27 02:56:33,250 - shuttle_gateway - DEBUG - Начинаем сканирование сети для поиска шаттлов
+2025-06-27 02:56:36,438 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу virtual_shuttle_1: 
+2025-06-27 02:56:36,438 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу virtual_shuttle_1 (10.181.80.134:2000)
+2025-06-27 02:56:36,438 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом virtual_shuttle_1
+2025-06-27 02:56:41,442 - shuttle_gateway - INFO - Шаттл shuttle_141 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:56:41,442 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_141 (10.181.80.141:2000)
+2025-06-27 02:56:42,582 - shuttle_gateway - ERROR - Ошибка при получении отгрузок: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:56:26&p=2025-06-27T02:56:31
+2025-06-27 02:56:42,582 - shuttle_gateway - INFO - Получено 0 команд из отгрузок
+2025-06-27 02:56:42,582 - shuttle_gateway - INFO - Получаем команды из перемещений...
+2025-06-27 02:56:42,582 - shuttle_gateway - DEBUG - Запрос перемещений: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:56:26&p=2025-06-27T02:56:42
+2025-06-27 02:56:46,443 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_141: 
+2025-06-27 02:56:46,443 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_141 (10.181.80.141:2000)
+2025-06-27 02:56:46,443 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_141
+2025-06-27 02:56:46,443 - shuttle_gateway - INFO - Шаттл shuttle_146 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:56:46,443 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_146 (10.181.80.146:2000)
+2025-06-27 02:56:51,447 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_146: 
+2025-06-27 02:56:51,447 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_146 (10.181.80.146:2000)
+2025-06-27 02:56:51,447 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_146
+2025-06-27 02:56:51,448 - shuttle_gateway - INFO - Шаттл shuttle_150 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:56:51,448 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_150 (10.181.80.150:2000)
+2025-06-27 02:56:53,581 - shuttle_gateway - ERROR - Ошибка при получении перемещений: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:56:26&p=2025-06-27T02:56:42
+2025-06-27 02:56:53,582 - shuttle_gateway - INFO - Получено 0 команд из перемещений
+2025-06-27 02:56:53,582 - shuttle_gateway - INFO - Опрос WMS API завершен, следующий опрос через 5 секунд
+2025-06-27 02:56:56,449 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_150: 
+2025-06-27 02:56:56,449 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_150 (10.181.80.150:2000)
+2025-06-27 02:56:56,449 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_150
+2025-06-27 02:56:56,449 - shuttle_gateway - INFO - Шаттл shuttle_155 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:56:56,449 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_155 (10.181.80.155:2000)
+2025-06-27 02:56:58,583 - shuttle_gateway - INFO - Опрашиваем WMS API (http://10.181.80.28:8080/exec)...
+2025-06-27 02:56:58,583 - shuttle_gateway - INFO - Получаем команды из отгрузок...
+2025-06-27 02:56:58,583 - shuttle_gateway - DEBUG - Запрос отгрузок: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:56:53&p=2025-06-27T02:56:58
+2025-06-27 02:57:00,198 - asyncio - DEBUG - Using selector: EpollSelector
+2025-06-27 02:57:00,206 - shuttle_gateway - INFO - Запуск шлюза WMS-Шаттл (Версия 3.0)...
+2025-06-27 02:57:01,452 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_155: 
+2025-06-27 02:57:01,452 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_155 (10.181.80.155:2000)
+2025-06-27 02:57:01,453 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_155
+2025-06-27 02:57:01,453 - shuttle_gateway - INFO - Шаттл shuttle_2 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:57:01,453 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_2 (10.10.10.12:2000)
+2025-06-27 02:57:06,453 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_2: 
+2025-06-27 02:57:06,454 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_2 (10.10.10.12:2000)
+2025-06-27 02:57:06,454 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_2
+2025-06-27 02:57:06,454 - shuttle_gateway - INFO - Шаттл test_shuttle_1 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:57:06,454 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_1 (10.181.80.100:2000)
+2025-06-27 02:57:09,437 - shuttle_gateway - DEBUG - Начинаем сканирование сети для поиска шаттлов
+2025-06-27 02:57:09,581 - shuttle_gateway - ERROR - Ошибка при получении отгрузок: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:56:53&p=2025-06-27T02:56:58
+2025-06-27 02:57:09,581 - shuttle_gateway - INFO - Получено 0 команд из отгрузок
+2025-06-27 02:57:09,581 - shuttle_gateway - INFO - Получаем команды из перемещений...
+2025-06-27 02:57:09,582 - shuttle_gateway - DEBUG - Запрос перемещений: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:56:53&p=2025-06-27T02:57:09
+2025-06-27 02:57:11,457 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_1: 
+2025-06-27 02:57:11,457 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_1 (10.181.80.100:2000)
+2025-06-27 02:57:11,458 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_1
+2025-06-27 02:57:11,458 - shuttle_gateway - INFO - Шаттл test_shuttle_100 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:57:11,458 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_100 (10.181.80.100:2000)
+2025-06-27 02:57:16,459 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_100: 
+2025-06-27 02:57:16,460 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_100 (10.181.80.100:2000)
+2025-06-27 02:57:16,460 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_100
+2025-06-27 02:57:16,460 - shuttle_gateway - INFO - Шаттл test_shuttle_101 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:57:16,460 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_101 (10.181.80.101:2000)
+2025-06-27 02:57:20,584 - shuttle_gateway - ERROR - Ошибка при получении перемещений: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:56:53&p=2025-06-27T02:57:09
+2025-06-27 02:57:20,584 - shuttle_gateway - INFO - Получено 0 команд из перемещений
+2025-06-27 02:57:20,584 - shuttle_gateway - INFO - Опрос WMS API завершен, следующий опрос через 5 секунд
+2025-06-27 02:57:21,463 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_101: 
+2025-06-27 02:57:21,464 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_101 (10.181.80.101:2000)
+2025-06-27 02:57:21,464 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_101
+2025-06-27 02:57:21,464 - shuttle_gateway - INFO - Шаттл test_shuttle_102 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:57:21,464 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_102 (10.181.80.102:2000)
+2025-06-27 02:57:25,586 - shuttle_gateway - INFO - Опрашиваем WMS API (http://10.181.80.28:8080/exec)...
+2025-06-27 02:57:25,586 - shuttle_gateway - INFO - Получаем команды из отгрузок...
+2025-06-27 02:57:25,586 - shuttle_gateway - DEBUG - Запрос отгрузок: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:57:20&p=2025-06-27T02:57:25
+2025-06-27 02:57:26,465 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_102: 
+2025-06-27 02:57:26,465 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_102 (10.181.80.102:2000)
+2025-06-27 02:57:26,465 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_102
+2025-06-27 02:57:26,465 - shuttle_gateway - INFO - Шаттл test_shuttle_103 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:57:26,465 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_103 (10.181.80.103:2000)
+2025-06-27 02:57:31,466 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_103: 
+2025-06-27 02:57:31,467 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_103 (10.181.80.103:2000)
+2025-06-27 02:57:31,467 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_103
+2025-06-27 02:57:31,467 - shuttle_gateway - INFO - Шаттл test_shuttle_104 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:57:31,467 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_104 (10.181.80.104:2000)
+2025-06-27 02:57:36,469 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_104: 
+2025-06-27 02:57:36,469 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_104 (10.181.80.104:2000)
+2025-06-27 02:57:36,469 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_104
+2025-06-27 02:57:36,469 - shuttle_gateway - INFO - Шаттл test_shuttle_2 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:57:36,470 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_2 (10.181.80.101:2000)
+2025-06-27 02:57:36,581 - shuttle_gateway - ERROR - Ошибка при получении отгрузок: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:57:20&p=2025-06-27T02:57:25
+2025-06-27 02:57:36,581 - shuttle_gateway - INFO - Получено 0 команд из отгрузок
+2025-06-27 02:57:36,581 - shuttle_gateway - INFO - Получаем команды из перемещений...
+2025-06-27 02:57:36,581 - shuttle_gateway - DEBUG - Запрос перемещений: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:57:20&p=2025-06-27T02:57:36
+2025-06-27 02:57:41,471 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_2: 
+2025-06-27 02:57:41,471 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_2 (10.181.80.101:2000)
+2025-06-27 02:57:41,472 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_2
+2025-06-27 02:57:41,472 - shuttle_gateway - INFO - Шаттл test_shuttle_3 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:57:41,472 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_3 (10.181.80.102:2000)
+2025-06-27 02:57:45,586 - shuttle_gateway - DEBUG - Начинаем сканирование сети для поиска шаттлов
+2025-06-27 02:57:46,473 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_3: 
+2025-06-27 02:57:46,473 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_3 (10.181.80.102:2000)
+2025-06-27 02:57:46,473 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_3
+2025-06-27 02:57:46,473 - shuttle_gateway - INFO - Шаттл virtual_shuttle_1 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:57:46,473 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом virtual_shuttle_1 (10.181.80.134:2000)
+2025-06-27 02:57:47,581 - shuttle_gateway - ERROR - Ошибка при получении перемещений: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:57:20&p=2025-06-27T02:57:36
+2025-06-27 02:57:47,582 - shuttle_gateway - INFO - Получено 0 команд из перемещений
+2025-06-27 02:57:47,582 - shuttle_gateway - INFO - Опрос WMS API завершен, следующий опрос через 5 секунд
+2025-06-27 02:57:51,474 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу virtual_shuttle_1: 
+2025-06-27 02:57:51,474 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу virtual_shuttle_1 (10.181.80.134:2000)
+2025-06-27 02:57:51,474 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом virtual_shuttle_1
+2025-06-27 02:57:52,583 - shuttle_gateway - INFO - Опрашиваем WMS API (http://10.181.80.28:8080/exec)...
+2025-06-27 02:57:52,583 - shuttle_gateway - INFO - Получаем команды из отгрузок...
+2025-06-27 02:57:52,583 - shuttle_gateway - DEBUG - Запрос отгрузок: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:57:47&p=2025-06-27T02:57:52
+2025-06-27 02:57:56,474 - shuttle_gateway - INFO - Шаттл shuttle_141 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:57:56,475 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_141 (10.181.80.141:2000)
+2025-06-27 02:58:01,477 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_141: 
+2025-06-27 02:58:01,477 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_141 (10.181.80.141:2000)
+2025-06-27 02:58:01,478 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_141
+2025-06-27 02:58:01,478 - shuttle_gateway - INFO - Шаттл shuttle_146 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:58:01,478 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_146 (10.181.80.146:2000)
+2025-06-27 02:58:03,581 - shuttle_gateway - ERROR - Ошибка при получении отгрузок: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:57:47&p=2025-06-27T02:57:52
+2025-06-27 02:58:03,581 - shuttle_gateway - INFO - Получено 0 команд из отгрузок
+2025-06-27 02:58:03,581 - shuttle_gateway - INFO - Получаем команды из перемещений...
+2025-06-27 02:58:03,581 - shuttle_gateway - DEBUG - Запрос перемещений: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:57:47&p=2025-06-27T02:58:03
+2025-06-27 02:58:06,478 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_146: 
+2025-06-27 02:58:06,478 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_146 (10.181.80.146:2000)
+2025-06-27 02:58:06,478 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_146
+2025-06-27 02:58:06,478 - shuttle_gateway - INFO - Шаттл shuttle_150 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:58:06,478 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_150 (10.181.80.150:2000)
+2025-06-27 02:58:11,481 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_150: 
+2025-06-27 02:58:11,481 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_150 (10.181.80.150:2000)
+2025-06-27 02:58:11,481 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_150
+2025-06-27 02:58:11,481 - shuttle_gateway - INFO - Шаттл shuttle_155 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:58:11,482 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_155 (10.181.80.155:2000)
+2025-06-27 02:58:14,581 - shuttle_gateway - ERROR - Ошибка при получении перемещений: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:57:47&p=2025-06-27T02:58:03
+2025-06-27 02:58:14,581 - shuttle_gateway - INFO - Получено 0 команд из перемещений
+2025-06-27 02:58:14,581 - shuttle_gateway - INFO - Опрос WMS API завершен, следующий опрос через 5 секунд
+2025-06-27 02:58:16,482 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_155: 
+2025-06-27 02:58:16,483 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_155 (10.181.80.155:2000)
+2025-06-27 02:58:16,483 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_155
+2025-06-27 02:58:16,483 - shuttle_gateway - INFO - Шаттл shuttle_2 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:58:16,483 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_2 (10.10.10.12:2000)
+2025-06-27 02:58:19,581 - shuttle_gateway - INFO - Опрашиваем WMS API (http://10.181.80.28:8080/exec)...
+2025-06-27 02:58:19,582 - shuttle_gateway - INFO - Получаем команды из отгрузок...
+2025-06-27 02:58:19,582 - shuttle_gateway - DEBUG - Запрос отгрузок: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:58:14&p=2025-06-27T02:58:19
+2025-06-27 02:58:21,485 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_2: 
+2025-06-27 02:58:21,485 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_2 (10.10.10.12:2000)
+2025-06-27 02:58:21,486 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_2
+2025-06-27 02:58:21,486 - shuttle_gateway - INFO - Шаттл test_shuttle_1 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:58:21,486 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_1 (10.181.80.100:2000)
+2025-06-27 02:58:21,936 - shuttle_gateway - DEBUG - Начинаем сканирование сети для поиска шаттлов
+2025-06-27 02:58:26,487 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_1: 
+2025-06-27 02:58:26,487 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_1 (10.181.80.100:2000)
+2025-06-27 02:58:26,488 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_1
+2025-06-27 02:58:26,488 - shuttle_gateway - INFO - Шаттл test_shuttle_100 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:58:26,488 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_100 (10.181.80.100:2000)
+2025-06-27 02:58:30,581 - shuttle_gateway - ERROR - Ошибка при получении отгрузок: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:58:14&p=2025-06-27T02:58:19
+2025-06-27 02:58:30,582 - shuttle_gateway - INFO - Получено 0 команд из отгрузок
+2025-06-27 02:58:30,582 - shuttle_gateway - INFO - Получаем команды из перемещений...
+2025-06-27 02:58:30,582 - shuttle_gateway - DEBUG - Запрос перемещений: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:58:14&p=2025-06-27T02:58:30
+2025-06-27 02:58:31,489 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_100: 
+2025-06-27 02:58:31,490 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_100 (10.181.80.100:2000)
+2025-06-27 02:58:31,490 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_100
+2025-06-27 02:58:31,490 - shuttle_gateway - INFO - Шаттл test_shuttle_101 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:58:31,490 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_101 (10.181.80.101:2000)
+2025-06-27 02:58:36,493 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_101: 
+2025-06-27 02:58:36,493 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_101 (10.181.80.101:2000)
+2025-06-27 02:58:36,493 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_101
+2025-06-27 02:58:36,493 - shuttle_gateway - INFO - Шаттл test_shuttle_102 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:58:36,493 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_102 (10.181.80.102:2000)
+2025-06-27 02:58:41,494 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_102: 
+2025-06-27 02:58:41,495 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_102 (10.181.80.102:2000)
+2025-06-27 02:58:41,495 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_102
+2025-06-27 02:58:41,495 - shuttle_gateway - INFO - Шаттл test_shuttle_103 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:58:41,495 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_103 (10.181.80.103:2000)
+2025-06-27 02:58:41,581 - shuttle_gateway - ERROR - Ошибка при получении перемещений: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:58:14&p=2025-06-27T02:58:30
+2025-06-27 02:58:41,581 - shuttle_gateway - INFO - Получено 0 команд из перемещений
+2025-06-27 02:58:41,581 - shuttle_gateway - INFO - Опрос WMS API завершен, следующий опрос через 5 секунд
+2025-06-27 02:58:46,497 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_103: 
+2025-06-27 02:58:46,497 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_103 (10.181.80.103:2000)
+2025-06-27 02:58:46,497 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_103
+2025-06-27 02:58:46,497 - shuttle_gateway - INFO - Шаттл test_shuttle_104 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:58:46,497 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_104 (10.181.80.104:2000)
+2025-06-27 02:58:46,582 - shuttle_gateway - INFO - Опрашиваем WMS API (http://10.181.80.28:8080/exec)...
+2025-06-27 02:58:46,582 - shuttle_gateway - INFO - Получаем команды из отгрузок...
+2025-06-27 02:58:46,582 - shuttle_gateway - DEBUG - Запрос отгрузок: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:58:41&p=2025-06-27T02:58:46
+2025-06-27 02:58:51,499 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_104: 
+2025-06-27 02:58:51,499 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_104 (10.181.80.104:2000)
+2025-06-27 02:58:51,499 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_104
+2025-06-27 02:58:51,499 - shuttle_gateway - INFO - Шаттл test_shuttle_2 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:58:51,499 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_2 (10.181.80.101:2000)
+2025-06-27 02:58:56,500 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_2: 
+2025-06-27 02:58:56,500 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_2 (10.181.80.101:2000)
+2025-06-27 02:58:56,500 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_2
+2025-06-27 02:58:56,501 - shuttle_gateway - INFO - Шаттл test_shuttle_3 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:58:56,501 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом test_shuttle_3 (10.181.80.102:2000)
+2025-06-27 02:58:57,581 - shuttle_gateway - ERROR - Ошибка при получении отгрузок: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:58:41&p=2025-06-27T02:58:46
+2025-06-27 02:58:57,582 - shuttle_gateway - INFO - Получено 0 команд из отгрузок
+2025-06-27 02:58:57,582 - shuttle_gateway - INFO - Получаем команды из перемещений...
+2025-06-27 02:58:57,582 - shuttle_gateway - DEBUG - Запрос перемещений: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:58:41&p=2025-06-27T02:58:57
+2025-06-27 02:58:58,276 - shuttle_gateway - DEBUG - Начинаем сканирование сети для поиска шаттлов
+2025-06-27 02:59:01,502 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу test_shuttle_3: 
+2025-06-27 02:59:01,502 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу test_shuttle_3 (10.181.80.102:2000)
+2025-06-27 02:59:01,502 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом test_shuttle_3
+2025-06-27 02:59:01,502 - shuttle_gateway - INFO - Шаттл virtual_shuttle_1 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:59:01,502 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом virtual_shuttle_1 (10.181.80.134:2000)
+2025-06-27 02:59:06,504 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу virtual_shuttle_1: 
+2025-06-27 02:59:06,504 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу virtual_shuttle_1 (10.181.80.134:2000)
+2025-06-27 02:59:06,504 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом virtual_shuttle_1
+2025-06-27 02:59:08,581 - shuttle_gateway - ERROR - Ошибка при получении перемещений: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:58:41&p=2025-06-27T02:58:57
+2025-06-27 02:59:08,581 - shuttle_gateway - INFO - Получено 0 команд из перемещений
+2025-06-27 02:59:08,581 - shuttle_gateway - INFO - Опрос WMS API завершен, следующий опрос через 5 секунд
+2025-06-27 02:59:11,507 - shuttle_gateway - INFO - Шаттл shuttle_141 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:59:11,507 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_141 (10.181.80.141:2000)
+2025-06-27 02:59:11,679 - asyncio - DEBUG - Using selector: EpollSelector
+2025-06-27 02:59:11,688 - shuttle_gateway - INFO - Запуск шлюза WMS-Шаттл (Версия 3.0)...
+2025-06-27 02:59:11,688 - shuttle_gateway - INFO - Сервер метрик Prometheus отключен для тестирования
+2025-06-27 02:59:11,720 - shuttle_gateway - INFO - API маршруты настроены
+2025-06-27 02:59:13,582 - shuttle_gateway - INFO - Опрашиваем WMS API (http://10.181.80.28:8080/exec)...
+2025-06-27 02:59:13,582 - shuttle_gateway - INFO - Получаем команды из отгрузок...
+2025-06-27 02:59:13,582 - shuttle_gateway - DEBUG - Запрос отгрузок: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:59:08&p=2025-06-27T02:59:13
+2025-06-27 02:59:16,508 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_141: 
+2025-06-27 02:59:16,508 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_141 (10.181.80.141:2000)
+2025-06-27 02:59:16,508 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_141
+2025-06-27 02:59:16,508 - shuttle_gateway - INFO - Шаттл shuttle_146 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:59:16,508 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_146 (10.181.80.146:2000)
+2025-06-27 02:59:21,510 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_146: 
+2025-06-27 02:59:21,510 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_146 (10.181.80.146:2000)
+2025-06-27 02:59:21,511 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_146
+2025-06-27 02:59:21,511 - shuttle_gateway - INFO - Шаттл shuttle_150 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:59:21,511 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_150 (10.181.80.150:2000)
+2025-06-27 02:59:24,582 - shuttle_gateway - ERROR - Ошибка при получении отгрузок: , URL: http://10.181.80.28:8080/exec?action=IncomeApi.getShipmentStatusesPeriod&p=2025-06-27T02:59:08&p=2025-06-27T02:59:13
+2025-06-27 02:59:24,583 - shuttle_gateway - INFO - Получено 0 команд из отгрузок
+2025-06-27 02:59:24,583 - shuttle_gateway - INFO - Получаем команды из перемещений...
+2025-06-27 02:59:24,583 - shuttle_gateway - DEBUG - Запрос перемещений: http://10.181.80.28:8080/exec?action=IncomeApi.getTransferStatusesPeriod&p=2025-06-27T02:59:08&p=2025-06-27T02:59:24
+2025-06-27 02:59:26,514 - shuttle_gateway - ERROR - Ошибка при подключении к шаттлу shuttle_150: 
+2025-06-27 02:59:26,514 - shuttle_gateway - ERROR - Таймаут при подключении к шаттлу shuttle_150 (10.181.80.150:2000)
+2025-06-27 02:59:26,514 - shuttle_gateway - WARNING - Не удалось восстановить соединение с шаттлом shuttle_150
+2025-06-27 02:59:26,514 - shuttle_gateway - INFO - Шаттл shuttle_155 не отвечает, пытаемся восстановить соединение
+2025-06-27 02:59:26,514 - shuttle_gateway - INFO - Устанавливаем новое соединение с шаттлом shuttle_155 (10.181.80.155:2000)

@@ -197,13 +197,14 @@ class ShuttleListener:
         """Определяет ID шаттла по IP-адресу"""
         config = get_config()
         
-        # Отладочный вывод
-        logger.debug(f"Доступные шаттлы в конфигурации: {list(config.shuttles.keys())}")
-        for shuttle_id, shuttle_config in config.shuttles.items():
+        # Отладочный вывод (создаем копию для безопасной итерации)
+        shuttles_copy = dict(config.shuttles.items())
+        logger.debug(f"Доступные шаттлы в конфигурации: {list(shuttles_copy.keys())}")
+        for shuttle_id, shuttle_config in shuttles_copy.items():
             logger.debug(f"Шаттл {shuttle_id}: host={shuttle_config.host}")
         
         # Проверяем точное совпадение IP
-        for shuttle_id, shuttle_config in config.shuttles.items():
+        for shuttle_id, shuttle_config in shuttles_copy.items():
             if shuttle_config.host == ip:
                 logger.debug(f"Найдено точное совпадение для IP {ip}: шаттл {shuttle_id}")
                 return shuttle_id
@@ -211,14 +212,14 @@ class ShuttleListener:
         # Для локальных подключений (127.0.0.1, localhost)
         if ip == "127.0.0.1" or ip == "::1" or ip == "localhost":
             # Ищем шаттл с локальным адресом
-            for shuttle_id, shuttle_config in config.shuttles.items():
+            for shuttle_id, shuttle_config in shuttles_copy.items():
                 if shuttle_config.host == "127.0.0.1" or shuttle_config.host == "localhost":
                     logger.info(f"Определен локальный шаттл {shuttle_id} для IP {ip}")
                     return shuttle_id
             
             # Если локальный шаттл не найден, но подключение локальное,
             # возвращаем первый виртуальный шаттл
-            for shuttle_id in config.shuttles:
+            for shuttle_id in shuttles_copy:
                 if shuttle_id.startswith("virtual"):
                     logger.info(f"Выбран виртуальный шаттл {shuttle_id} для локального подключения {ip}")
                     return shuttle_id
