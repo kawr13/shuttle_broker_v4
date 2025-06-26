@@ -214,10 +214,14 @@ def save_config_to_file(config_file: str = 'config.yaml'):
 
 def add_shuttle_to_config(shuttle_id: str, shuttle_ip: str, stock_name: str = 'Главный'):
     """Добавляет шаттл в конфигурацию и сохраняет её в файл"""
+    import logging
+    logger = logging.getLogger()
+    
     try:
         # Загружаем конфигурацию напрямую из файла
         config_file = 'config.yaml'
         if not os.path.exists(config_file):
+            logger.error(f"Файл конфигурации {config_file} не найден")
             return False
         
         with open(config_file, 'r', encoding='utf-8') as f:
@@ -225,7 +229,8 @@ def add_shuttle_to_config(shuttle_id: str, shuttle_ip: str, stock_name: str = '�
         
         # Проверяем, что шаттл еще не добавлен
         if 'shuttles' in config_data and shuttle_id in config_data['shuttles']:
-            return True  # Шаттл уже существует
+            logger.info(f"Шаттл {shuttle_id} уже существует в конфигурации")
+            return True
         
         # Добавляем шаттл в конфигурацию
         if 'shuttles' not in config_data:
@@ -252,6 +257,8 @@ def add_shuttle_to_config(shuttle_id: str, shuttle_ip: str, stock_name: str = '�
         with open(config_file, 'w', encoding='utf-8') as f:
             yaml.dump(config_data, f, default_flow_style=False, allow_unicode=True)
         
+        logger.info(f"Шаттл {shuttle_id} с IP {shuttle_ip} добавлен в конфигурацию и сохранен в файл {config_file}")
+        
         # Обновляем глобальную конфигурацию
         global config
         if config is not None:
@@ -270,7 +277,5 @@ def add_shuttle_to_config(shuttle_id: str, shuttle_ip: str, stock_name: str = '�
         
         return True
     except Exception as e:
-        import logging
-        logging.getLogger().error(f"Ошибка при добавлении шаттла {shuttle_id} в конфигурацию: {e}")
+        logger.error(f"Ошибка при добавлении шаттла {shuttle_id} в конфигурацию: {e}")
         return False
-        raise e
