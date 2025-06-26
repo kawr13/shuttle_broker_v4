@@ -173,10 +173,55 @@ class ShuttleListener:
             await self.send_message(shuttle_id, "MRCD")
             logger.info(f"Отправлен MRCD неизвестному шаттлу {shuttle_id}")
         
-        # Если шаттл отправляет статус, можно попытаться добавить его в конфигурацию
+        # Если шаттл отправляет статус, добавляем его в конфигурацию
         if message.startswith("STATUS="):
             logger.info(f"Неизвестный шаттл {shuttle_id} сообщает статус: {message}")
-            # Здесь можно добавить логику для автоматического добавления шаттла в конфигурацию
+            
+            # Добавляем шаттл в менеджер шаттлов
+            try:
+                # Получаем IP шаттла из ID (формат shuttle_XXX, где XXX - последний октет IP)
+                ip_last_octet = shuttle_id.split('_')[-1]
+                peer_name = self.connections[shuttle_id].get_extra_info('peername')
+                shuttle_ip = peer_name[0] if peer_name else f"10.181.80.{ip_last_octet}"
+                
+                # Добавляем шаттл в конфигурацию
+                from core.config import get_config
+                config = get_config()
+                
+                # Создаем конфигурацию шаттла
+                shuttle_config = type('ShuttleConfig', (), {
+                    'host': shuttle_ip,
+                    'command_port': 2000,
+                    'response_port': 5000,
+                    'shuttle_health_check_interval': 10
+                })
+                
+                # Добавляем шаттл в конфигурацию
+                config.shuttles[shuttle_id] = shuttle_config
+                
+                # Добавляем шаттл в главный склад
+                if 'Главный' in config.stock_to_shuttle:
+                    config.stock_to_shuttle['Главный'].append(shuttle_id)
+                else:
+                    config.stock_to_shuttle['Главный'] = [shuttle_id]
+                
+                # Добавляем шаттл в менеджер
+                from shuttle_module.shuttle_manager import get_shuttle_manager
+                shuttle_manager = get_shuttle_manager()
+                await shuttle_manager.add_shuttle(shuttle_id, shuttle_config)
+                
+                logger.info(f"Шаттл {shuttle_id} с IP {shuttle_ip} автоматически добавлен в конфигурацию и назначен на Главный склад")
+                
+                # Запрашиваем статус шаттла
+                await self.send_message(shuttle_id, "STATUS")
+                logger.info(f"Запрошен статус шаттла {shuttle_id}")
+                
+            except Exception as e:
+                logger.error(f"Ошибка при добавлении шаттла {shuttle_id} в конфигурацию: {e}")
+        
+        # Запрашиваем местоположение шаттла
+        await self.send_message(shuttle_id, "LOC")
+        logger.info(f"Запрошено местоположение шаттла {shuttle_id}")
     
     def register_message_handler(self, shuttle_id: str, handler: Callable[[str, str], Any]):
         """Регистрирует обработчик сообщений для шаттла"""
@@ -196,9 +241,10 @@ class ShuttleListener:
         try:
             writer = self.connections[shuttle_id]
             
-            # Добавляем перевод строки, если его нет
-            if not message.endswith('\n'):
-                message += '\n'
+            # Добавляем терминатор CRLF (\r\n), если его нет
+            if not message.endswith('\r\n'):
+                message = message.rstrip('\n')  # Удаляем существующий LF, если есть
+                message += '\r\n'
             
             writer.write(message.encode('utf-8'))
             await writer.drain()

@@ -98,9 +98,10 @@ class ShuttleCommand:
         else:
             command_str = self.command_type.value
         
-        # Добавляем перевод строки, если его нет
-        if not command_str.endswith('\n'):
-            command_str += '\n'
+        # Добавляем терминатор CRLF (\r\n), если его нет
+        if not command_str.endswith('\r\n'):
+            command_str = command_str.rstrip('\n')  # Удаляем существующий LF, если есть
+            command_str += '\r\n'
         
         return command_str
     

@@ -34,9 +34,7 @@ class ShuttleManager:
         
         # Инициализируем шаттлы
         for shuttle_id, shuttle_config in config.shuttles.items():
-            self.shuttles[shuttle_id] = ShuttleClient(shuttle_id, shuttle_config)
-            self.command_queues[shuttle_id] = asyncio.PriorityQueue(maxsize=config.command_queue_max_size)
-            self.command_locks[shuttle_id] = asyncio.Lock()
+            await self.add_shuttle(shuttle_id, shuttle_config)
         
         # Запускаем воркеры для обработки команд
         for i in range(config.command_processor_workers):
@@ -227,6 +225,31 @@ class ShuttleManager:
     async def get_all_shuttle_states(self) -> Dict[str, ShuttleState]:
         """Возвращает состояния всех шаттлов"""
         return {shuttle_id: shuttle.get_state() for shuttle_id, shuttle in self.shuttles.items()}
+    
+    async def add_shuttle(self, shuttle_id: str, shuttle_config=None):
+        """Добавляет шаттл в менеджер"""
+        config = get_config()
+        
+        # Проверяем, что шаттл еще не добавлен
+        if shuttle_id in self.shuttles:
+            logger.info(f"Шаттл {shuttle_id} уже добавлен в менеджер")
+            return
+        
+        # Создаем клиент шаттла
+        self.shuttles[shuttle_id] = ShuttleClient(shuttle_id, shuttle_config)
+        self.command_queues[shuttle_id] = asyncio.PriorityQueue(maxsize=config.command_queue_max_size)
+        self.command_locks[shuttle_id] = asyncio.Lock()
+        
+        # Запрашиваем статус шаттла
+        try:
+            status_command = ShuttleCommand(
+                command_type=ShuttleCommandEnum.STATUS,
+                shuttle_id=shuttle_id
+            )
+            await self._process_command(status_command)
+            logger.info(f"Запрошен статус шаттла {shuttle_id}")
+        except Exception as e:
+            logger.error(f"Ошибка при запросе статуса шаттла {shuttle_id}: {e}")
     
     async def get_free_shuttle(self, stock_name: str, cell_id: Optional[str] = None, 
                               command: Optional[str] = None, external_id: Optional[str] = None) -> Optional[str]:

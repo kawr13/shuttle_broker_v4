@@ -66,11 +66,10 @@ async def main(config_file: Optional[str] = None):
     shuttle_discovery = get_shuttle_discovery()
     await shuttle_discovery.start()
     logger.info("Модуль автоматического обнаружения шаттлов запущен")
-    # Инициализируем интеграцию с WMS, если она включена
-    if config.wms:
-        wms_integration = get_wms_integration()
-        await wms_integration.start()
-        logger.info(f"Интеграция с WMS API запущена (интервал опроса: {config.wms.poll_interval} сек)")
+    # Инициализируем интеграцию с WMS
+    wms_integration = get_wms_integration()
+    await wms_integration.start()
+    logger.info(f"Интеграция с WMS API запущена (интервал опроса: {config.wms.poll_interval} сек, URL: {config.wms.api_url})")
     
     # Настраиваем обработку сигналов завершения
     loop = asyncio.get_event_loop()
@@ -90,12 +89,10 @@ async def shutdown():
     logger = get_logger()
     logger.info("Остановка шлюза WMS-Шаттл (Версия 3.0)...")
     
-    # Останавливаем интеграцию с WMS, если она запущена
-    config = get_config()
-    if config.wms:
-        wms_integration = get_wms_integration()
-        await wms_integration.stop()
-        logger.info("Интеграция с WMS API остановлена")
+    # Останавливаем интеграцию с WMS
+    wms_integration = get_wms_integration()
+    await wms_integration.stop()
+    logger.info("Интеграция с WMS API остановлена")
     
     
     from shuttle_module.shuttle_monitor import get_shuttle_monitor

@@ -177,10 +177,22 @@ def load_config(config_file: Optional[str] = None) -> GatewayConfig:
     """Загружает конфигурацию из файла или переменных окружения"""
     global config
     
+    # Сначала пробуем загрузить из указанного файла
     if config_file and os.path.exists(config_file):
         config = GatewayConfig.load_from_file(config_file)
+    # Затем пробуем загрузить из config.yaml в текущей директории
+    elif os.path.exists('config.yaml'):
+        config = GatewayConfig.load_from_file('config.yaml')
+    # Если не нашли файл, загружаем из переменных окружения
     else:
         config = GatewayConfig.load_from_env()
+    
+    # Проверяем наличие конфигурации WMS и создаем её, если отсутствует
+    if not config.wms and os.path.exists('config.yaml'):
+        with open('config.yaml', 'r') as f:
+            data = yaml.safe_load(f)
+            if 'wms' in data:
+                config.wms = WmsConfig(**data['wms'])
     
     return config
 

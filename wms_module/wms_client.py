@@ -20,14 +20,13 @@ class WmsClient:
     
     def __init__(self):
         config = get_config()
-        if not config.wms:
-            raise ValueError("WMS configuration is not set")
         
-        self.api_url = config.wms.api_url.rstrip('/')
-        self.username = config.wms.username
-        self.password = config.wms.password
-        self.poll_interval = config.wms.poll_interval
-        self.webhook_url = config.wms.webhook_url
+        # Используем значения по умолчанию, если конфигурация WMS отсутствует
+        self.api_url = getattr(config.wms, 'api_url', 'http://localhost:8080').rstrip('/')
+        self.username = getattr(config.wms, 'username', '1000')
+        self.password = getattr(config.wms, 'password', '1000')
+        self.poll_interval = getattr(config.wms, 'poll_interval', 5)
+        self.webhook_url = getattr(config.wms, 'webhook_url', None)
         
         self.last_poll_time = datetime.now() - timedelta(minutes=30)  # Начинаем с получения команд за последние 30 минут
         self.processed_commands = set()
