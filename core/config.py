@@ -261,43 +261,10 @@ def add_shuttle_to_config(shuttle_id: str, shuttle_ip: str, stock_name: str = '�
         
         # Обновляем глобальную конфигурацию
         global config
-        config = None  # Сбрасываем, чтобы перезагрузить при следующем обращении
+        config = None
         
         return True
         
     except Exception as e:
         logger.error(f"Ошибка при добавлении шаттла в конфигурацию: {e}")
-        return False'stock_to_shuttle'] = {}
-        
-        if stock_name not in config_data['stock_to_shuttle']:
-            config_data['stock_to_shuttle'][stock_name] = []
-        
-        if shuttle_id not in config_data['stock_to_shuttle'][stock_name]:
-            config_data['stock_to_shuttle'][stock_name].append(shuttle_id)
-        
-        # Сохраняем конфигурацию в файл
-        with open(config_file, 'w', encoding='utf-8') as f:
-            yaml.dump(config_data, f, default_flow_style=False, allow_unicode=True)
-        
-        logger.info(f"Шаттл {shuttle_id} с IP {shuttle_ip} добавлен в конфигурацию и сохранен в файл {config_file}")
-        
-        # Обновляем глобальную конфигурацию
-        global config
-        if config is not None:
-            config.shuttles[shuttle_id] = ShuttleConfig(
-                host=shuttle_ip,
-                command_port=2000,
-                response_port=5000,
-                shuttle_health_check_interval=10
-            )
-            
-            if stock_name in config.stock_to_shuttle:
-                if shuttle_id not in config.stock_to_shuttle[stock_name]:
-                    config.stock_to_shuttle[stock_name].append(shuttle_id)
-            else:
-                config.stock_to_shuttle[stock_name] = [shuttle_id]
-        
-        return True
-    except Exception as e:
-        logger.error(f"Ошибка при добавлении шаттла {shuttle_id} в конфигурацию: {e}")
         return False
