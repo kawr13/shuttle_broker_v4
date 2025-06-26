@@ -137,8 +137,10 @@ class ShuttleDiscovery:
                 timeout=2.0
             )
             
+            
+            status = "STATUS\r\n"
             # Отправляем команду STATUS для идентификации
-            writer.write("STATUS\r\n")
+            writer.write(status.encode('utf-8'))
             await writer.drain()
             
             # Ждем ответ
@@ -201,24 +203,26 @@ class ShuttleDiscovery:
                 timeout=3.0
             )
             
-            # Запрашиваем статус
-            writer.write("STATUS\r\n")
+            status = "STATUS\r\n"
+            # Отправляем команду STATUS для идентификации
+            writer.write(status.encode('utf-8'))
             await writer.drain()
             
             try:
-                data = await asyncio.wait_for(reader.readuntil('\r\n'), timeout=2.0)
+                data = await asyncio.wait_for(reader.readuntil('\r\n'.encode('utf-8')), timeout=2.0)
                 response = data.decode('utf-8').strip()
                 if response.startswith("STATUS="):
                     shuttle.status = response.split("=", 1)[1]
             except asyncio.TimeoutError:
                 pass
-                
+            
+            battery_s = "BATTERY\r\n"
             # Запрашиваем уровень батареи
-            writer.write("BATTERY\r\n")
+            writer.write(battery_s.encode('utf-8'))
             await writer.drain()
             
             try:
-                data = await asyncio.wait_for(reader.readuntil('\r\n'), timeout=2.0)
+                data = await asyncio.wait_for(reader.readuntil('\r\n'.encode('utf-8')), timeout=2.0)
                 response = data.decode('utf-8').strip()
                 if response.startswith("BATTERY="):
                     shuttle.battery_level = response.split("=", 1)[1]
