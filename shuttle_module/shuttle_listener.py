@@ -77,16 +77,22 @@ class ShuttleListener:
             shuttle_id = f"shuttle_{last_octet}"
             logger.warning(f"Неизвестный шаттл с IP {shuttle_ip}. Назначен ID: {shuttle_id}")
             
-            # Регистрируем временный обработчик сообщений
-            self.register_message_handler(shuttle_id, self._handle_unknown_shuttle_message)
+            # Проверяем, не зарегистрирован ли уже обработчик для этого шаттла
+            if shuttle_id not in self.message_handlers:
+                # Регистрируем временный обработчик сообщений
+                self.register_message_handler(shuttle_id, self._handle_unknown_shuttle_message)
+                logger.info(f"Зарегистрирован временный обработчик для неизвестного шаттла {shuttle_id}")
         
         # Сохраняем соединение
         self.connections[shuttle_id] = writer
         
         # Регистрируем соединение в менеджере соединений
-        from shuttle_module.connection_manager import get_connection_manager
-        connection_manager = get_connection_manager()
-        connection_manager.register_connection(shuttle_id, reader, writer)
+        try:
+            from shuttle_module.connection_manager import get_connection_manager
+            connection_manager = get_connection_manager()
+            connection_manager.register_connection(shuttle_id, reader, writer)
+        except Exception as e:
+            logger.warning(f"Не удалось зарегистрировать соединение в менеджере соединений: {e}")
         
         try:
             while self.running:
@@ -168,6 +174,18 @@ class ShuttleListener:
         """Обрабатывает сообщения от неизвестных шаттлов"""
         logger.info(f"Получено сообщение от неизвестного шаттла {shuttle_id}: '{message}'")
         
+        # Проверяем, не был ли шаттл уже добавлен в конфигурацию
+        from core.config import get_config
+        config = get_config()
+        if shuttle_id in config.shuttles:
+            logger.info(f"Шаттл {shuttle_id} уже добавлен в конфигурацию, переключаем на обычный обработчик")
+            # Удаляем временный обработчик и регистрируем обычный
+            from shuttle_module.shuttle_manager import get_shuttle_manager
+            shuttle_manager = get_shuttle_manager()
+            if shuttle_id in shuttle_manager.shuttles:
+                self.register_message_handler(shuttle_id, shuttle_manager.shuttles[shuttle_id]._process_message_from_listener)
+            return
+        
         # Отправляем MRCD в ответ на любое сообщение
         if message != "MRCD":
             await self.send_message(shuttle_id, "MRCD")
@@ -184,14 +202,11 @@ class ShuttleListener:
                 shuttle_ip = peer_name[0] if peer_name else "10.181.80.134"  # IP по умолчанию
                 
                 # Добавляем шаттл в конфигурацию и сохраняем в файл
-                from core.config import add_shuttle_to_config, load_config
+                from core.config import add_shuttle_to_config
                 config_saved = add_shuttle_to_config(shuttle_id, shuttle_ip, 'Главный')
                 
                 if config_saved:
                     logger.info(f"Шаттл {shuttle_id} с IP {shuttle_ip} добавлен в конфигурацию и сохранен в файл config.yaml")
-                    
-                    # Перезагружаем конфигурацию из файла
-                    load_config('config.yaml')
                     
                     # Добавляем шаттл в менеджер
                     from shuttle_module.shuttle_manager import get_shuttle_manager
@@ -209,12 +224,12 @@ class ShuttleListener:
                     # Добавляем шаттл в менеджер
                     await shuttle_manager.add_shuttle(shuttle_id, shuttle_config)
                     logger.info(f"Шаттл {shuttle_id} добавлен в менеджер шаттлов")
+                    
+                    # Переключаем на обычный обработчик сообщений
+                    self.register_message_handler(shuttle_id, shuttle_manager.shuttles[shuttle_id]._process_message_from_listener)
+                    logger.info(f"Обработчик сообщений для шаттла {shuttle_id} переключен на обычный")
                 else:
                     logger.warning(f"Не удалось сохранить шаттл {shuttle_id} в конфигурацию")
-                
-                # Запрашиваем статус шаттла
-                await self.send_message(shuttle_id, "STATUS")
-                logger.info(f"Запрошен статус шаттла {shuttle_id}")
                 
             except Exception as e:
                 logger.error(f"Ошибка при добавлении шаттла {shuttle_id} в конфигурацию: {e}")
