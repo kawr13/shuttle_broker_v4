@@ -113,19 +113,32 @@ class ShuttleClient:
     def parse_shuttle_response(self, data: str, ip: str) -> Optional[Tuple[str, str, str]]:
         """Парсить ответ шаттла"""
         try:
-            parts = data.strip().split()
+            data = data.strip()
+            
+            # Формат: COMMAND_DONE или COMMAND-ID_DONE
+            if data.endswith('_DONE'):
+                command_part = data[:-5]  # Убираем '_DONE'
+                if '-' in command_part:
+                    command, task_id = command_part.split('-', 1)
+                    return command, 'DONE', task_id
+                else:
+                    return command_part, 'DONE', None
+            
+            # Формат: STATUS=VALUE или LOC=VALUE
+            if '=' in data:
+                key, value = data.split('=', 1)
+                return key, value, None
+            
+            # Стандартный формат: COMMAND STATUS [TASK_ID]
+            parts = data.split()
             if len(parts) >= 3:
-                command = parts[0]
-                status = parts[1]
-                task_id = parts[2]
-                return command, status, task_id
+                return parts[0], parts[1], parts[2]
             elif len(parts) == 2:
-                command = parts[0]
-                status = parts[1]
-                return command, status, None
+                return parts[0], parts[1], None
             else:
-                logger.warning(f"Не удалось разобрать сообщение шаттла: {data}")
-                return None
+                logger.debug(f"Простое сообщение от шаттла {ip}: {data}")
+                return data, 'INFO', None
+                
         except Exception as e:
             logger.error(f"Ошибка парсинга ответа шаттла {ip}: {e}")
             return None
@@ -153,6 +166,7 @@ class ShuttleClient:
             parsed = self.parse_shuttle_response(raw_data, ip)
             if parsed:
                 command, status, task_id = parsed
+                logger.debug(f"Парсинг сообщения {ip}: {command} | {status} | {task_id}")
                 
                 # Обработать специальные команды
                 if command == "MOVE_TO_CELL" and status == "DONE" and task_id:
@@ -164,6 +178,9 @@ class ShuttleClient:
                 if task_id and status == "DONE" and self.wms_client:
                     await self.wms_client.update_task_status(task_id, "completed")
                     logger.debug(f"Задача {task_id} выполнена шаттлом {ip}")
+                
+                # Отправить MRCD в ответ на сообщения шаттлов
+                asyncio.create_task(self.send_mrcd_response(ip))
             
         except asyncio.TimeoutError:
             logger.warning(f"Тайм-аут чтения от шаттла {ip}")
@@ -172,6 +189,12 @@ class ShuttleClient:
         finally:
             writer.close()
             await writer.wait_closed()
+    
+    async def send_mrcd_response(self, ip: str):
+        """Отправить MRCD в ответ на сообщение шаттла"""
+        await asyncio.sleep(0.1)  # Небольшая задержка
+        await self.send_command(ip, "MRCD")
+        logger.debug(f"Отправлен MRCD шаттлу {ip}")
     
     async def listen_shuttles(self):
         """Слушать ответы от шаттлов"""
