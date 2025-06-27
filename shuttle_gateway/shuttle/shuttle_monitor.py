@@ -2,8 +2,11 @@ import asyncio
 import json
 import logging
 from typing import Dict
-from .shuttle_client import ShuttleClient
-from ..config import STATE_POLL_INTERVAL
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from shuttle.shuttle_client import ShuttleClient
+from config import STATE_POLL_INTERVAL
 
 logger = logging.getLogger(__name__)
 

@@ -3,7 +3,10 @@ import json
 import logging
 import heapq
 from typing import Dict, List, Optional, Tuple
-from ..config import (
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import (
     SHUTTLE_COMMAND_PORT, SHUTTLE_RESPONSE_PORT, SHUTTLE_READ_TIMEOUT,
     RETRY_INTERVAL, COMMAND_PRIORITIES
 )

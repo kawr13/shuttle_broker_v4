@@ -1,10 +1,5 @@
 import asyncio
 import logging
-import os
-import sys
-
-# Добавляем путь к модулям
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from wms.wms_client import WMSClient
 from shuttle.shuttle_client import ShuttleClient
