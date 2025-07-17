@@ -32,22 +32,43 @@ class ShuttleClient:
             logger.error(f"Ошибка загрузки конфигурации шаттлов: {e}")
             self.shuttles = {}
     
+    # Исправление в методе save_shuttles_config
     def save_shuttles_config(self):
         """Сохранить конфигурацию шаттлов"""
         try:
-            data = {"shuttles": list(self.shuttles.values())}
-            with open(self.shuttles_config_path, 'w') as f:
+            # Преобразуем словарь в список для JSON
+            shuttles_list = list(self.shuttles.values())
+            data = {"shuttles": shuttles_list}
+            
+            # Сначала записываем во временный файл
+            temp_file = f"{self.shuttles_config_path}.tmp"
+            with open(temp_file, 'w') as f:
                 json.dump(data, f, indent=2)
-            logger.debug("Конфигурация шаттлов сохранена")
+            
+            # Затем переименовываем для атомарной операции
+            import os
+            os.replace(temp_file, self.shuttles_config_path)
+            
+            logger.debug(f"Конфигурация {len(shuttles_list)} шаттлов сохранена")
         except Exception as e:
             logger.error(f"Ошибка сохранения конфигурации шаттлов: {e}")
+
     
+    # Исправление в методе add_shuttle
     def add_shuttle(self, ip: str, cell: str = "Unknown", warehouse: str = "Unknown"):
         """Добавить новый шаттл"""
+        # Перезагружаем конфигурацию перед добавлением
+        self.load_shuttles_config()
+        
         if ip not in self.shuttles:
-            self.shuttles[ip] = {"ip": ip, "cell": cell, "warehouse": warehouse}
-            self.save_shuttles_config()
             logger.info(f"Новый шаттл добавлен: {ip}")
+            self.shuttles[ip] = {"ip": ip, "cell": cell, "warehouse": warehouse}
+            try:
+                self.save_shuttles_config()
+                logger.info(f"Конфигурация сохранена с новым шаттлом {ip}")
+            except Exception as e:
+                logger.error(f"Ошибка сохранения конфигурации с новым шаттлом {ip}: {e}")
+
     
     def update_shuttle_location(self, ip: str, cell: str = None, warehouse: str = None):
         """Обновить местоположение шаттла"""
@@ -152,7 +173,8 @@ class ShuttleClient:
             return
         
         ip = peername[0]
-        
+        logger.debug(f"Получено сообщение от шаттла {ip}")
+ 
         try:
             data = await asyncio.wait_for(reader.read(1024), timeout=SHUTTLE_READ_TIMEOUT)
             raw_data = data.decode('utf-8').strip()
@@ -160,6 +182,7 @@ class ShuttleClient:
             
             # Добавить шаттл если он новый
             if ip not in self.shuttles:
+                logger.info(f"Обнаружен новый шаттл с IP: {ip}")
                 self.add_shuttle(ip)
             
             # Парсить ответ
