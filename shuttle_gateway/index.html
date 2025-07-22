@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление роботизированными тележками</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            min-height: 100vh;
+            color: #e2e8f0;
+        }
+        
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hover-glow:hover {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+        
+        .command-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .command-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(59, 130, 246, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .command-btn:active::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .number-input {
+            -moz-appearance: textfield;
+        }
+        
+        .number-input::-webkit-outer-spin-button,
+        .number-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-white mb-2">Управление AGV</h1>
+            <p class="text-slate-400">Автоматизированные тележки</p>
+        </header>
+
+        <!-- Robot Selection Page -->
+        <div id="robotSelection" class="fade-in">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Robots will be dynamically added here -->
+            </div>
+        </div>
+
+        <!-- Command Page -->
+        <div id="commandPage" class="hidden fade-in">
+            <button onclick="backToSelection()" class="mb-6 flex items-center text-slate-300 hover:text-white transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Назад к выбору тележки
+            </button>
+            
+            <!-- Error Banner -->
+            <div id="errorBanner" class="hidden mb-4 p-3 bg-red-600 text-white rounded-lg text-sm">
+                <span id="errorText"></span>
+            </div>
+
+            <div class="glass-card rounded-xl p-6 mb-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 id="robotName" class="text-2xl font-bold text-white mb-1"></h2>
+                        <p id="robotIP" class="text-slate-400"></p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-sm text-slate-400">Статус</div>
+                        <div class="text-green-400">
+                            <span class="status-indicator bg-green-500"></span>
+                            Онлайн
+                        </div>
+                        <div id="batteryDisplay" class="text-sm text-slate-300 mt-1">Battery: 0%</div>
+                    </div>
+                </div>
+                <div class="mt-4 flex gap-3">
+                    <button onclick="sendCommand('HOME')" class="flex-1 px-4 py-2 bg-green-600 hover:bg-green-500 rounded-lg text-white transition-colors">HOME</button>
+                    <button onclick="sendCommand('STOP')" class="flex-1 px-4 py-2 bg-red-600 hover:bg-red-500 rounded-lg text-white transition-colors">STOP</button>
+                </div>
+            </div>
+
+            <div class="flex gap-4 mb-6">
+                <button id="tabMove" onclick="switchTab('move')" class="flex-1 py-3 px-4 rounded-lg glass-card text-white border-b-2 border-blue-500">Перемещения</button>
+                <button id="tabStack" onclick="switchTab('stack')" class="flex-1 py-3 px-4 rounded-lg glass-card text-slate-400 border-b-2 border-transparent">Операции</button>
+                <button id="tabService" onclick="switchTab('service')" class="flex-1 py-3 px-4 rounded-lg glass-card text-slate-400 border-b-2 border-transparent">Сервис</button>
+            </div>
+
+            <div id="commandsContainer" class="grid grid-cols-2 gap-4">
+                <!-- Commands will be dynamically added here -->
+            </div>
+        </div>
+
+        <!-- Input Modal -->
+        <div id="inputModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="glass-card rounded-xl p-6 mx-4 w-full max-w-sm">
+                <h3 class="text-xl font-semibold text-white mb-4">Введите количество</h3>
+                <input type="number" id="quantityInput" class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500" placeholder="000" min="0" max="999">
+                <div class="flex gap-3 mt-6">
+                    <button onclick="cancelInput()" class="flex-1 px-4 py-3 bg-slate-600 text-white rounded-lg hover:bg-slate-500 transition-colors">Отмена</button>
+                    <button onclick="confirmInput()" class="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors">Подтвердить</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="text-white">
+                <i class="fas fa-spinner fa-spin text-4xl"></i>
+                <p class="mt-4 text-lg">Отправка команды...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock data for robots
+        const robots = [
+            { id: 1, name: "AGV-001", ip: "192.168.1.101", status: "online" },
+            { id: 2, name: "AGV-002", ip: "192.168.1.102", status: "online" },
+            { id: 3, name: "AGV-003", ip: "192.168.1.103", status: "maintenance" },
+            { id: 4, name: "AGV-004", ip: "192.168.1.104", status: "online" },
+            { id: 5, name: "AGV-005", ip: "192.168.1.105", status: "offline" },
+            { id: 6, name: "AGV-006", ip: "192.168.1.106", status: "online" }
+        ];
+
+        // Command templates
+        const commands = [
+            { id: "PALLET_IN", name: "Погрузка паллеты", requiresInput: false },
+            { id: "PALLET_OUT", name: "Выгрузка паллеты", requiresInput: false },
+            { id: "STACK_IN", name: "Уплотнение паллет", requiresInput: false },
+            { id: "STACK_OUT", name: "Разуплотнение паллет", requiresInput: false },
+            { id: "COUNT", name: "Подсчёт паллет", requiresInput: false },
+            { id: "FIFO", name: "FIFO (по количеству)", requiresInput: true, prefix: "FIFO_", suffix: "" },
+            { id: "FILO", name: "FILO (по количеству)", requiresInput: true, prefix: "FILO_", suffix: "" }
+        ];
+
+        // Service commands
+        const serviceCommands = [
+            { id: "STATUS", name: "STATUS", requiresInput: false },
+            { id: "BATTERY", name: "BATTERY", requiresInput: false },
+            { id: "WDH", name: "WDH (часы привода)", requiresInput: false },
+            { id: "WHL", name: "WHL (состояние подъема)", requiresInput: false }
+        ];
+
+        let selectedRobot = null;
+        let selectedCommand = null;
+
+        // Initialize the app
+        function initApp() {
+            renderRobots();
+        }
+
+        // Render robots
+        function renderRobots() {
+            const container = document.querySelector('#robotSelection .grid');
+            container.innerHTML = '';
+
+            robots.forEach(robot => {
+                const robotCard = document.createElement('div');
+                robotCard.className = 'glass-card rounded-xl p-6 cursor-pointer hover-glow transition-all duration-300';
+                robotCard.onclick = () => selectRobot(robot);
+
+                const statusColor = robot.status === 'online' ? 'text-green-400' : 
+                                  robot.status === 'maintenance' ? 'text-yellow-400' : 'text-red-400';
+                const statusText = robot.status === 'online' ? 'Онлайн' : 
+                                 robot.status === 'maintenance' ? 'Обслуживание' : 'Оффлайн';
+
+                robotCard.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-xl font-semibold text-white mb-1">${robot.name}</h3>
+                            <p class="text-slate-400 text-sm">${robot.ip}</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="${statusColor} text-sm">
+                                ${robot.status === 'online' ? '<span class="status-indicator bg-green-500"></span>' : ''}
+                                ${statusText}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(robotCard);
+            });
+        }
+
+        // Select robot
+        function selectRobot(robot) {
+            if (robot.status !== 'online') {
+                alert('Тележка недоступна');
+                return;
+            }
+
+            selectedRobot = robot;
+            document.getElementById('robotName').textContent = robot.name;
+            document.getElementById('robotIP').textContent = robot.ip;
+            
+            document.getElementById('robotSelection').classList.add('hidden');
+            document.getElementById('commandPage').classList.remove('hidden');
+            
+            renderCommands();
+            updateBattery();
+        }
+
+        let activeTab = 'move';
+
+        // Render commands
+        function renderCommands() {
+            const container = document.getElementById('commandsContainer');
+            container.innerHTML = '';
+
+            let list = [];
+            if (activeTab === 'move') list = commands.filter(c => ['PALLET_IN','PALLET_OUT','FIFO','FILO'].includes(c.id));
+            if (activeTab === 'stack') list = commands.filter(c => ['STACK_IN','STACK_OUT','COUNT'].includes(c.id));
+            if (activeTab === 'service') list = serviceCommands;
+
+            list.forEach(command => {
+                const commandBtn = document.createElement('button');
+                commandBtn.className = 'command-btn glass-card rounded-xl p-6 text-left hover-glow transition-all duration-300';
+                commandBtn.onclick = () => executeCommand(command);
+
+                commandBtn.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h4 class="text-lg font-semibold text-white mb-1">${command.name}</h4>
+                            <p class="text-slate-400 text-sm">${command.id}</p>
+                        </div>
+                        ${command.requiresInput ? '<i class="fas fa-edit text-slate-400"></i>' : '<i class="fas fa-play text-slate-400"></i>'}
+                    </div>
+                `;
+
+                container.appendChild(commandBtn);
+            });
+        }
+
+        // Switch tab
+        function switchTab(tab) {
+            activeTab = tab;
+            ['move','stack','service'].forEach(t => {
+                const btn = document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1));
+                btn.classList.toggle('text-white', t === tab);
+                btn.classList.toggle('text-slate-400', t !== tab);
+                btn.classList.toggle('border-blue-500', t === tab);
+                btn.classList.toggle('border-transparent', t !== tab);
+            });
+            renderCommands();
+        }
+
+        // Execute command
+        function executeCommand(command) {
+            selectedCommand = command;
+            
+            if (command.requiresInput) {
+                showInputModal();
+            } else {
+                sendCommand(command.id);
+            }
+        }
+
+        // Show input modal
+        function showInputModal() {
+            document.getElementById('inputModal').classList.remove('hidden');
+            document.getElementById('quantityInput').focus();
+        }
+
+        // Cancel input
+        function cancelInput() {
+            document.getElementById('inputModal').classList.add('hidden');
+            document.getElementById('quantityInput').value = '';
+        }
+
+        // Confirm input
+        function confirmInput() {
+            const value = document.getElementById('quantityInput').value;
+            if (!value || value < 0 || value > 999) {
+                alert('Введите корректное значение (0-999)');
+                return;
+            }
+
+            const formattedValue = value.padStart(3, '0');
+            const command = selectedCommand.prefix + formattedValue + selectedCommand.suffix;
+            
+            document.getElementById('inputModal').classList.add('hidden');
+            document.getElementById('quantityInput').value = '';
+            
+            sendCommand(command);
+        }
+
+        // Send command
+        function sendCommand(command) {
+            document.getElementById('loadingSpinner').classList.remove('hidden');
+            
+            // Simulate API call and random error
+            setTimeout(() => {
+                document.getElementById('loadingSpinner').classList.add('hidden');
+
+                // Randomly simulate an error for demo
+                const rand = Math.random();
+                if (rand < 0.15) {
+                    const errors = [
+                        "F_CODE=1 Аккумулятор разряжен",
+                        "F_CODE=2 Превышение времени подъема/опускания платформы",
+                        "F_CODE=3 Отсутствие движения ВПЕРЁД",
+                        "F_CODE=4 Отсутствие движения",
+                        "F_CODE=5 Ошибка серводвигателя перемещения",
+                        "F_CODE=6 Ошибка серводвигателя подъема/опускания платформы",
+                        "F_CODE=8 Шаттл не в канале",
+                        "F_CODE=9 Шаттл не готов к автоматическим функциям"
+                    ];
+                    showError(errors[Math.floor(Math.random() * errors.length)]);
+                } else {
+                    showSuccessNotification(command);
+                    if (command === "BATTERY" || command === "STATUS") updateBattery();
+                }
+            }, 1500);
+        }
+
+        // Show error banner
+        function showError(message) {
+            const banner = document.getElementById('errorBanner');
+            document.getElementById('errorText').textContent = message;
+            banner.classList.remove('hidden');
+            setTimeout(() => banner.classList.add('hidden'), 5000);
+        }
+
+        // Update battery (mock)
+        function updateBattery() {
+            const level = Math.floor(Math.random() * 100);
+            document.getElementById('batteryDisplay').textContent = `Battery: ${level}%`;
+        }
+
+        // Show success notification
+        function showSuccessNotification(command) {
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg slide-in z-50';
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle mr-3"></i>
+                    <span>Команда "${command}" отправлена на ${selectedRobot.name}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Back to selection
+        function backToSelection() {
+            document.getElementById('commandPage').classList.add('hidden');
+            document.getElementById('robotSelection').classList.remove('hidden');
+            selectedRobot = null;
+        }
+
+        // Handle enter key in input modal
+        document.getElementById('quantityInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                confirmInput();
+            }
+        });
+
+        // Initialize app
+        initApp();
+    </script>
+</body>
+</html>

@@ -32,7 +32,6 @@ class ShuttleClient:
             logger.error(f"Ошибка загрузки конфигурации шаттлов: {e}")
             self.shuttles = {}
     
-    # Исправление в методе save_shuttles_config
     def save_shuttles_config(self):
         """Сохранить конфигурацию шаттлов"""
         try:
@@ -49,15 +48,16 @@ class ShuttleClient:
             import os
             os.replace(temp_file, self.shuttles_config_path)
             
-            logger.debug(f"Конфигурация {len(shuttles_list)} шаттлов сохранена")
+            # Дополнительно логируем список IP шаттлов
+            ip_list = [s["ip"] for s in shuttles_list]
+            logger.debug(f"Конфигурация {len(shuttles_list)} шаттлов сохранена: {', '.join(ip_list)}")
         except Exception as e:
             logger.error(f"Ошибка сохранения конфигурации шаттлов: {e}")
 
     
-    # Исправление в методе add_shuttle
     def add_shuttle(self, ip: str, cell: str = "Unknown", warehouse: str = "Unknown"):
         """Добавить новый шаттл"""
-        # Перезагружаем конфигурацию перед добавлением
+        # Перезагружаем конфигурацию перед добавлением для синхронизации
         self.load_shuttles_config()
         
         if ip not in self.shuttles:
@@ -68,6 +68,8 @@ class ShuttleClient:
                 logger.info(f"Конфигурация сохранена с новым шаттлом {ip}")
             except Exception as e:
                 logger.error(f"Ошибка сохранения конфигурации с новым шаттлом {ip}: {e}")
+        else:
+            logger.debug(f"Шаттл {ip} уже существует в конфигурации")
 
     
     def update_shuttle_location(self, ip: str, cell: str = None, warehouse: str = None):
@@ -180,6 +182,9 @@ class ShuttleClient:
             raw_data = data.decode('utf-8').strip()
             logger.debug(f"Сырые данные от шаттла ({ip}): {raw_data}")
             
+            # Перезагружаем конфигурацию перед проверкой
+            self.load_shuttles_config()
+            
             # Добавить шаттл если он новый
             if ip not in self.shuttles:
                 logger.info(f"Обнаружен новый шаттл с IP: {ip}")
@@ -219,8 +224,22 @@ class ShuttleClient:
         await self.send_command(ip, "MRCD")
         logger.debug(f"Отправлен MRCD шаттлу {ip}")
     
+    async def periodic_config_save(self):
+        """Периодически сохранять конфигурацию шаттлов"""
+        while True:
+            try:
+                await asyncio.sleep(60)  # Сохраняем каждую минуту
+                if self.shuttles:
+                    logger.debug("Периодическое сохранение конфигурации шаттлов")
+                    self.save_shuttles_config()
+            except Exception as e:
+                logger.error(f"Ошибка периодического сохранения: {e}")
+    
     async def listen_shuttles(self):
         """Слушать ответы от шаттлов"""
+        # Запускаем задачу периодического сохранения
+        asyncio.create_task(self.periodic_config_save())
+        
         while True:
             try:
                 logger.info(f"Запуск сервера для прослушивания шаттлов на порту {SHUTTLE_RESPONSE_PORT}")
