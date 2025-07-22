@@ -112,7 +112,7 @@
     <div class="container mx-auto px-4 py-8 max-w-4xl">
         <!-- Header -->
         <header class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-white mb-2">Управление AGV</h1>
+            <h1 class="text-4xl font-bold text-white mb-2">Управление</h1>
             <p class="text-slate-400">Автоматизированные тележки</p>
         </header>
 
@@ -297,16 +297,26 @@
                     // Очищаем лог и добавляем новые ответы
                     log.innerHTML = '';
                     
-                    data.responses.forEach(response => {
-                        const time = new Date(response.time * 1000).toLocaleTimeString();
+                    // Опции для московской временной зоны
+                    const timeOptions = { 
+                        timeZone: 'Europe/Moscow',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit'
+                    };
+                    
+                    // Добавляем в обратном порядке (новые сверху)
+                    for (let i = data.responses.length - 1; i >= 0; i--) {
+                        const response = data.responses[i];
+                        const time = new Date(response.time * 1000).toLocaleTimeString('ru-RU', timeOptions);
                         const entry = document.createElement('div');
                         entry.className = 'mb-1';
                         entry.innerHTML = `<span class="text-slate-500">[${time}]</span> ${response.text}`;
                         log.appendChild(entry);
-                    });
+                    }
                     
-                    // Прокручиваем к последнему сообщению
-                    log.scrollTop = log.scrollHeight;
+                    // Прокручиваем к началу (новые сообщения сверху)
+                    log.scrollTop = 0;
                 }
             } catch (error) {
                 console.error('Error getting shuttle responses:', error);
@@ -549,14 +559,30 @@
         // Добавить сообщение в лог ответов
         function addToResponseLog(message, className = '') {
             const log = document.getElementById('responseLog');
-            const time = new Date().toLocaleTimeString();
             
+            // Опции для московской временной зоны
+            const timeOptions = { 
+                timeZone: 'Europe/Moscow',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            
+            const time = new Date().toLocaleTimeString('ru-RU', timeOptions);
+            
+            // Добавляем в начало лога (новые сверху)
             const entry = document.createElement('div');
             entry.className = `mb-1 ${className}`;
             entry.innerHTML = `<span class="text-slate-500">[${time}]</span> ${message}`;
             
-            log.appendChild(entry);
-            log.scrollTop = log.scrollHeight;
+            if (log.firstChild) {
+                log.insertBefore(entry, log.firstChild);
+            } else {
+                log.appendChild(entry);
+            }
+            
+            // Прокручиваем к началу (новые сообщения сверху)
+            log.scrollTop = 0;
         }
 
         // Back to selection

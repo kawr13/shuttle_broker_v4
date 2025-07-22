@@ -231,18 +231,18 @@ class WebServer:
         if ip not in self.shuttle_states:
             await self.update_shuttle_state(ip, "status", "online")
         
-        # Добавляем ответ в начало списка (новые ответы первые)
+        # Добавляем ответ в конец списка (старые вначале, новые в конце)
         if "responses" not in self.shuttle_states[ip]:
             self.shuttle_states[ip]["responses"] = []
             
-        self.shuttle_states[ip]["responses"].insert(0, {
+        self.shuttle_states[ip]["responses"].append({
             "text": response,
             "time": asyncio.get_event_loop().time()
         })
         
         # Ограничиваем список последними 20 ответами
         if len(self.shuttle_states[ip]["responses"]) > 20:
-            self.shuttle_states[ip]["responses"] = self.shuttle_states[ip]["responses"][:20]
+            self.shuttle_states[ip]["responses"] = self.shuttle_states[ip]["responses"][-20:]
         
         logger.debug(f"Added response for shuttle {ip}: {response}")
     

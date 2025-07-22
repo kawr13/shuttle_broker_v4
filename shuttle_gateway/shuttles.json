@@ -1,12 +1,44 @@
 {
   "shuttles": [
-    {"ip": "10.181.80.135", "cell": "Cell_1", "warehouse": "Warehouse_A"},
-    {"ip": "10.181.80.136", "cell": "Cell_2", "warehouse": "Warehouse_A"},
-    {"ip": "10.181.80.138", "cell": "Cell_3", "warehouse": "Warehouse_A"},
-    {"ip": "10.181.80.140", "cell": "Cell_4", "warehouse": "Warehouse_A"},
-    {"ip": "10.181.80.141", "cell": "Cell_5", "warehouse": "Warehouse_A"},
-    {"ip": "10.181.80.142", "cell": "Cell_6", "warehouse": "Warehouse_A"},
-    {"ip": "10.181.80.143", "cell": "Cell_7", "warehouse": "Warehouse_A"},
-    {"ip": "10.181.80.146", "cell": "Cell_8", "warehouse": "Warehouse_A"}
+    {
+      "ip": "10.181.80.135",
+      "cell": "Cell_1",
+      "warehouse": "Warehouse_A"
+    },
+    {
+      "ip": "10.181.80.136",
+      "cell": "Cell_2",
+      "warehouse": "Warehouse_A"
+    },
+    {
+      "ip": "10.181.80.138",
+      "cell": "Cell_3",
+      "warehouse": "Warehouse_A"
+    },
+    {
+      "ip": "10.181.80.140",
+      "cell": "Cell_4",
+      "warehouse": "Warehouse_A"
+    },
+    {
+      "ip": "10.181.80.141",
+      "cell": "Cell_5",
+      "warehouse": "Warehouse_A"
+    },
+    {
+      "ip": "10.181.80.142",
+      "cell": "Cell_6",
+      "warehouse": "Warehouse_A"
+    },
+    {
+      "ip": "10.181.80.143",
+      "cell": "Cell_7",
+      "warehouse": "Warehouse_A"
+    },
+    {
+      "ip": "10.181.80.146",
+      "cell": "Cell_8",
+      "warehouse": "Warehouse_A"
+    }
   ]
 }
