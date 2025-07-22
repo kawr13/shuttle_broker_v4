@@ -10,6 +10,31 @@ from shuttle.shuttle_client import ShuttleClient
 
 logger = logging.getLogger(__name__)
 
+def get_shuttle_name(ip, custom_name=None):
+    """
+    Генерирует имя шаттла на основе IP-адреса или возвращает пользовательское имя
+    
+    Args:
+        ip (str): IP-адрес шаттла
+        custom_name (str, optional): Пользовательское имя
+        
+    Returns:
+        str: Имя шаттла
+    """
+    if custom_name:
+        return custom_name
+        
+    try:
+        last_octet = int(ip.split('.')[-1])
+        if 131 <= last_octet <= 139:
+            return f"Шаттл_{last_octet - 130}"
+        elif 140 <= last_octet <= 149:
+            return f"Шаттл_{last_octet - 130}"
+        else:
+            return f"Shuttle-{last_octet}"
+    except (ValueError, IndexError):
+        return f"Shuttle-{ip}"
+
 class WebServer:
     def __init__(self, shuttle_client: ShuttleClient, host: str = "0.0.0.0", port: int = 8000):
         self.app = web.Application()
@@ -58,8 +83,8 @@ class WebServer:
                 "last_response": None
             })
             
-            # Используем пользовательское имя, если оно задано, иначе генерируем по IP
-            shuttle_name = shuttle.get("name", f"Shuttle-{ip.split('.')[-1]}")
+            # Используем функцию автоматического именования
+            shuttle_name = get_shuttle_name(ip, shuttle.get("name"))
             
             shuttles.append({
                 "id": ip.replace(".", "_"),
@@ -90,8 +115,8 @@ class WebServer:
             "last_response": None
         })
         
-        # Используем пользовательское имя, если оно задано
-        shuttle_name = shuttle.get("name", f"Shuttle-{ip.split('.')[-1]}")
+        # Используем функцию автоматического именования
+        shuttle_name = get_shuttle_name(ip, shuttle.get("name"))
         
         return web.json_response({
             "id": ip.replace(".", "_"),
@@ -152,8 +177,8 @@ class WebServer:
                 "errors": None
             })
             
-            # Используем пользовательское имя, если оно задано
-            shuttle_name = shuttle.get("name", f"Shuttle-{ip.split('.')[-1]}")
+            # Используем функцию автоматического именования
+            shuttle_name = get_shuttle_name(ip, shuttle.get("name"))
             
             shuttles.append({
                 "ip": ip,
@@ -174,7 +199,7 @@ class WebServer:
         if not ip.replace(".", "").isdigit():
             # Ищем по имени
             for shuttle_ip, shuttle in self.shuttle_client.shuttles.items():
-                shuttle_name = shuttle.get("name", f"Shuttle-{shuttle_ip.split('.')[-1]}")
+                shuttle_name = get_shuttle_name(shuttle_ip, shuttle.get("name"))
                 if shuttle_name == ip:
                     ip = shuttle_ip
                     break
@@ -203,8 +228,8 @@ class WebServer:
             "wlh": None
         })
         
-        # Используем пользовательское имя, если оно задано
-        shuttle_name = shuttle.get("name", f"Shuttle-{ip.split('.')[-1]}")
+        # Используем функцию автоматического именования
+        shuttle_name = get_shuttle_name(ip, shuttle.get("name"))
         
         return web.json_response({
             "ip": ip,
