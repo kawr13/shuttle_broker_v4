@@ -36,6 +36,13 @@ class ShuttleClient:
     def save_shuttles_config(self):
         """Сохранить конфигурацию шаттлов"""
         try:
+            # Создаем директорию, если она не существует
+            import os
+            directory = os.path.dirname(self.shuttles_config_path)
+            if directory and not os.path.exists(directory):
+                os.makedirs(directory, exist_ok=True)
+                logger.info(f"Создана директория для конфигурации: {directory}")
+            
             # Преобразуем словарь в список для JSON
             shuttles_list = list(self.shuttles.values())
             data = {"shuttles": shuttles_list}
@@ -46,14 +53,20 @@ class ShuttleClient:
                 json.dump(data, f, indent=2)
             
             # Затем переименовываем для атомарной операции
-            import os
             os.replace(temp_file, self.shuttles_config_path)
             
             # Дополнительно логируем список IP шаттлов
             ip_list = [s["ip"] for s in shuttles_list]
-            logger.debug(f"Конфигурация {len(shuttles_list)} шаттлов сохранена: {', '.join(ip_list)}")
+            logger.info(f"Конфигурация {len(shuttles_list)} шаттлов сохранена: {', '.join(ip_list)}")
         except Exception as e:
             logger.error(f"Ошибка сохранения конфигурации шаттлов: {e}")
+            # Пытаемся сохранить напрямую
+            try:
+                with open(self.shuttles_config_path, 'w') as f:
+                    json.dump({"shuttles": list(self.shuttles.values())}, f, indent=2)
+                logger.info(f"Конфигурация сохранена напрямую: {len(self.shuttles)} шаттлов")
+            except Exception as e2:
+                logger.error(f"Критическая ошибка сохранения конфигурации: {e2}")
 
     
     def add_shuttle(self, ip: str, name: str = None, cell: str = "Unknown", warehouse: str = "Unknown"):
@@ -221,13 +234,26 @@ class ShuttleClient:
             raw_data = data.decode('utf-8').strip()
             logger.debug(f"Сырые данные от шаттла ({ip}): {raw_data}")
             
-            # Перезагружаем конфигурацию перед проверкой
-            self.load_shuttles_config()
-            
-            # Добавить шаттл если он новый
-            if ip not in self.shuttles:
-                logger.info(f"Обнаружен новый шаттл с IP: {ip}")
-                self.add_shuttle(ip)
+            # Добавить шаттл в любом случае, если он не существует в конфигурации
+            try:
+                # Создаем пустой файл конфигурации, если он не существует
+                if not os.path.exists(self.shuttles_config_path):
+                    with open(self.shuttles_config_path, 'w') as f:
+                        json.dump({"shuttles": []}, f, indent=2)
+                    logger.info(f"Создан пустой файл конфигурации: {self.shuttles_config_path}")
+                
+                # Перезагружаем конфигурацию перед проверкой
+                self.load_shuttles_config()
+                
+                # Добавить шаттл если он новый
+                if ip not in self.shuttles:
+                    logger.info(f"Обнаружен новый шаттл с IP: {ip}")
+                    self.add_shuttle(ip)
+            except Exception as e:
+                logger.error(f"Ошибка при проверке/добавлении шаттла {ip}: {e}")
+                # Все равно пытаемся добавить шаттл
+                self.shuttles[ip] = {"ip": ip, "cell": "Unknown", "warehouse": "Unknown"}
+                self.save_shuttles_config()
             
             # Парсить ответ
             parsed = self.parse_shuttle_response(raw_data, ip)
