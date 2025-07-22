@@ -14,6 +14,7 @@ POLL_INTERVAL = 300  # Опрос WMS
 STATE_POLL_INTERVAL = 600  # Опрос состояния шаттлов
 SHUTTLE_READ_TIMEOUT = 5  # Тайм-аут чтения сообщений шаттлов
 RETRY_INTERVAL = 5  # Интервал повтора при сбоях
+CONNECTION_HEARTBEAT_INTERVAL = 30  # Интервал проверки соединений
 
 # Приоритеты команд (чем меньше число, тем выше приоритет)
 COMMAND_PRIORITIES = {

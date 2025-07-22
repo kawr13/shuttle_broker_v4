@@ -2,13 +2,13 @@
   "shuttles": [
     {
       "ip": "10.181.80.135",
-      "name": "Шаттл-1",
+      "name": "\u0428\u0430\u0442\u0442\u043b-1",
       "cell": "Cell_1",
       "warehouse": "Warehouse_A"
     },
     {
       "ip": "10.181.80.136",
-      "name": "Шаттл-2",
+      "name": "\u0428\u0430\u0442\u0442\u043b-2",
       "cell": "Cell_2",
       "warehouse": "Warehouse_A"
     },

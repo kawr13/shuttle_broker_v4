@@ -69,6 +69,10 @@ async def main():
     except Exception as e:
         logger.error(f"Критическая ошибка: {e}")
     finally:
+        # Закрываем все соединения при завершении работы
+        if 'shuttle_client' in locals():
+            logger.info("Закрытие соединений с шаттлами")
+            await shuttle_client.close()
         logger.info("Завершение работы шлюза")
 
 if __name__ == "__main__":

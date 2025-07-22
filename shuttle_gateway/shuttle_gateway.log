@@ -188,3 +188,60 @@ client_session: <aiohttp.client.ClientSession object at 0x717b6e412dd0>
 2025-07-23 00:32:12,619 - INFO - Завершение работы шлюза
 2025-07-23 00:32:12,628 - ERROR - Unclosed client session
 client_session: <aiohttp.client.ClientSession object at 0x74deb1f2ef50>
+2025-07-23 02:29:20,565 - DEBUG - Using selector: EpollSelector
+2025-07-23 02:29:20,566 - INFO - Запуск шлюза управления шаттлами
+2025-07-23 02:29:20,566 - DEBUG - Загружена конфигурация 8 шаттлов
+2025-07-23 02:29:20,567 - INFO - Starting web server on http://0.0.0.0:8000
+2025-07-23 02:29:20,567 - WARNING - Токен телеграм-бота не указан, бот не будет запущен
+2025-07-23 02:29:20,567 - DEBUG - Загружена конфигурация 8 шаттлов
+2025-07-23 02:29:20,567 - DEBUG - Создание нового TCP-соединения с 10.181.80.135:2000
+2025-07-23 02:29:20,568 - INFO - Запуск цикла опроса WMS
+2025-07-23 02:29:20,568 - DEBUG - Начало цикла опроса WMS
+2025-07-23 02:29:20,568 - DEBUG - Отправка запроса к WMS
+2025-07-23 02:29:20,568 - INFO - Запуск сервера для прослушивания шаттлов на порту 8181
+2025-07-23 02:29:20,569 - INFO - Запуск мониторинга состояний шаттлов
+2025-07-23 02:29:20,569 - DEBUG - Начало цикла мониторинга шаттлов
+2025-07-23 02:29:20,569 - DEBUG - Загружена конфигурация 8 шаттлов
+2025-07-23 02:29:33,991 - INFO - 127.0.0.1 [23/Jul/2025:02:29:33 +0500] "GET / HTTP/1.1" 200 26145 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:29:34,328 - DEBUG - Загружена конфигурация 8 шаттлов
+2025-07-23 02:29:34,328 - INFO - 127.0.0.1 [23/Jul/2025:02:29:34 +0500] "GET /api/shuttles HTTP/1.1" 200 1899 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:29:36,457 - INFO - 127.0.0.1 [23/Jul/2025:02:29:36 +0500] "GET / HTTP/1.1" 200 26145 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:29:36,775 - DEBUG - Загружена конфигурация 8 шаттлов
+2025-07-23 02:29:36,775 - INFO - 127.0.0.1 [23/Jul/2025:02:29:36 +0500] "GET /api/shuttles HTTP/1.1" 200 1899 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:29:37,653 - DEBUG - Создание нового TCP-соединения с 10.181.80.136:2000
+2025-07-23 02:29:37,660 - INFO - 127.0.0.1 [23/Jul/2025:02:29:37 +0500] "GET /api/shuttle/10.181.80.136/responses HTTP/1.1" 200 175 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:29:41,576 - INFO - 127.0.0.1 [23/Jul/2025:02:29:41 +0500] "GET /api/shuttle/10.181.80.136 HTTP/1.1" 200 372 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:29:41,582 - INFO - 127.0.0.1 [23/Jul/2025:02:29:41 +0500] "GET /api/shuttle/10.181.80.136/responses HTTP/1.1" 200 175 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:29:46,576 - INFO - 127.0.0.1 [23/Jul/2025:02:29:46 +0500] "GET /api/shuttle/10.181.80.136 HTTP/1.1" 200 372 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:29:46,580 - INFO - 127.0.0.1 [23/Jul/2025:02:29:46 +0500] "GET /api/shuttle/10.181.80.136/responses HTTP/1.1" 200 175 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:29:51,576 - INFO - 127.0.0.1 [23/Jul/2025:02:29:51 +0500] "GET /api/shuttle/10.181.80.136 HTTP/1.1" 200 372 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:29:51,581 - INFO - 127.0.0.1 [23/Jul/2025:02:29:51 +0500] "GET /api/shuttle/10.181.80.136/responses HTTP/1.1" 200 175 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:29:56,576 - INFO - 127.0.0.1 [23/Jul/2025:02:29:56 +0500] "GET /api/shuttle/10.181.80.136 HTTP/1.1" 200 372 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:29:56,581 - INFO - 127.0.0.1 [23/Jul/2025:02:29:56 +0500] "GET /api/shuttle/10.181.80.136/responses HTTP/1.1" 200 175 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:30:01,577 - INFO - 127.0.0.1 [23/Jul/2025:02:30:01 +0500] "GET /api/shuttle/10.181.80.136 HTTP/1.1" 200 372 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:30:01,581 - INFO - 127.0.0.1 [23/Jul/2025:02:30:01 +0500] "GET /api/shuttle/10.181.80.136/responses HTTP/1.1" 200 175 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:30:06,576 - INFO - 127.0.0.1 [23/Jul/2025:02:30:06 +0500] "GET /api/shuttle/10.181.80.136 HTTP/1.1" 200 372 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:30:06,580 - INFO - 127.0.0.1 [23/Jul/2025:02:30:06 +0500] "GET /api/shuttle/10.181.80.136/responses HTTP/1.1" 200 175 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:30:11,576 - INFO - 127.0.0.1 [23/Jul/2025:02:30:11 +0500] "GET /api/shuttle/10.181.80.136 HTTP/1.1" 200 372 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:30:11,580 - INFO - 127.0.0.1 [23/Jul/2025:02:30:11 +0500] "GET /api/shuttle/10.181.80.136/responses HTTP/1.1" 200 175 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:30:16,576 - INFO - 127.0.0.1 [23/Jul/2025:02:30:16 +0500] "GET /api/shuttle/10.181.80.136 HTTP/1.1" 200 372 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:30:16,580 - INFO - 127.0.0.1 [23/Jul/2025:02:30:16 +0500] "GET /api/shuttle/10.181.80.136/responses HTTP/1.1" 200 175 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:30:19,001 - INFO - 127.0.0.1 [23/Jul/2025:02:30:19 +0500] "GET / HTTP/1.1" 200 26145 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:30:19,325 - DEBUG - Загружена конфигурация 8 шаттлов
+2025-07-23 02:30:19,326 - INFO - 127.0.0.1 [23/Jul/2025:02:30:19 +0500] "GET /api/shuttles HTTP/1.1" 200 1899 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:30:20,570 - DEBUG - Периодическое сохранение конфигурации шаттлов
+2025-07-23 02:30:20,571 - INFO - Конфигурация 8 шаттлов сохранена: 10.181.80.135, 10.181.80.136, 10.181.80.138, 10.181.80.140, 10.181.80.141, 10.181.80.142, 10.181.80.143, 10.181.80.146
+2025-07-23 02:30:20,671 - DEBUG - Создание нового TCP-соединения с 10.181.80.146:2000
+2025-07-23 02:30:20,711 - INFO - 127.0.0.1 [23/Jul/2025:02:30:20 +0500] "GET /api/shuttle/10.181.80.146/responses HTTP/1.1" 200 175 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:30:23,229 - INFO - 127.0.0.1 [23/Jul/2025:02:30:23 +0500] "GET / HTTP/1.1" 200 26145 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:30:23,541 - DEBUG - Загружена конфигурация 8 шаттлов
+2025-07-23 02:30:23,541 - INFO - 127.0.0.1 [23/Jul/2025:02:30:23 +0500] "GET /api/shuttles HTTP/1.1" 200 1899 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:30:28,345 - DEBUG - Загружена конфигурация 8 шаттлов
+2025-07-23 02:30:28,345 - INFO - 127.0.0.1 [23/Jul/2025:02:30:28 +0500] "GET /api/shuttles HTTP/1.1" 200 1899 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:30:33,345 - DEBUG - Загружена конфигурация 8 шаттлов
+2025-07-23 02:30:33,345 - INFO - 127.0.0.1 [23/Jul/2025:02:30:33 +0500] "GET /api/shuttles HTTP/1.1" 200 1899 "http://0.0.0.0:8000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-07-23 02:30:35,542 - INFO - Закрытие соединений с шаттлами
+2025-07-23 02:30:35,542 - INFO - Закрытие всех соединений
+2025-07-23 02:30:35,543 - INFO - Завершение работы шлюза
+2025-07-23 02:30:35,553 - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7cee43980950>

@@ -10,6 +10,8 @@ from config import (
     SHUTTLE_COMMAND_PORT, SHUTTLE_RESPONSE_PORT, SHUTTLE_READ_TIMEOUT,
     RETRY_INTERVAL, COMMAND_PRIORITIES
 )
+from shuttle.connection_manager import ConnectionManager
+from shuttle.error_codes import get_error_description
 
 logger = logging.getLogger(__name__)
 
@@ -20,6 +22,7 @@ class ShuttleClient:
         self.command_queue = []  # Очередь с приоритетами
         self.wms_client = None  # Будет установлен извне
         self.web_server = None  # Будет установлен извне
+        self.connection_manager = ConnectionManager()  # Менеджер постоянных соединений
         self.load_shuttles_config()
         
     def load_shuttles_config(self):
@@ -105,24 +108,17 @@ class ShuttleClient:
             logger.info(f"Шаттл {ip} перемещён в ячейку {cell} на складе {warehouse}")
     
     async def send_command(self, ip: str, command: str, task_id: str = None) -> bool:
-        """Отправить команду шаттлу"""
+        """Отправить команду шаттлу через постоянное соединение"""
         try:
             full_command = f"{command} {task_id}" if task_id else command
-            if not full_command.endswith('\r\n'):
-                full_command += '\r\n'
             
-            reader, writer = await asyncio.wait_for(
-                asyncio.open_connection(ip, SHUTTLE_COMMAND_PORT),
-                timeout=5.0
-            )
+            # Используем менеджер соединений для отправки команды
+            success = await self.connection_manager.send_command(ip, SHUTTLE_COMMAND_PORT, full_command)
             
-            writer.write(full_command.encode())
-            await writer.drain()
-            writer.close()
-            await writer.wait_closed()
+            if success:
+                logger.debug(f"Отправлена команда: {full_command.strip()} -> {ip}")
             
-            logger.debug(f"Отправлена команда: {full_command.strip()} -> {ip}")
-            return True
+            return success
             
         except Exception as e:
             logger.error(f"Ошибка отправки команды {command} шаттлу {ip}: {e}")
@@ -162,9 +158,13 @@ class ShuttleClient:
             if data.startswith('F_CODE='):
                 error_code = data.split('=')[1].split()[0]
                 error_message = data[data.index('=')+1:].strip()
+                # Получаем расшифровку ошибки
+                error_description = get_error_description(data)
+                # Формируем полное сообщение об ошибке с расшифровкой
+                full_error_message = f"{error_message} - {error_description}"
                 if self.web_server:
-                    asyncio.create_task(self.web_server.update_shuttle_state(ip, "errors", error_message))
-                return "ERROR", error_code, error_message
+                    asyncio.create_task(self.web_server.update_shuttle_state(ip, "errors", full_error_message))
+                return "ERROR", error_code, full_error_message
             
             # Формат: COMMAND_DONE или COMMAND-ID_DONE
             if data.endswith('_DONE'):
@@ -325,3 +325,7 @@ class ShuttleClient:
                 logger.error(f"Ошибка сервера шаттлов: {e}")
                 logger.info(f"Перезапуск через {RETRY_INTERVAL} секунд")
                 await asyncio.sleep(RETRY_INTERVAL)
+    
+    async def close(self):
+        """Закрыть все соединения при завершении работы"""
+        await self.connection_manager.close_all()
