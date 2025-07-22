@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Документация - Шлюз шаттлов</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            min-height: 100vh;
+            color: #e2e8f0;
+        }
+        
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        pre {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-white mb-2">API Документация</h1>
+            <p class="text-slate-400">Шлюз управления шаттлами</p>
+        </header>
+
+        <div class="glass-card rounded-xl p-6 mb-6">
+            <h2 class="text-2xl font-bold text-white mb-4">Общая информация</h2>
+            <p class="mb-4">
+                API предоставляет доступ к управлению и мониторингу шаттлов через HTTP запросы.
+                Все ответы возвращаются в формате JSON.
+            </p>
+            <p>
+                Базовый URL: <code class="bg-slate-700 px-2 py-1 rounded">http://localhost:8080</code>
+            </p>
+        </div>
+
+        <div class="glass-card rounded-xl p-6 mb-6">
+            <h2 class="text-2xl font-bold text-white mb-4">Получение списка шаттлов</h2>
+            <div class="mb-4">
+                <span class="bg-green-600 text-white px-2 py-1 rounded">GET</span>
+                <code class="bg-slate-700 px-2 py-1 rounded">/api/shuttles</code>
+            </div>
+            <p class="mb-4">
+                Возвращает список всех доступных шаттлов с их статусами.
+            </p>
+            <h3 class="text-xl font-semibold text-white mb-2">Пример ответа:</h3>
+            <pre><code>{
+  "shuttles": [
+    {
+      "id": "10_181_80_135",
+      "name": "Shuttle-135",
+      "ip": "10.181.80.135",
+      "cell": "Cell_1",
+      "warehouse": "Warehouse_A",
+      "status": "online",
+      "battery": "85%",
+      "errors": null,
+      "last_response": 1625147689.123
+    },
+    ...
+  ]
+}</code></pre>
+        </div>
+
+        <div class="glass-card rounded-xl p-6 mb-6">
+            <h2 class="text-2xl font-bold text-white mb-4">Получение информации о шаттле</h2>
+            <div class="mb-4">
+                <span class="bg-green-600 text-white px-2 py-1 rounded">GET</span>
+                <code class="bg-slate-700 px-2 py-1 rounded">/api/shuttle/{ip}</code>
+            </div>
+            <p class="mb-4">
+                Возвращает подробную информацию о конкретном шаттле.
+            </p>
+            <h3 class="text-xl font-semibold text-white mb-2">Параметры:</h3>
+            <ul class="list-disc list-inside mb-4">
+                <li><code>ip</code> - IP-адрес шаттла</li>
+            </ul>
+            <h3 class="text-xl font-semibold text-white mb-2">Пример ответа:</h3>
+            <pre><code>{
+  "id": "10_181_80_135",
+  "name": "Shuttle-135",
+  "ip": "10.181.80.135",
+  "cell": "Cell_1",
+  "warehouse": "Warehouse_A",
+  "status": "online",
+  "battery": "85%",
+  "errors": null,
+  "last_response": 1625147689.123
+}</code></pre>
+        </div>
+
+        <div class="glass-card rounded-xl p-6 mb-6">
+            <h2 class="text-2xl font-bold text-white mb-4">Отправка команды шаттлу</h2>
+            <div class="mb-4">
+                <span class="bg-blue-600 text-white px-2 py-1 rounded">POST</span>
+                <code class="bg-slate-700 px-2 py-1 rounded">/api/command</code>
+            </div>
+            <p class="mb-4">
+                Отправляет команду указанному шаттлу.
+            </p>
+            <h3 class="text-xl font-semibold text-white mb-2">Тело запроса:</h3>
+            <pre><code>{
+  "ip": "10.181.80.135",
+  "command": "STATUS"
+}</code></pre>
+            <h3 class="text-xl font-semibold text-white mb-2">Пример ответа:</h3>
+            <pre><code>{
+  "status": "success",
+  "message": "Command STATUS sent to 10.181.80.135"
+}</code></pre>
+        </div>
+
+        <div class="glass-card rounded-xl p-6 mb-6">
+            <h2 class="text-2xl font-bold text-white mb-4">API для Telegram-бота</h2>
+            <p class="mb-4">
+                Специальные эндпоинты для использования в Telegram-боте.
+            </p>
+            <div class="mb-4">
+                <span class="bg-green-600 text-white px-2 py-1 rounded">GET</span>
+                <code class="bg-slate-700 px-2 py-1 rounded">/api/telegram/shuttles</code>
+            </div>
+            <p class="mb-4">
+                Возвращает список шаттлов в формате, оптимизированном для Telegram-бота.
+            </p>
+            <div class="mb-4">
+                <span class="bg-green-600 text-white px-2 py-1 rounded">GET</span>
+                <code class="bg-slate-700 px-2 py-1 rounded">/api/telegram/shuttle/{ip}</code>
+            </div>
+            <p>
+                Возвращает подробную информацию о шаттле для Telegram-бота.
+                Поддерживает поиск как по IP, так и по имени шаттла.
+            </p>
+        </div>
+
+        <div class="glass-card rounded-xl p-6 mb-6">
+            <h2 class="text-2xl font-bold text-white mb-4">Поддерживаемые команды</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Основные команды:</h3>
+                    <ul class="list-disc list-inside">
+                        <li><code>PALLET_IN</code> - Погрузка паллеты</li>
+                        <li><code>PALLET_OUT</code> - Выгрузка паллеты</li>
+                        <li><code>STACK_IN</code> - Уплотнение паллет</li>
+                        <li><code>STACK_OUT</code> - Разуплотнение паллет</li>
+                        <li><code>COUNT</code> - Подсчёт паллет</li>
+                        <li><code>FIFO-nnn</code> - FIFO операция</li>
+                        <li><code>FILO-nnn</code> - FILO операция</li>
+                        <li><code>HOME</code> - Возврат в домашнюю позицию</li>
+                        <li><code>STOP</code> - Остановка</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Сервисные команды:</h3>
+                    <ul class="list-disc list-inside">
+                        <li><code>STATUS</code> - Запрос статуса</li>
+                        <li><code>BATTERY</code> - Запрос уровня батареи</li>
+                        <li><code>WDH</code> - Запрос часов привода</li>
+                        <li><code>WLH</code> - Запрос состояния подъема</li>
+                        <li><code>MRCD</code> - Подтверждение получения сообщения</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer class="text-center text-slate-400 mt-8 pb-8">
+            <p>© 2023 Шлюз управления шаттлами</p>
+            <a href="/" class="text-blue-400 hover:text-blue-300">Вернуться на главную</a>
+        </footer>
+    </div>
+</body>
+</html>

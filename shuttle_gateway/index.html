@@ -143,7 +143,7 @@
                     </div>
                     <div class="text-right">
                         <div class="text-sm text-slate-400">Статус</div>
-                        <div class="text-green-400">
+                        <div id="robotStatus" class="text-green-400">
                             <span class="status-indicator bg-green-500"></span>
                             Онлайн
                         </div>
@@ -164,6 +164,14 @@
 
             <div id="commandsContainer" class="grid grid-cols-2 gap-4">
                 <!-- Commands will be dynamically added here -->
+            </div>
+            
+            <!-- Response Log -->
+            <div class="mt-6 glass-card rounded-xl p-4">
+                <h3 class="text-lg font-semibold text-white mb-2">Ответы от шаттла</h3>
+                <div id="responseLog" class="bg-slate-800 rounded-lg p-3 text-sm text-slate-300 h-32 overflow-y-auto">
+                    <!-- Responses will be added here -->
+                </div>
             </div>
         </div>
 
@@ -189,15 +197,14 @@
     </div>
 
     <script>
-        // Mock data for robots
-        const robots = [
-            { id: 1, name: "AGV-001", ip: "192.168.1.101", status: "online" },
-            { id: 2, name: "AGV-002", ip: "192.168.1.102", status: "online" },
-            { id: 3, name: "AGV-003", ip: "192.168.1.103", status: "maintenance" },
-            { id: 4, name: "AGV-004", ip: "192.168.1.104", status: "online" },
-            { id: 5, name: "AGV-005", ip: "192.168.1.105", status: "offline" },
-            { id: 6, name: "AGV-006", ip: "192.168.1.106", status: "online" }
-        ];
+        // Данные о шаттлах будут загружены с сервера
+        let robots = [];
+        let selectedRobot = null;
+        let selectedCommand = null;
+        
+        // Интервал обновления данных (в миллисекундах)
+        const UPDATE_INTERVAL = 5000;
+        let updateTimer = null;
 
         // Command templates
         const commands = [
@@ -206,8 +213,8 @@
             { id: "STACK_IN", name: "Уплотнение паллет", requiresInput: false },
             { id: "STACK_OUT", name: "Разуплотнение паллет", requiresInput: false },
             { id: "COUNT", name: "Подсчёт паллет", requiresInput: false },
-            { id: "FIFO", name: "FIFO (по количеству)", requiresInput: true, prefix: "FIFO_", suffix: "" },
-            { id: "FILO", name: "FILO (по количеству)", requiresInput: true, prefix: "FILO_", suffix: "" }
+            { id: "FIFO", name: "FIFO (по количеству)", requiresInput: true, prefix: "FIFO-", suffix: "" },
+            { id: "FILO", name: "FILO (по количеству)", requiresInput: true, prefix: "FILO-", suffix: "" }
         ];
 
         // Service commands
@@ -215,15 +222,64 @@
             { id: "STATUS", name: "STATUS", requiresInput: false },
             { id: "BATTERY", name: "BATTERY", requiresInput: false },
             { id: "WDH", name: "WDH (часы привода)", requiresInput: false },
-            { id: "WHL", name: "WHL (состояние подъема)", requiresInput: false }
+            { id: "WLH", name: "WLH (состояние подъема)", requiresInput: false }
         ];
-
-        let selectedRobot = null;
-        let selectedCommand = null;
 
         // Initialize the app
         function initApp() {
-            renderRobots();
+            loadShuttles();
+            
+            // Запускаем периодическое обновление данных
+            updateTimer = setInterval(function() {
+                if (selectedRobot) {
+                    updateShuttleInfo(selectedRobot.ip);
+                } else {
+                    loadShuttles();
+                }
+            }, UPDATE_INTERVAL);
+        }
+        
+        // Загрузка списка шаттлов с сервера
+        async function loadShuttles() {
+            try {
+                const response = await fetch('/api/shuttles');
+                const data = await response.json();
+                robots = data.shuttles;
+                renderRobots();
+            } catch (error) {
+                console.error('Error loading shuttles:', error);
+                showError('Ошибка загрузки списка шаттлов');
+            }
+        }
+        
+        // Обновление информации о выбранном шаттле
+        async function updateShuttleInfo(ip) {
+            try {
+                const response = await fetch(`/api/shuttle/${ip}`);
+                const data = await response.json();
+                
+                // Обновляем данные о шаттле
+                if (selectedRobot && selectedRobot.ip === ip) {
+                    selectedRobot = data;
+                    updateShuttleDisplay();
+                }
+                
+                // Обновляем список шаттлов
+                for (let i = 0; i < robots.length; i++) {
+                    if (robots[i].ip === ip) {
+                        robots[i] = data;
+                        break;
+                    }
+                }
+                
+                // Если шаттл в списке не найден, обновляем весь список
+                if (!robots.some(r => r.ip === ip)) {
+                    loadShuttles();
+                }
+                
+            } catch (error) {
+                console.error('Error updating shuttle info:', error);
+            }
         }
 
         // Render robots
@@ -237,9 +293,9 @@
                 robotCard.onclick = () => selectRobot(robot);
 
                 const statusColor = robot.status === 'online' ? 'text-green-400' : 
-                                  robot.status === 'maintenance' ? 'text-yellow-400' : 'text-red-400';
+                                  robot.status === 'error' ? 'text-yellow-400' : 'text-red-400';
                 const statusText = robot.status === 'online' ? 'Онлайн' : 
-                                 robot.status === 'maintenance' ? 'Обслуживание' : 'Оффлайн';
+                                 robot.status === 'error' ? 'Ошибка' : 'Оффлайн';
 
                 robotCard.innerHTML = `
                     <div class="flex items-center justify-between">
@@ -252,6 +308,7 @@
                                 ${robot.status === 'online' ? '<span class="status-indicator bg-green-500"></span>' : ''}
                                 ${statusText}
                             </div>
+                            ${robot.battery ? `<div class="text-sm text-slate-300">Battery: ${robot.battery}</div>` : ''}
                         </div>
                     </div>
                 `;
@@ -262,11 +319,6 @@
 
         // Select robot
         function selectRobot(robot) {
-            if (robot.status !== 'online') {
-                alert('Тележка недоступна');
-                return;
-            }
-
             selectedRobot = robot;
             document.getElementById('robotName').textContent = robot.name;
             document.getElementById('robotIP').textContent = robot.ip;
@@ -275,7 +327,40 @@
             document.getElementById('commandPage').classList.remove('hidden');
             
             renderCommands();
-            updateBattery();
+            updateShuttleDisplay();
+            
+            // Очищаем лог ответов
+            document.getElementById('responseLog').innerHTML = '';
+            
+            // Запрашиваем статус и батарею
+            sendCommand('STATUS');
+            setTimeout(() => sendCommand('BATTERY'), 500);
+        }
+        
+        // Обновление отображения информации о шаттле
+        function updateShuttleDisplay() {
+            // Обновляем статус
+            const statusElement = document.getElementById('robotStatus');
+            const statusColor = selectedRobot.status === 'online' ? 'text-green-400' : 
+                              selectedRobot.status === 'error' ? 'text-yellow-400' : 'text-red-400';
+            const statusText = selectedRobot.status === 'online' ? 'Онлайн' : 
+                             selectedRobot.status === 'error' ? 'Ошибка' : 'Оффлайн';
+            
+            statusElement.className = statusColor;
+            statusElement.innerHTML = `
+                ${selectedRobot.status === 'online' ? '<span class="status-indicator bg-green-500"></span>' : ''}
+                ${statusText}
+            `;
+            
+            // Обновляем батарею
+            if (selectedRobot.battery) {
+                document.getElementById('batteryDisplay').textContent = `Battery: ${selectedRobot.battery}`;
+            }
+            
+            // Отображаем ошибки, если они есть
+            if (selectedRobot.errors) {
+                showError(selectedRobot.errors);
+            }
         }
 
         let activeTab = 'move';
@@ -363,32 +448,38 @@
         }
 
         // Send command
-        function sendCommand(command) {
+        async function sendCommand(command) {
             document.getElementById('loadingSpinner').classList.remove('hidden');
             
-            // Simulate API call and random error
-            setTimeout(() => {
-                document.getElementById('loadingSpinner').classList.add('hidden');
-
-                // Randomly simulate an error for demo
-                const rand = Math.random();
-                if (rand < 0.15) {
-                    const errors = [
-                        "F_CODE=1 Аккумулятор разряжен",
-                        "F_CODE=2 Превышение времени подъема/опускания платформы",
-                        "F_CODE=3 Отсутствие движения ВПЕРЁД",
-                        "F_CODE=4 Отсутствие движения",
-                        "F_CODE=5 Ошибка серводвигателя перемещения",
-                        "F_CODE=6 Ошибка серводвигателя подъема/опускания платформы",
-                        "F_CODE=8 Шаттл не в канале",
-                        "F_CODE=9 Шаттл не готов к автоматическим функциям"
-                    ];
-                    showError(errors[Math.floor(Math.random() * errors.length)]);
-                } else {
+            try {
+                const response = await fetch('/api/command', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        ip: selectedRobot.ip,
+                        command: command
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
                     showSuccessNotification(command);
-                    if (command === "BATTERY" || command === "STATUS") updateBattery();
+                    addToResponseLog(`Отправлена команда: ${command}`);
+                    
+                    // Обновляем информацию о шаттле через 1 секунду
+                    setTimeout(() => updateShuttleInfo(selectedRobot.ip), 1000);
+                } else {
+                    showError(`Ошибка отправки команды: ${data.message}`);
                 }
-            }, 1500);
+            } catch (error) {
+                console.error('Error sending command:', error);
+                showError('Ошибка отправки команды');
+            } finally {
+                document.getElementById('loadingSpinner').classList.add('hidden');
+            }
         }
 
         // Show error banner
@@ -396,13 +487,11 @@
             const banner = document.getElementById('errorBanner');
             document.getElementById('errorText').textContent = message;
             banner.classList.remove('hidden');
+            
+            // Добавляем в лог ответов
+            addToResponseLog(`ОШИБКА: ${message}`, 'text-red-400');
+            
             setTimeout(() => banner.classList.add('hidden'), 5000);
-        }
-
-        // Update battery (mock)
-        function updateBattery() {
-            const level = Math.floor(Math.random() * 100);
-            document.getElementById('batteryDisplay').textContent = `Battery: ${level}%`;
         }
 
         // Show success notification
@@ -422,12 +511,26 @@
                 notification.remove();
             }, 3000);
         }
+        
+        // Добавить сообщение в лог ответов
+        function addToResponseLog(message, className = '') {
+            const log = document.getElementById('responseLog');
+            const time = new Date().toLocaleTimeString();
+            
+            const entry = document.createElement('div');
+            entry.className = `mb-1 ${className}`;
+            entry.innerHTML = `<span class="text-slate-500">[${time}]</span> ${message}`;
+            
+            log.appendChild(entry);
+            log.scrollTop = log.scrollHeight;
+        }
 
         // Back to selection
         function backToSelection() {
             document.getElementById('commandPage').classList.add('hidden');
             document.getElementById('robotSelection').classList.remove('hidden');
             selectedRobot = null;
+            loadShuttles();
         }
 
         // Handle enter key in input modal

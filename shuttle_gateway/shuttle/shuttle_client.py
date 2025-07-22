@@ -19,6 +19,7 @@ class ShuttleClient:
         self.shuttles = {}
         self.command_queue = []  # Очередь с приоритетами
         self.wms_client = None  # Будет установлен извне
+        self.web_server = None  # Будет установлен извне
         self.load_shuttles_config()
         
     def load_shuttles_config(self):
@@ -138,6 +139,14 @@ class ShuttleClient:
         try:
             data = data.strip()
             
+            # Обработка ошибок
+            if data.startswith('F_CODE='):
+                error_code = data.split('=')[1].split()[0]
+                error_message = data[data.index('=')+1:].strip()
+                if self.web_server:
+                    asyncio.create_task(self.web_server.update_shuttle_state(ip, "errors", error_message))
+                return "ERROR", error_code, error_message
+            
             # Формат: COMMAND_DONE или COMMAND-ID_DONE
             if data.endswith('_DONE'):
                 command_part = data[:-5]  # Убираем '_DONE'
@@ -150,7 +159,31 @@ class ShuttleClient:
             # Формат: STATUS=VALUE или LOC=VALUE
             if '=' in data:
                 key, value = data.split('=', 1)
+                # Обновляем состояние в веб-сервере
+                if key == "STATUS" and self.web_server:
+                    asyncio.create_task(self.web_server.update_shuttle_state(ip, "status", "online"))
+                elif key == "BATTERY" and self.web_server:
+                    asyncio.create_task(self.web_server.update_shuttle_state(ip, "battery", value))
                 return key, value, None
+            
+            # Обработка ответов на сервисные команды
+            if data.startswith('BATTERY='):
+                battery_level = data.split('=')[1].strip()
+                if self.web_server:
+                    asyncio.create_task(self.web_server.update_shuttle_state(ip, "battery", battery_level))
+                return "BATTERY", battery_level, None
+                
+            if data.startswith('WDH='):
+                wdh_value = data.split('=')[1].strip()
+                if self.web_server:
+                    asyncio.create_task(self.web_server.update_shuttle_state(ip, "wdh", wdh_value))
+                return "WDH", wdh_value, None
+                
+            if data.startswith('WLH='):
+                wlh_value = data.split('=')[1].strip()
+                if self.web_server:
+                    asyncio.create_task(self.web_server.update_shuttle_state(ip, "wlh", wlh_value))
+                return "WLH", wlh_value, None
             
             # Стандартный формат: COMMAND STATUS [TASK_ID]
             parts = data.split()

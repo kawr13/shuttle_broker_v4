@@ -1,9 +1,13 @@
 import asyncio
 import logging
+import os
+import sys
 
 from wms.wms_client import WMSClient
 from shuttle.shuttle_client import ShuttleClient
 from shuttle.shuttle_monitor import ShuttleMonitor
+from web_server import WebServer
+# from telegram_bot import ShuttleBot
 
 # Настройка логирования
 logging.basicConfig(
@@ -17,6 +21,10 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
+# Конфигурация телеграм-бота
+TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN', '')
+WEB_SERVER_URL = os.environ.get('WEB_SERVER_URL', 'http://localhost:8080')
+
 async def main():
     """Главная функция запуска всех модулей"""
     logger.info("Запуск шлюза управления шаттлами")
@@ -28,13 +36,33 @@ async def main():
         shuttle_client.wms_client = wms_client  # Устанавливаем ссылку для обновления статусов
         shuttle_monitor = ShuttleMonitor(shuttle_client)
         
+        # Инициализация веб-сервера
+        web_server = WebServer(shuttle_client)
+        shuttle_client.web_server = web_server  # Устанавливаем ссылку на веб-сервер
+        
+        # Запуск веб-сервера
+        web_runner = await web_server.start()
+        
+        # Запуск телеграм-бота если есть токен
+        telegram_task = None
+        if TELEGRAM_TOKEN:
+            logger.info("Запуск телеграм-бота")
+            # telegram_bot = ShuttleBot(TELEGRAM_TOKEN, WEB_SERVER_URL)
+            # telegram_task = asyncio.create_task(telegram_bot.start())
+        else:
+            logger.warning("Токен телеграм-бота не указан, бот не будет запущен")
+        
         # Запуск всех модулей параллельно
-        await asyncio.gather(
+        tasks = [
             wms_client.poll_wms(shuttle_client),
             shuttle_client.listen_shuttles(),
-            shuttle_monitor.monitor_shuttle_states(),
-            return_exceptions=True
-        )
+            shuttle_monitor.monitor_shuttle_states()
+        ]
+        
+        if telegram_task:
+            tasks.append(telegram_task)
+            
+        await asyncio.gather(*tasks, return_exceptions=True)
         
     except KeyboardInterrupt:
         logger.info("Получен сигнал остановки")
