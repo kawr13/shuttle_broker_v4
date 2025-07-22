@@ -262,6 +262,9 @@
                 if (selectedRobot && selectedRobot.ip === ip) {
                     selectedRobot = data;
                     updateShuttleDisplay();
+                    
+                    // Получаем ответы шаттла
+                    await updateShuttleResponses(ip);
                 }
                 
                 // Обновляем список шаттлов
@@ -279,6 +282,34 @@
                 
             } catch (error) {
                 console.error('Error updating shuttle info:', error);
+            }
+        }
+        
+        // Получение ответов шаттла
+        async function updateShuttleResponses(ip) {
+            try {
+                const response = await fetch(`/api/shuttle/${ip}/responses`);
+                const data = await response.json();
+                
+                if (data.responses && data.responses.length > 0) {
+                    const log = document.getElementById('responseLog');
+                    
+                    // Очищаем лог и добавляем новые ответы
+                    log.innerHTML = '';
+                    
+                    data.responses.forEach(response => {
+                        const time = new Date(response.time * 1000).toLocaleTimeString();
+                        const entry = document.createElement('div');
+                        entry.className = 'mb-1';
+                        entry.innerHTML = `<span class="text-slate-500">[${time}]</span> ${response.text}`;
+                        log.appendChild(entry);
+                    });
+                    
+                    // Прокручиваем к последнему сообщению
+                    log.scrollTop = log.scrollHeight;
+                }
+            } catch (error) {
+                console.error('Error getting shuttle responses:', error);
             }
         }
 
@@ -335,6 +366,9 @@
             // Запрашиваем статус и батарею
             sendCommand('STATUS');
             setTimeout(() => sendCommand('BATTERY'), 500);
+            
+            // Загружаем ответы шаттла
+            updateShuttleResponses(robot.ip);
         }
         
         // Обновление отображения информации о шаттле

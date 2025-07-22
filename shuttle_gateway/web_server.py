@@ -30,6 +30,7 @@ class WebServer:
         # API для шаттлов
         self.app.router.add_get('/api/shuttles', self.get_shuttles)
         self.app.router.add_get('/api/shuttle/{ip}', self.get_shuttle_info)
+        self.app.router.add_get('/api/shuttle/{ip}/responses', self.get_shuttle_responses)
         self.app.router.add_post('/api/command', self.send_command)
         
         # API для телеграм-бота
@@ -97,6 +98,16 @@ class WebServer:
             "errors": state["errors"],
             "last_response": state["last_response"]
         })
+    
+    async def get_shuttle_responses(self, request):
+        """Получить ответы от шаттла"""
+        ip = request.match_info['ip']
+        
+        if ip not in self.shuttle_client.shuttles:
+            return web.json_response({"responses": []}, status=404)
+        
+        responses = self.shuttle_states.get(ip, {}).get("responses", [])
+        return web.json_response({"responses": responses})
     
     async def send_command(self, request):
         """Отправить команду шаттлу"""
@@ -201,7 +212,8 @@ class WebServer:
                 "battery": None,
                 "status": "online",  # Если получаем ответ, значит шаттл онлайн
                 "errors": None,
-                "last_response": None
+                "last_response": None,
+                "responses": []  # Список последних ответов
             }
         
         # Обновляем состояние
@@ -213,6 +225,26 @@ class WebServer:
             self.shuttle_states[ip]["status"] = "error"
         
         logger.debug(f"Updated shuttle {ip} state: {key}={value}")
+    
+    async def add_shuttle_response(self, ip: str, response: str):
+        """Добавить ответ от шаттла в историю"""
+        if ip not in self.shuttle_states:
+            await self.update_shuttle_state(ip, "status", "online")
+        
+        # Добавляем ответ в начало списка (новые ответы первые)
+        if "responses" not in self.shuttle_states[ip]:
+            self.shuttle_states[ip]["responses"] = []
+            
+        self.shuttle_states[ip]["responses"].insert(0, {
+            "text": response,
+            "time": asyncio.get_event_loop().time()
+        })
+        
+        # Ограничиваем список последними 20 ответами
+        if len(self.shuttle_states[ip]["responses"]) > 20:
+            self.shuttle_states[ip]["responses"] = self.shuttle_states[ip]["responses"][:20]
+        
+        logger.debug(f"Added response for shuttle {ip}: {response}")
     
     async def periodic_status_check(self):
         """Периодическая проверка статуса шаттлов"""

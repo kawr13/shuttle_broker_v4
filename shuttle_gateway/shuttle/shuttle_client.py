@@ -229,6 +229,10 @@ class ShuttleClient:
                 command, status, task_id = parsed
                 logger.debug(f"Парсинг сообщения {ip}: {command} | {status} | {task_id}")
                 
+                # Сохраняем ответ в веб-сервере
+                if self.web_server:
+                    await self.web_server.add_shuttle_response(ip, raw_data)
+                
                 # Обработать специальные команды
                 if command == "MOVE_TO_CELL" and status == "DONE" and task_id:
                     self.update_shuttle_location(ip, cell=task_id)
