@@ -56,14 +56,20 @@ class ShuttleClient:
             logger.error(f"Ошибка сохранения конфигурации шаттлов: {e}")
 
     
-    def add_shuttle(self, ip: str, cell: str = "Unknown", warehouse: str = "Unknown"):
+    def add_shuttle(self, ip: str, name: str = None, cell: str = "Unknown", warehouse: str = "Unknown"):
         """Добавить новый шаттл"""
         # Перезагружаем конфигурацию перед добавлением для синхронизации
         self.load_shuttles_config()
         
         if ip not in self.shuttles:
             logger.info(f"Новый шаттл добавлен: {ip}")
-            self.shuttles[ip] = {"ip": ip, "cell": cell, "warehouse": warehouse}
+            shuttle_data = {"ip": ip, "cell": cell, "warehouse": warehouse}
+            
+            # Добавляем имя, если оно указано
+            if name:
+                shuttle_data["name"] = name
+                
+            self.shuttles[ip] = shuttle_data
             try:
                 self.save_shuttles_config()
                 logger.info(f"Конфигурация сохранена с новым шаттлом {ip}")

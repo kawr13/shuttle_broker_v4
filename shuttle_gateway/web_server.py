@@ -58,9 +58,12 @@ class WebServer:
                 "last_response": None
             })
             
+            # Используем пользовательское имя, если оно задано, иначе генерируем по IP
+            shuttle_name = shuttle.get("name", f"Shuttle-{ip.split('.')[-1]}")
+            
             shuttles.append({
                 "id": ip.replace(".", "_"),
-                "name": f"Shuttle-{ip.split('.')[-1]}",
+                "name": shuttle_name,
                 "ip": ip,
                 "cell": shuttle.get("cell", "Unknown"),
                 "warehouse": shuttle.get("warehouse", "Unknown"),
@@ -87,9 +90,12 @@ class WebServer:
             "last_response": None
         })
         
+        # Используем пользовательское имя, если оно задано
+        shuttle_name = shuttle.get("name", f"Shuttle-{ip.split('.')[-1]}")
+        
         return web.json_response({
             "id": ip.replace(".", "_"),
-            "name": f"Shuttle-{ip.split('.')[-1]}",
+            "name": shuttle_name,
             "ip": ip,
             "cell": shuttle.get("cell", "Unknown"),
             "warehouse": shuttle.get("warehouse", "Unknown"),
@@ -146,9 +152,12 @@ class WebServer:
                 "errors": None
             })
             
+            # Используем пользовательское имя, если оно задано
+            shuttle_name = shuttle.get("name", f"Shuttle-{ip.split('.')[-1]}")
+            
             shuttles.append({
                 "ip": ip,
-                "name": f"Shuttle-{ip.split('.')[-1]}",
+                "name": shuttle_name,
                 "cell": shuttle.get("cell", "Unknown"),
                 "warehouse": shuttle.get("warehouse", "Unknown"),
                 "status": state["status"],
@@ -165,7 +174,8 @@ class WebServer:
         if not ip.replace(".", "").isdigit():
             # Ищем по имени
             for shuttle_ip, shuttle in self.shuttle_client.shuttles.items():
-                if f"Shuttle-{shuttle_ip.split('.')[-1]}" == ip:
+                shuttle_name = shuttle.get("name", f"Shuttle-{shuttle_ip.split('.')[-1]}")
+                if shuttle_name == ip:
                     ip = shuttle_ip
                     break
         
@@ -193,9 +203,12 @@ class WebServer:
             "wlh": None
         })
         
+        # Используем пользовательское имя, если оно задано
+        shuttle_name = shuttle.get("name", f"Shuttle-{ip.split('.')[-1]}")
+        
         return web.json_response({
             "ip": ip,
-            "name": f"Shuttle-{ip.split('.')[-1]}",
+            "name": shuttle_name,
             "cell": shuttle.get("cell", "Unknown"),
             "warehouse": shuttle.get("warehouse", "Unknown"),
             "status": state["status"],
